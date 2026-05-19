@@ -101,6 +101,10 @@ class KanbanStatusUpdaterPlugin extends obsidian.Plugin {
     }
     // Check if the active leaf is a Kanban board
     onActiveLeafChange(leaf) {
+        // observer가 살아있는 kanban board를 이미 보고 있으면 재설정 안 함
+        if (this.activeKanbanBoard && this.activeKanbanBoard.isConnected) {
+            return;
+        }
         this.checkForActiveKanbanBoard();
     }
     checkForActiveKanbanBoard() {
