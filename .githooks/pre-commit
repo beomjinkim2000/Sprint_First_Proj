@@ -26,20 +26,7 @@ while IFS= read -r FILE; do
   fi
 
   TMPFILE=$(mktemp)
-  awk -v author="$AUTHOR" -v sign_body="$SIGN_BODY" '
-    BEGIN { in_body=0; in_answer=0; in_comments=0 }
-    /white-space:nowrap">질문</ { in_body=1; in_answer=0; in_comments=0 }
-    /white-space:nowrap">본문</ { in_body=1; in_answer=0; in_comments=0 }
-    /white-space:nowrap">내용</ { in_body=1; in_answer=0; in_comments=0 }
-    /white-space:nowrap">답변</ { in_body=0; in_answer=1; in_comments=0 }
-    /white-space:nowrap">댓글</ { in_body=0; in_answer=0; in_comments=1 }
-    /^> \[!note\] *$/ {
-        if((sign_body+0 && in_body) || in_answer || in_comments) {
-            print "> [!note] " author; next
-        }
-    }
-    { print }
-  ' "$FILE" > "$TMPFILE"
+  python3 "$(dirname "$0")/wrap_callout.py" "$AUTHOR" "$SIGN_BODY" "$FILE" "$TMPFILE"
 
   if ! diff -q "$FILE" "$TMPFILE" > /dev/null 2>&1; then
     mv "$TMPFILE" "$FILE"
