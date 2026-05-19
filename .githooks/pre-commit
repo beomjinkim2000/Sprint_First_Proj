@@ -26,40 +26,19 @@ while IFS= read -r FILE; do
   fi
 
   TMPFILE=$(mktemp)
-  awk -v author="($AUTHOR에 의해 작성됨)" -v sign_body="$SIGN_BODY" '
-    BEGIN {
-      in_body=0; in_answer=0; in_comments=0
-      last_body=0; last_answer=0; last_comment=0
-    }
-    /white-space:nowrap">질문</  { in_body=1; in_answer=0; in_comments=0; lines[NR]=$0; next }
-    /white-space:nowrap">본문</  { in_body=1; in_answer=0; in_comments=0; lines[NR]=$0; next }
-    /white-space:nowrap">내용</  { in_body=1; in_answer=0; in_comments=0; lines[NR]=$0; next }
-    /white-space:nowrap">답변</  { in_body=0; in_answer=1; in_comments=0; lines[NR]=$0; next }
-    /white-space:nowrap">댓글</  { in_body=0; in_answer=0; in_comments=1; lines[NR]=$0; next }
-    /^---$/ { lines[NR]=$0; next }
-    {
-      lines[NR]=$0
-      if(in_body    && $0!="") last_body=NR
-      if(in_answer  && $0!="") last_answer=NR
-      if(in_comments && $0!="") last_comment=NR
-    }
-    END {
-      for(i=1; i<=NR; i++) {
-        print lines[i]
-        if(sign_body && last_body>0 && i==last_body && lines[last_body]!=author) {
-          print author
-          print ""
+  awk -v author="$AUTHOR" -v sign_body="$SIGN_BODY" '
+    BEGIN { in_body=0; in_answer=0; in_comments=0 }
+    /white-space:nowrap">질문</ { in_body=1; in_answer=0; in_comments=0 }
+    /white-space:nowrap">본문</ { in_body=1; in_answer=0; in_comments=0 }
+    /white-space:nowrap">내용</ { in_body=1; in_answer=0; in_comments=0 }
+    /white-space:nowrap">답변</ { in_body=0; in_answer=1; in_comments=0 }
+    /white-space:nowrap">댓글</ { in_body=0; in_answer=0; in_comments=1 }
+    /^> \[!note\] *$/ {
+        if((sign_body+0 && in_body) || in_answer || in_comments) {
+            print "> [!note] " author; next
         }
-        if(last_answer>0 && i==last_answer && lines[last_answer]!=author) {
-          print author
-          print ""
-        }
-        if(last_comment>0 && i==last_comment && lines[last_comment]!=author) {
-          print author
-          print ""
-        }
-      }
     }
+    { print }
   ' "$FILE" > "$TMPFILE"
 
   if ! diff -q "$FILE" "$TMPFILE" > /dev/null 2>&1; then
@@ -95,7 +74,8 @@ for line in sys.stdin:
     if "white-space:nowrap\">질문<" in line:
         in_q=True; continue
     if in_q and "white-space:nowrap\">" in line: break
-    if in_q and line.strip() and not line.rstrip().startswith(" - "):
+    s = line.strip()
+    if in_q and s and not s.startswith("> [!") and s != ">":
         print("yes"); exit()
 print("no")
 ')
@@ -107,7 +87,8 @@ for line in sys.stdin:
     if "white-space:nowrap\">질문<" in line:
         in_q=True; continue
     if in_q and "white-space:nowrap\">" in line: break
-    if in_q and line.strip() and not line.rstrip().startswith(" - "):
+    s = line.strip()
+    if in_q and s and not s.startswith("> [!") and s != ">":
         print("yes"); exit()
 print("no")
 ')
@@ -136,7 +117,8 @@ for line in sys.stdin:
     if "white-space:nowrap\">답변<" in line:
         in_a=True; continue
     if in_a and "white-space:nowrap\">" in line: break
-    if in_a and line.strip() and not line.rstrip().startswith(" - "):
+    s = line.strip()
+    if in_a and s and not s.startswith("> [!") and s != ">":
         print("yes"); exit()
 print("no")
 ')
@@ -148,7 +130,8 @@ for line in sys.stdin:
     if "white-space:nowrap\">답변<" in line:
         in_a=True; continue
     if in_a and "white-space:nowrap\">" in line: break
-    if in_a and line.strip() and not line.rstrip().startswith(" - "):
+    s = line.strip()
+    if in_a and s and not s.startswith("> [!") and s != ">":
         print("yes"); exit()
 print("no")
 ')
