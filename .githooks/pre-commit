@@ -77,28 +77,45 @@ for line in sys.stdin:
 
 # 새 Q&A 파일 커밋 시 Discord 알림
 DISCORD_WEBHOOK="https://discord.com/api/webhooks/1493432111548465244/33ebLhZEHh6FX3PRJBcP8T1MvkuxUoSTJtzruBTpSBeWYc8LCgXfTmHtznAuqmsarrOv"
-DEBUG_LOG="/tmp/pre-commit-debug.log"
-echo "=== pre-commit $(date) ===" >> "$DEBUG_LOG"
-echo "STAGED ADDED:" >> "$DEBUG_LOG"
-git -c core.quotepath=false diff --cached --name-only --diff-filter=A >> "$DEBUG_LOG" 2>&1
-echo "STAGED MODIFIED:" >> "$DEBUG_LOG"
-git -c core.quotepath=false diff --cached --name-only --diff-filter=M >> "$DEBUG_LOG" 2>&1
 
-git -c core.quotepath=false diff --cached --name-only --diff-filter=A | python3 -c "
+git -c core.quotepath=false diff --cached --name-only --diff-filter=AM | python3 -c "
 import sys, unicodedata, re
 for line in sys.stdin:
     line = unicodedata.normalize('NFC', line.strip())
-    sys.stderr.write('CHECKING: ' + repr(line) + '\n')
     if re.search(r'게시판/\[Q&A\].*\.md$', line):
         print(line)
-" >> "$DEBUG_LOG" 2>> "$DEBUG_LOG" | while IFS= read -r QNA_FILE; do
-  echo "MATCHED: $QNA_FILE" >> "$DEBUG_LOG"
+" | while IFS= read -r QNA_FILE; do
   TITLE=$(basename "$QNA_FILE" .md | sed 's/^\[Q&A\]-//')
-  echo "TITLE: $TITLE" >> "$DEBUG_LOG"
-  RESULT=$(/usr/bin/curl -s -w "%{http_code}" -o /dev/null -X POST "$DISCORD_WEBHOOK" \
-    -H "Content-Type: application/json" \
-    -d "{\"content\": \"❓ **새 질문이 등록됐어요!** 아는 분 답변 부탁드립니다 🙏\n> **제목:** ${TITLE}\"}")
-  echo "CURL HTTP: $RESULT" >> "$DEBUG_LOG"
+
+  HEAD_HAS_QUESTION=$(git show "HEAD:$QNA_FILE" 2>/dev/null | python3 -c '
+import sys
+in_q=False
+for line in sys.stdin:
+    if "white-space:nowrap\">질문<" in line:
+        in_q=True; continue
+    if in_q and "white-space:nowrap\">" in line: break
+    if in_q and line.strip() and not line.rstrip().startswith(" - "):
+        print("yes"); exit()
+print("no")
+')
+
+  STAGED_HAS_QUESTION=$(git show ":$QNA_FILE" 2>/dev/null | python3 -c '
+import sys
+in_q=False
+for line in sys.stdin:
+    if "white-space:nowrap\">질문<" in line:
+        in_q=True; continue
+    if in_q and "white-space:nowrap\">" in line: break
+    if in_q and line.strip() and not line.rstrip().startswith(" - "):
+        print("yes"); exit()
+print("no")
+')
+
+  if [ "$HEAD_HAS_QUESTION" = "no" ] && [ "$STAGED_HAS_QUESTION" = "yes" ]; then
+    /usr/bin/curl -s -o /dev/null -X POST "$DISCORD_WEBHOOK" \
+      -H "Content-Type: application/json" \
+      -d "{\"content\": \"❓ **새 질문이 등록됐어요!** 아는 분 답변 부탁드립니다 🙏\n> **제목:** ${TITLE}\"}"
+  fi
 done
 
 # 답변 첫 등록 시 Discord 알림
