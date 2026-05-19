@@ -1,7 +1,7 @@
 /* Q&A 칸반 카드 hover 확장 애니메이션 */
 
-/* 카드 내 본문 텍스트 (Q./A. 줄) 기본 숨김 */
-.kanban-plugin__item p {
+/* Q./A. 본문 텍스트만 숨김 (내부 링크 없는 p = 제목 아닌 줄) */
+.kanban-plugin__item p:not(:has(.internal-link)) {
   max-height: 0;
   overflow: hidden;
   opacity: 0;
@@ -12,13 +12,13 @@
 }
 
 /* hover 시 확장 */
-.kanban-plugin__item:hover p {
+.kanban-plugin__item:hover p:not(:has(.internal-link)) {
   max-height: 10em;
   opacity: 1;
   margin: 0.2em 0 0 !important;
 }
 
-/* 카드 hover 시 살짝 강조 */
+/* 카드 hover 강조 */
 .kanban-plugin__item {
   transition: box-shadow 0.2s ease;
 }
