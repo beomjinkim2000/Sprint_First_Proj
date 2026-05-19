@@ -104,7 +104,11 @@ print("no")
 ')
   echo "HEAD_Q: $HEAD_HAS_QUESTION" >> "$DBG"
 
-  STAGED_HAS_QUESTION=$(git show ":$QNA_FILE" 2>/dev/null | python3 -c '
+  echo "--- STAGED CONTENT (first 30 lines) ---" >> "$DBG"
+  git show ":$QNA_FILE" 2>> "$DBG" | head -30 >> "$DBG"
+  echo "--- END ---" >> "$DBG"
+
+  STAGED_HAS_QUESTION=$(cat "$QNA_FILE" | python3 -c '
 import sys
 in_q=False
 for line in sys.stdin:
