@@ -77,18 +77,14 @@ for line in sys.stdin:
 
 # 새 Q&A 파일 커밋 시 Discord 알림
 DISCORD_WEBHOOK="https://discord.com/api/webhooks/1493432111548465244/33ebLhZEHh6FX3PRJBcP8T1MvkuxUoSTJtzruBTpSBeWYc8LCgXfTmHtznAuqmsarrOv"
-DBG="/tmp/pre-commit-debug.log"
-echo "=== $(date) ===" >> "$DBG"
 
 git -c core.quotepath=false diff --cached --name-only --diff-filter=AM | python3 -c "
 import sys, unicodedata, re
 for line in sys.stdin:
     line = unicodedata.normalize('NFC', line.strip())
-    sys.stderr.write('CANDIDATE: ' + repr(line) + '\n')
     if re.search(r'게시판/\[Q&A\].*\.md$', line):
         print(line)
-" 2>> "$DBG" | while IFS= read -r QNA_FILE; do
-  echo "MATCHED: $QNA_FILE" >> "$DBG"
+" | while IFS= read -r QNA_FILE; do
   TITLE=$(basename "$QNA_FILE" .md | sed 's/^\[Q&A\]-//')
 
   HEAD_HAS_QUESTION=$(git show "HEAD:$QNA_FILE" 2>/dev/null | python3 -c '
@@ -102,13 +98,8 @@ for line in sys.stdin:
         print("yes"); exit()
 print("no")
 ')
-  echo "HEAD_Q: $HEAD_HAS_QUESTION" >> "$DBG"
 
-  echo "--- STAGED CONTENT (first 30 lines) ---" >> "$DBG"
-  git show ":$QNA_FILE" 2>> "$DBG" | head -30 >> "$DBG"
-  echo "--- END ---" >> "$DBG"
-
-  STAGED_HAS_QUESTION=$(cat "$QNA_FILE" | python3 -c '
+  STAGED_HAS_QUESTION=$(git show ":$QNA_FILE" 2>/dev/null | python3 -c '
 import sys
 in_q=False
 for line in sys.stdin:
@@ -119,13 +110,11 @@ for line in sys.stdin:
         print("yes"); exit()
 print("no")
 ')
-  echo "STAGED_Q: $STAGED_HAS_QUESTION" >> "$DBG"
 
   if [ "$HEAD_HAS_QUESTION" = "no" ] && [ "$STAGED_HAS_QUESTION" = "yes" ]; then
-    echo "SENDING..." >> "$DBG"
-    /usr/bin/curl -s -w "%{http_code}" -o /dev/null -X POST "$DISCORD_WEBHOOK" \
+    /usr/bin/curl -s -o /dev/null -X POST "$DISCORD_WEBHOOK" \
       -H "Content-Type: application/json" \
-      -d "{\"content\": \"❓ **새 질문이 등록됐어요!** 아는 분 답변 부탁드립니다 🙏\n> **제목:** ${TITLE}\"}" >> "$DBG"
+      -d "{\"content\": \"❓ **새 질문이 등록됐어요!** 아는 분 답변 부탁드립니다 🙏\n> **제목:** ${TITLE}\"}"
   fi
 done
 
