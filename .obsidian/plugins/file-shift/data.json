@@ -5,12 +5,14 @@
     "/": [
       "협업일지.md",
       "전체 공지사항",
+      "게시판",
       "메모",
       "협업일지",
       "architecture",
       "experiment",
       "workflow",
       "_templates",
+      "_config",
       "index.md"
     ],
     "_templates": [
