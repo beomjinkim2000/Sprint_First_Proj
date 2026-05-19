@@ -13,13 +13,6 @@ for i in "${!KEYS[@]}"; do
   fi
 done
 
-LOG="$HOME/pre-commit-debug.log"
-echo "=== $(date) ===" >> "$LOG"
-echo "PWD=$(pwd)" >> "$LOG"
-echo "AUTHOR=$AUTHOR" >> "$LOG"
-echo "staged files:" >> "$LOG"
-git -c core.quotepath=false diff --cached --name-only --diff-filter=AM >> "$LOG"
-
 MATCHED=$(git -c core.quotepath=false diff --cached --name-only --diff-filter=AM | python3 -c "
 import sys, unicodedata, re
 for line in sys.stdin:
@@ -27,11 +20,9 @@ for line in sys.stdin:
     if re.search(r'(게시판|전체 공지사항)/.*\.md$', line):
         print(line)
 ")
-echo "matched: $MATCHED" >> "$LOG"
 
 while IFS= read -r FILE; do
   [ -f "$FILE" ] || continue
-  echo "processing: $FILE" >> "$LOG"
 
   FILE_NFC=$(echo "$FILE" | python3 -c "import sys,unicodedata; sys.stdout.write(unicodedata.normalize('NFC',sys.stdin.read().strip()))")
 
@@ -44,7 +35,6 @@ while IFS= read -r FILE; do
 
   TMPFILE=$(mktemp)
   python3 "$(dirname "$0")/wrap_callout.py" "$AUTHOR" "$SIGN_BODY" "$FILE" "$TMPFILE"
-  echo "wrap exit=$? changed=$(diff -q "$FILE" "$TMPFILE" > /dev/null 2>&1 && echo no || echo yes)" >> "$LOG"
 
   if ! diff -q "$FILE" "$TMPFILE" > /dev/null 2>&1; then
     mv "$TMPFILE" "$FILE"
