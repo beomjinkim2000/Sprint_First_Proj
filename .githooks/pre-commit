@@ -16,8 +16,10 @@ done
 while IFS= read -r FILE; do
   [ -f "$FILE" ] || continue
 
-  # 공지사항은 댓글만 서명
-  if echo "$FILE" | grep -q "전체 공지사항/"; then
+  # 경로도 NFC 정규화 후 판별
+  FILE_NFC=$(echo "$FILE" | python3 -c "import sys,unicodedata; sys.stdout.write(unicodedata.normalize('NFC',sys.stdin.read().strip()))")
+
+  if echo "$FILE_NFC" | grep -q "전체 공지사항/"; then
     SIGN_BODY=0
   else
     SIGN_BODY=1
@@ -49,7 +51,11 @@ while IFS= read -r FILE; do
       for(i=1; i<=NR; i++) {
         print lines[i]
         if(sign_body && !found_body_sig && last_body>0 && i==last_body) print author
-        if(!found_comment_sig && last_comment>0 && i==last_comment) { print author; print "" }
+        if(!found_comment_sig && last_comment>0 && i==last_comment) {
+          print ""
+          print author
+          print ""
+        }
       }
     }
   ' "$FILE" > "$TMPFILE"
@@ -60,6 +66,12 @@ while IFS= read -r FILE; do
   else
     rm "$TMPFILE"
   fi
-done < <(git diff --cached --name-only --diff-filter=AM | grep -E "(자유게시판|전체 공지사항)/.*\.md$")
+done < <(git diff --cached --name-only --diff-filter=AM | python3 -c "
+import sys, unicodedata, re
+for line in sys.stdin:
+    line = unicodedata.normalize('NFC', line.strip())
+    if re.search(r'(자유게시판|전체 공지사항)/.*\.md$', line):
+        print(line)
+")
 
 exit 0
