@@ -1,0 +1,66 @@
+---
+type: concept
+title: "프로젝트 개요"
+created: 2026-05-19
+updated: 2026-05-19
+tags:
+  - overview
+  - project
+status: mature
+related:
+  - "[[index]]"
+  - "[[architecture/folder-structure]]"
+  - "[[workflow/roles]]"
+---
+
+# 프로젝트 개요
+
+## 미션
+
+헬스케어 스타트업 헬스잇(Health Eat)의 AI 엔지니어링 팀.
+유저가 복용 중인 약 사진을 찍으면 **알약의 클래스(이름)와 위치(바운딩 박스)**를 검출하는 모델 개발.
+사진 속 최대 4개 알약의 class + bbox를 검출.
+
+## 최종 제출물
+
+| 항목 | 마감 | 담당 |
+|---|---|---|
+| Github Repository 링크 | D-1 19:00 | 팀장 |
+| 보고서 PDF | D-1 19:00 | Inference/Report 담당 |
+| Kaggle submission.csv | D-day 23:50 | 팀장 최종 제출 |
+| 개인 협업일지 | D-day 23:50 | 팀원 각자 |
+
+## 1차 목표 (v0.1)
+
+```
+train → predict → submission.csv → Kaggle 제출 성공
+```
+
+성능보다 파이프라인 완성 먼저. 돌아가는 걸 만든 뒤 성능 개선.
+
+## 2차 목표 (v0.2)
+
+- 데이터 증강 (Albumentations)
+- 하이퍼파라미터 튜닝
+- 추가 데이터 수집 (AI Hub — 금지 데이터셋 제외)
+- 앙상블 등 성능 개선 기법
+
+## 평가 방식
+
+- Kaggle Score: 참고용 (순위 무관)
+- 팀 단위 평가: 발표 + 보고서 + Github 코드
+- 개인 단위 평가: 협업일지 + 발표 참여
+
+## 금지 사항
+
+AI Hub 내 두 데이터셋 학습 사용 금지:
+- `Training > 라벨링데이터 > 경구약제조합 5000종 > TL_2_조합.zip`
+- `Training > 원천데이터 > 경구약제조합 5000종 > TS_2_조합.zip`
+
+> Kaggle 테스트셋이 해당 데이터 기반 → score 비정상 상승으로 추적 가능
+
+## Connections
+
+- [[architecture/folder-structure]] — 디렉토리 구조
+- [[workflow/roles]] — 팀원 역할
+- [[experiment/log]] — 실험 결과 트래킹
