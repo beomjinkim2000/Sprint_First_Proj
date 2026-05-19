@@ -15,6 +15,7 @@
       "_templates",
       "_config",
       "tasks",
+      "discord_bot",
       "index.md"
     ],
     "_templates": [
