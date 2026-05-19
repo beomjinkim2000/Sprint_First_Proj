@@ -30,7 +30,6 @@ while IFS= read -r FILE; do
     BEGIN {
       in_body=0; in_comments=0
       last_body=0; last_comment=0
-      found_body_sig=0; found_comment_sig=0
     }
     /white-space:nowrap">내용</ { in_body=1; in_comments=0; lines[NR]=$0; next }
     /white-space:nowrap">본문</ { in_body=1; in_comments=0; lines[NR]=$0; next }
@@ -38,20 +37,16 @@ while IFS= read -r FILE; do
     /^---$/ { lines[NR]=$0; next }
     {
       lines[NR]=$0
-      if(in_body && $0!="") {
-        last_body=NR
-        if($0==author) found_body_sig=1
-      }
-      if(in_comments && $0!="") {
-        last_comment=NR
-        if($0==author) found_comment_sig=1
-      }
+      if(in_body && $0!="")    last_body=NR
+      if(in_comments && $0!="") last_comment=NR
     }
     END {
       for(i=1; i<=NR; i++) {
         print lines[i]
-        if(sign_body && !found_body_sig && last_body>0 && i==last_body) print author
-        if(!found_comment_sig && last_comment>0 && i==last_comment) {
+        if(sign_body && last_body>0 && i==last_body && lines[last_body]!=author) {
+          print author
+        }
+        if(last_comment>0 && i==last_comment && lines[last_comment]!=author) {
           print author
           print ""
         }
