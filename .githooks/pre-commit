@@ -15,10 +15,28 @@ done
 
 while IFS= read -r FILE; do
   [ -f "$FILE" ] || continue
-  LAST=$(tail -1 "$FILE")
+
   # 이미 서명 있으면 스킵
-  [[ "$LAST" =~ ^\ -\  ]] && continue
-  printf "\n - %s\n" "$AUTHOR" >> "$FILE"
+  if grep -q "^ - $AUTHOR" "$FILE"; then
+    continue
+  fi
+
+  # 마지막 --- 앞에 서명 삽입 (댓글 섹션 안으로)
+  TMPFILE=$(mktemp)
+  awk -v author="$AUTHOR" '
+    /^---$/ { last_sep = NR; last_pos = FNR }
+    { lines[NR] = $0 }
+    END {
+      for (i = 1; i <= NR; i++) {
+        if (i == last_sep) {
+          print " - " author
+          print ""
+        }
+        print lines[i]
+      }
+    }
+  ' "$FILE" > "$TMPFILE"
+  mv "$TMPFILE" "$FILE"
   git add "$FILE"
 done < <(git diff --cached --name-only --diff-filter=AM | grep "자유게시판/.*\.md$")
 
