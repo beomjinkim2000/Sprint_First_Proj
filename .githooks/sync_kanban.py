@@ -67,6 +67,25 @@ def build_kanban(by_col, q_exc, a_exc):
     return '\n'.join(lines)
 
 
+def sync_frontmatter_status(path, status):
+    """Q&A 파일의 frontmatter 상태 필드를 칸반 컬럼 위치로 동기화"""
+    try:
+        with open(path, encoding='utf-8') as f:
+            text = f.read()
+        if not text.startswith('---'):
+            return
+        end = text.index('---', 3)
+        fm = text[3:end]
+        new_fm = re.sub(r'^상태:.*$', f'상태: {status}', fm, flags=re.MULTILINE)
+        if new_fm == fm:
+            return
+        new_text = '---' + new_fm + '---' + text[end + 3:]
+        with open(path, 'w', encoding='utf-8') as f:
+            f.write(new_text)
+    except Exception:
+        pass
+
+
 # --- main ---
 if not os.path.isdir(QNA_DIR):
     import sys; sys.exit(0)
@@ -87,6 +106,7 @@ for fname in sorted(os.listdir(QNA_DIR)):
     by_col[col].append(s)
     q_exc[s] = read_excerpt(path, '질문')
     a_exc[s] = read_excerpt(path, '답변')
+    sync_frontmatter_status(path, col)
 
 # 칸반 재빌드
 new_text = build_kanban(by_col, q_exc, a_exc)
