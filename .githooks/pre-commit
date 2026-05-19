@@ -34,7 +34,7 @@ while IFS= read -r FILE; do
   else
     rm "$TMPFILE"
   fi
-done < <(git diff --cached --name-only --diff-filter=AM | python3 -c "
+done < <(git -c core.quotepath=false diff --cached --name-only --diff-filter=AM | python3 -c "
 import sys, unicodedata, re
 for line in sys.stdin:
     line = unicodedata.normalize('NFC', line.strip())
