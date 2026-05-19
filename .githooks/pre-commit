@@ -128,7 +128,7 @@ print("no")
   if [ "$HEAD_HAS_ANSWER" = "no" ] && [ "$STAGED_HAS_ANSWER" = "yes" ]; then
     curl -s -o /dev/null -X POST "$DISCORD_WEBHOOK" \
       -H "Content-Type: application/json" \
-      -d "{\"content\": \"✅ **답변이 등록됐어요!**\n> **제목:** ${TITLE}\"}"
+      -d "{\"content\": \"✅ **답변이 등록됐습니다. 해결됐는지 확인해주세요!**\n> **제목:** ${TITLE}\"}"
   fi
 done
 
