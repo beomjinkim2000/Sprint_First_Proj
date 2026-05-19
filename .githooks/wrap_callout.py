@@ -69,6 +69,8 @@ for line in lines:
             buf = []
         section = new_sec
         output.append(line)
+        # <div> HTML 블록을 닫아야 뒤의 callout이 Quartz에서 렌더링됨
+        output.append('')
         continue
 
     if section and should_sign(section):
