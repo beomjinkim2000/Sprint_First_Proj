@@ -13,9 +13,12 @@ for i in "${!KEYS[@]}"; do
   fi
 done
 
-echo "[DBG] AUTHOR=$AUTHOR" >&2
-echo "[DBG] staged files:" >&2
-git -c core.quotepath=false diff --cached --name-only --diff-filter=AM >&2
+LOG="$HOME/pre-commit-debug.log"
+echo "=== $(date) ===" >> "$LOG"
+echo "PWD=$(pwd)" >> "$LOG"
+echo "AUTHOR=$AUTHOR" >> "$LOG"
+echo "staged files:" >> "$LOG"
+git -c core.quotepath=false diff --cached --name-only --diff-filter=AM >> "$LOG"
 
 MATCHED=$(git -c core.quotepath=false diff --cached --name-only --diff-filter=AM | python3 -c "
 import sys, unicodedata, re
@@ -24,11 +27,11 @@ for line in sys.stdin:
     if re.search(r'(게시판|전체 공지사항)/.*\.md$', line):
         print(line)
 ")
-echo "[DBG] matched files: $MATCHED" >&2
+echo "matched: $MATCHED" >> "$LOG"
 
 while IFS= read -r FILE; do
   [ -f "$FILE" ] || continue
-  echo "[DBG] processing: $FILE" >&2
+  echo "processing: $FILE" >> "$LOG"
 
   FILE_NFC=$(echo "$FILE" | python3 -c "import sys,unicodedata; sys.stdout.write(unicodedata.normalize('NFC',sys.stdin.read().strip()))")
 
@@ -38,18 +41,15 @@ while IFS= read -r FILE; do
   else
     SIGN_BODY=1
   fi
-  echo "[DBG] SIGN_BODY=$SIGN_BODY" >&2
 
   TMPFILE=$(mktemp)
   python3 "$(dirname "$0")/wrap_callout.py" "$AUTHOR" "$SIGN_BODY" "$FILE" "$TMPFILE"
-  echo "[DBG] wrap exit=$?" >&2
+  echo "wrap exit=$? changed=$(diff -q "$FILE" "$TMPFILE" > /dev/null 2>&1 && echo no || echo yes)" >> "$LOG"
 
   if ! diff -q "$FILE" "$TMPFILE" > /dev/null 2>&1; then
-    echo "[DBG] file changed, re-staging" >&2
     mv "$TMPFILE" "$FILE"
     git add "$FILE"
   else
-    echo "[DBG] no change" >&2
     rm "$TMPFILE"
   fi
 done <<< "$MATCHED"
