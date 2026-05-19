@@ -1,15 +1,5 @@
 /* Q&A 칸반 카드 hover 확장 애니메이션 */
 
-/* 카드 컨테이너 — 내용 접힐 때 같이 줄어들도록 */
-.kanban-plugin__item {
-  overflow: hidden;
-  transition: box-shadow 0.25s ease;
-}
-
-.kanban-plugin__item:hover {
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
-}
-
 /* Q./A. 본문만 숨김 (내부 링크 없는 p = 제목 아닌 줄) */
 .kanban-plugin__item p:not(:has(.internal-link)) {
   max-height: 0;
@@ -26,4 +16,13 @@
 .kanban-plugin__item:hover p:not(:has(.internal-link)) {
   max-height: 10em;
   opacity: 1;
+}
+
+/* 카드 hover 강조 */
+.kanban-plugin__item {
+  transition: box-shadow 0.25s ease;
+}
+
+.kanban-plugin__item:hover {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
 }
