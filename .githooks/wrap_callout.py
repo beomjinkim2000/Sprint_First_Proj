@@ -49,7 +49,12 @@ for line in lines:
     if new_sec is not None:
         if buf:
             if section and should_sign(section):
+                # pull trailing blank lines out — they go after the callout
+                trailing = []
+                while buf and not buf[-1].strip():
+                    trailing.insert(0, buf.pop())
                 flush(buf, output)
+                output.extend(trailing)
             else:
                 output.extend(buf)
             buf = []
