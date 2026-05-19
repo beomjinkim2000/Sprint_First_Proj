@@ -40,10 +40,11 @@ const DEFAULT_SETTINGS = {
 class KanbanStatusUpdaterPlugin extends obsidian.Plugin {
     constructor() {
         super(...arguments);
-        // Track active observers to disconnect them when not needed
         this.currentObserver = null;
         this.isProcessing = false;
         this.activeKanbanBoard = null;
+        this._debounceTimer = null;
+        this._pendingMutations = [];
     }
     onload() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -155,14 +156,13 @@ class KanbanStatusUpdaterPlugin extends obsidian.Plugin {
     setupObserverForBoard(boardElement) {
         // Create a new observer for this specific board
         this.currentObserver = new MutationObserver((mutations) => {
-            if (this.isProcessing)
-                return;
-            // Simple debounce to prevent rapid-fire processing
-            this.isProcessing = true;
-            setTimeout(() => {
-                this.handleMutations(mutations);
-                this.isProcessing = false;
-            }, 300);
+            this._pendingMutations.push(...mutations);
+            clearTimeout(this._debounceTimer);
+            this._debounceTimer = setTimeout(() => {
+                const toProcess = this._pendingMutations;
+                this._pendingMutations = [];
+                this.handleMutations(toProcess);
+            }, 350);
         });
         // Observe only this board with minimal options needed
         this.currentObserver.observe(boardElement, {
