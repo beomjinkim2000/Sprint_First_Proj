@@ -13,8 +13,22 @@ for i in "${!KEYS[@]}"; do
   fi
 done
 
+echo "[DBG] AUTHOR=$AUTHOR" >&2
+echo "[DBG] staged files:" >&2
+git -c core.quotepath=false diff --cached --name-only --diff-filter=AM >&2
+
+MATCHED=$(git -c core.quotepath=false diff --cached --name-only --diff-filter=AM | python3 -c "
+import sys, unicodedata, re
+for line in sys.stdin:
+    line = unicodedata.normalize('NFC', line.strip())
+    if re.search(r'(게시판|전체 공지사항)/.*\.md$', line):
+        print(line)
+")
+echo "[DBG] matched files: $MATCHED" >&2
+
 while IFS= read -r FILE; do
   [ -f "$FILE" ] || continue
+  echo "[DBG] processing: $FILE" >&2
 
   FILE_NFC=$(echo "$FILE" | python3 -c "import sys,unicodedata; sys.stdout.write(unicodedata.normalize('NFC',sys.stdin.read().strip()))")
 
@@ -24,23 +38,21 @@ while IFS= read -r FILE; do
   else
     SIGN_BODY=1
   fi
+  echo "[DBG] SIGN_BODY=$SIGN_BODY" >&2
 
   TMPFILE=$(mktemp)
   python3 "$(dirname "$0")/wrap_callout.py" "$AUTHOR" "$SIGN_BODY" "$FILE" "$TMPFILE"
+  echo "[DBG] wrap exit=$?" >&2
 
   if ! diff -q "$FILE" "$TMPFILE" > /dev/null 2>&1; then
+    echo "[DBG] file changed, re-staging" >&2
     mv "$TMPFILE" "$FILE"
     git add "$FILE"
   else
+    echo "[DBG] no change" >&2
     rm "$TMPFILE"
   fi
-done < <(git -c core.quotepath=false diff --cached --name-only --diff-filter=AM | python3 -c "
-import sys, unicodedata, re
-for line in sys.stdin:
-    line = unicodedata.normalize('NFC', line.strip())
-    if re.search(r'(게시판|전체 공지사항)/.*\.md$', line):
-        print(line)
-")
+done <<< "$MATCHED"
 
 # 새 Q&A 파일 커밋 시 Discord 알림
 DISCORD_WEBHOOK="https://discord.com/api/webhooks/1493432111548465244/33ebLhZEHh6FX3PRJBcP8T1MvkuxUoSTJtzruBTpSBeWYc8LCgXfTmHtznAuqmsarrOv"
