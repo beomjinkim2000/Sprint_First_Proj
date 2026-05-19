@@ -1,0 +1,28 @@
+/* ── 칸반 사이드 버튼: 호버할 때만 표시 ── */
+
+/* 레인 헤더 설정(⋯) 버튼 */
+.kanban-plugin__lane-setting-button {
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+.kanban-plugin__lane-header-wrapper:hover .kanban-plugin__lane-setting-button {
+    opacity: 1;
+}
+
+/* 카드 추가(+) 버튼 */
+.kanban-plugin__new-item-button {
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+.kanban-plugin__lane:hover .kanban-plugin__new-item-button {
+    opacity: 1;
+}
+
+/* 카드 우측 액션 버튼 */
+.kanban-plugin__item-postfix-button {
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+.kanban-plugin__item:hover .kanban-plugin__item-postfix-button {
+    opacity: 1;
+}

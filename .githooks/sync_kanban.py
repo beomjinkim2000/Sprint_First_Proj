@@ -62,12 +62,45 @@ def stem(fname):
 def display_title(s):
     return re.sub(r'^\[Q&A\]-', '', s)
 
-def build_kanban(by_col):
-    lines = ['---', '', 'kanban-plugin: board', '', '---', '']
+def read_question_excerpt(path, max_len=60):
+    """질문 섹션의 첫 번째 내용 줄을 반환 (최대 max_len자)"""
+    try:
+        with open(path, encoding='utf-8') as f:
+            text = f.read()
+        in_q = False
+        for line in text.splitlines():
+            if 'white-space:nowrap">질문<' in line:
+                in_q = True
+                continue
+            if in_q and 'white-space:nowrap">' in line:
+                break
+            if in_q:
+                # callout 줄이면 내용 추출
+                m = re.match(r'^> (.+)$', line)
+                clean = m.group(1) if m else line
+                # [!note] 헤더 줄은 건너뜀
+                if re.match(r'^\[!', clean):
+                    continue
+                clean = clean.strip().lstrip('>')
+                if clean:
+                    return clean[:max_len] + ('…' if len(clean) > max_len else '')
+    except Exception:
+        pass
+    return ''
+
+def build_kanban(by_col, excerpts):
+    lines = [
+        '---', '', 'kanban-plugin: board', '', '---', '',
+        '> [!tip] [[게시판|→ Q&A 게시판 바로가기]]',
+        '',
+    ]
     for col in COLS:
         lines += [f'## {col}', '']
         for s in by_col.get(col, []):
             lines.append(f'- [ ] [[{s}|{display_title(s)}]]')
+            exc = excerpts.get(s, '')
+            if exc:
+                lines.append(f'  {exc}')
         lines.append('')
     lines += [
         '%% kanban:settings',
@@ -98,6 +131,7 @@ kanban = parse_kanban()  # {stem: col}
 # Build new column mapping
 by_col = {c: [] for c in COLS}
 
+excerpts = {}
 for s, path in sorted(qna.items()):
     if kanban_staged and s in kanban:
         # Kanban wins — card was dragged
@@ -109,9 +143,10 @@ for s, path in sorted(qna.items()):
         if col not in COLS:
             col = '미해결'
     by_col[col].append(s)
+    excerpts[s] = read_question_excerpt(path)
 
 # Rewrite Kanban if changed
-new_text = build_kanban(by_col)
+new_text = build_kanban(by_col, excerpts)
 old_text = open(KANBAN, encoding='utf-8').read() if os.path.exists(KANBAN) else ''
 if new_text != old_text:
     with open(KANBAN, 'w', encoding='utf-8') as f:
