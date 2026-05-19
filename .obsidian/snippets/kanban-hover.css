@@ -1,0 +1,28 @@
+/* Q&A 칸반 카드 hover 확장 애니메이션 */
+
+/* 카드 내 본문 텍스트 (Q./A. 줄) 기본 숨김 */
+.kanban-plugin__item p {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  margin: 0 !important;
+  font-size: 0.85em;
+  color: var(--text-muted);
+  transition: max-height 0.3s ease, opacity 0.25s ease, margin 0.3s ease;
+}
+
+/* hover 시 확장 */
+.kanban-plugin__item:hover p {
+  max-height: 10em;
+  opacity: 1;
+  margin: 0.2em 0 0 !important;
+}
+
+/* 카드 hover 시 살짝 강조 */
+.kanban-plugin__item {
+  transition: box-shadow 0.2s ease;
+}
+
+.kanban-plugin__item:hover {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+}

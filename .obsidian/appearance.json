@@ -1,5 +1,8 @@
 {
   "theme": "obsidian",
   "cssTheme": "",
-  "accentColor": ""
+  "accentColor": "",
+  "enabledCssSnippets": [
+    "kanban-hover"
+  ]
 }
