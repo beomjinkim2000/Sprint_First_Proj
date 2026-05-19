@@ -10,7 +10,7 @@ const config: QuartzConfig = {
     analytics: null,
     locale: "ko-KR",
     baseUrl: "beomjinkim2000.github.io/Sprint_First_Proj",
-    ignorePatterns: [".obsidian", "_templates", ".githooks", ".github", ".quartz", "_config"],
+    ignorePatterns: [".obsidian", "_templates", ".githooks", ".github", ".quartz", "_config", "Q&A 칸반.md"],
     defaultDateType: "modified",
     theme: {
       fontOrigin: "googleFonts",

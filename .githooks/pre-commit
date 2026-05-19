@@ -44,6 +44,36 @@ while IFS= read -r FILE; do
   fi
 done <<< "$MATCHED"
 
+# Q&A ↔ 칸반 동기화
+HAS_QNA=$(git -c core.quotepath=false diff --cached --name-only | python3 -c "
+import sys, unicodedata, re
+for line in sys.stdin:
+    line = unicodedata.normalize('NFC', line.strip())
+    if re.search(r'게시판/\[Q&A\].*\.md$', line):
+        print('yes'); break
+")
+HAS_KANBAN=$(git -c core.quotepath=false diff --cached --name-only | python3 -c "
+import sys, unicodedata
+for line in sys.stdin:
+    line = unicodedata.normalize('NFC', line.strip())
+    if 'Q&A 칸반.md' in line:
+        print('yes'); break
+")
+
+if [ "$HAS_QNA" = "yes" ] || [ "$HAS_KANBAN" = "yes" ]; then
+  python3 "$(dirname "$0")/sync_kanban.py" "$HAS_KANBAN"
+  # sync_kanban.py가 수정한 파일 재스테이징
+  git -c core.quotepath=false diff --name-only | python3 -c "
+import sys, unicodedata, re
+for line in sys.stdin:
+    line = unicodedata.normalize('NFC', line.strip())
+    if re.search(r'게시판/\[Q&A\].*\.md$', line) or 'Q&A 칸반.md' in line:
+        print(line)
+" | while IFS= read -r f; do
+    [ -f "$f" ] && git add "$f"
+  done
+fi
+
 # 새 Q&A 파일 커밋 시 Discord 알림
 DISCORD_WEBHOOK="https://discord.com/api/webhooks/1493432111548465244/33ebLhZEHh6FX3PRJBcP8T1MvkuxUoSTJtzruBTpSBeWYc8LCgXfTmHtznAuqmsarrOv"
 
