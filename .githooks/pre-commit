@@ -79,8 +79,10 @@ for line in sys.stdin:
 DISCORD_WEBHOOK="https://discord.com/api/webhooks/1493432111548465244/33ebLhZEHh6FX3PRJBcP8T1MvkuxUoSTJtzruBTpSBeWYc8LCgXfTmHtznAuqmsarrOv"
 DEBUG_LOG="/tmp/pre-commit-debug.log"
 echo "=== pre-commit $(date) ===" >> "$DEBUG_LOG"
-echo "STAGED FILES:" >> "$DEBUG_LOG"
+echo "STAGED ADDED:" >> "$DEBUG_LOG"
 git -c core.quotepath=false diff --cached --name-only --diff-filter=A >> "$DEBUG_LOG" 2>&1
+echo "STAGED MODIFIED:" >> "$DEBUG_LOG"
+git -c core.quotepath=false diff --cached --name-only --diff-filter=M >> "$DEBUG_LOG" 2>&1
 
 git -c core.quotepath=false diff --cached --name-only --diff-filter=A | python3 -c "
 import sys, unicodedata, re
