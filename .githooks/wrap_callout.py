@@ -17,6 +17,7 @@ SECTION_PAT = {
     'body':    re.compile(r'white-space:nowrap">(?:본문|질문|내용)<'),
     'answer':  re.compile(r'white-space:nowrap">답변<'),
     'comment': re.compile(r'white-space:nowrap">댓글<'),
+    'target':  re.compile(r'white-space:nowrap">대상<'),
 }
 
 def should_sign(section):
@@ -54,7 +55,12 @@ for line in lines:
                 while buf and not buf[-1].strip():
                     trailing.insert(0, buf.pop())
                 flush(buf, output)
-                output.extend(trailing)
+                # flush always appends one blank line; replace it with the
+                # original trailing blanks to avoid double-blank-line
+                if trailing:
+                    if output and output[-1] == '':
+                        output.pop()
+                    output.extend(trailing)
             else:
                 output.extend(buf)
             buf = []

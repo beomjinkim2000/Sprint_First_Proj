@@ -18,8 +18,8 @@ while IFS= read -r FILE; do
 
   FILE_NFC=$(echo "$FILE" | python3 -c "import sys,unicodedata; sys.stdout.write(unicodedata.normalize('NFC',sys.stdin.read().strip()))")
 
-  # 공지사항 또는 Q&A는 본문/질문 서명 안 함
-  if echo "$FILE_NFC" | grep -q "전체 공지사항/" || echo "$FILE_NFC" | grep -qF "[Q&A]"; then
+  # Q&A는 질문 서명 안 함 (답변/댓글만 서명)
+  if echo "$FILE_NFC" | grep -qF "[Q&A]"; then
     SIGN_BODY=0
   else
     SIGN_BODY=1
