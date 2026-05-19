@@ -23,8 +23,8 @@ while IFS= read -r FILE; do
       last_body=0; last_comment=0
       found_body_sig=0; found_comment_sig=0
     }
-    /^## 본문/  { in_body=1; in_comments=0; skip_next_sep=1; lines[NR]=$0; next }
-    /^## 댓글/  { in_body=0; in_comments=1; skip_next_sep=1; lines[NR]=$0; next }
+    /본문/  { in_body=1; in_comments=0; skip_next_sep=1; lines[NR]=$0; next }
+    /댓글/  { in_body=0; in_comments=1; skip_next_sep=1; lines[NR]=$0; next }
     /^---$/ {
       if(skip_next_sep) { skip_next_sep=0; lines[NR]=$0; next }
       if(in_body) in_body=0
