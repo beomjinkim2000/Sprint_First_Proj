@@ -1,0 +1,27 @@
+name: Daily Collaboration Journal Reminder
+
+on:
+  schedule:
+    - cron: '50 9 * * *'  # 18:50 KST (UTC+9)
+  workflow_dispatch:
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check expiry date
+        id: check
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          if [[ "$TODAY" > "2026-06-05" ]]; then
+            echo "expired=true" >> $GITHUB_OUTPUT
+          else
+            echo "expired=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Send Discord reminder
+        if: steps.check.outputs.expired == 'false'
+        run: |
+          curl -s -X POST "https://discord.com/api/webhooks/1493432111548465244/33ebLhZEHh6FX3PRJBcP8T1MvkuxUoSTJtzruBTpSBeWYc8LCgXfTmHtznAuqmsarrOv" \
+            -H "Content-Type: application/json" \
+            -d '{"content": "🌇 오늘도 고생 많으셨습니다! 협업일지 작성 잊지 마세요 📝"}'
