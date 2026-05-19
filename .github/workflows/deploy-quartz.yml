@@ -1,0 +1,55 @@
+name: Deploy Quartz to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout vault
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Clone Quartz
+        run: git clone --depth 1 https://github.com/jackyzha0/quartz.git /tmp/quartz
+
+      - name: Install dependencies
+        run: cd /tmp/quartz && npm ci
+
+      - name: Copy vault content
+        run: |
+          rsync -a \
+            --exclude='.obsidian/' \
+            --exclude='_templates/' \
+            --exclude='.githooks/' \
+            --exclude='.github/' \
+            --exclude='.quartz/' \
+            --exclude='.git/' \
+            --exclude='.gitattributes' \
+            --exclude='_config/' \
+            ./ /tmp/quartz/content/
+
+      - name: Apply Quartz config
+        run: cp .quartz/quartz.config.ts /tmp/quartz/quartz.config.ts
+
+      - name: Build site
+        run: cd /tmp/quartz && npx quartz build
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: /tmp/quartz/public
+          force_orphan: true
