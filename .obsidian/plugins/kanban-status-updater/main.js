@@ -313,7 +313,7 @@ class KanbanStatusUpdaterPlugin extends obsidian.Plugin {
     processKanbanItem(itemElement) {
         try {
             // TODO: Select the title
-            const internalLink = itemElement.querySelector('.kanban-plugin__item-title .kanban-plugin__item-markdown a.internal-link');
+            const internalLink = itemElement.querySelector('a.internal-link');
             if (!internalLink) {
                 this.log('🚫 No internal link found in item');
                 return;
@@ -332,7 +332,8 @@ class KanbanStatusUpdaterPlugin extends obsidian.Plugin {
                 return;
             }
             // Get column name from the lane header
-            const laneHeader = lane.querySelector('.kanban-plugin__lane-header-wrapper .kanban-plugin__lane-title');
+            const laneHeader = lane.querySelector('.kanban-plugin__lane-header-wrapper .kanban-plugin__lane-title-text')
+                || lane.querySelector('.kanban-plugin__lane-header-wrapper .kanban-plugin__lane-title');
             if (!laneHeader) {
                 this.log('🚫 No laneHeader found for item');
                 return;
