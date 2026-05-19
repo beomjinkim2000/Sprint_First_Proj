@@ -31,6 +31,9 @@ def flush(buf, output):
         buf.pop()
     if not buf:
         return
+    # callout 뒤에 새 callout이 바로 붙으면 Obsidian이 하나로 합쳐 읽으므로 분리
+    if output and output[-1].startswith('>'):
+        output.append('')
     output.append(f'> [!note] {author}')
     for ln in buf:
         output.append(f'> {ln}' if ln.strip() else '>')
