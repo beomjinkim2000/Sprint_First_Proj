@@ -78,7 +78,7 @@ for line in sys.stdin:
 # 새 Q&A 파일 커밋 시 Discord 알림
 DISCORD_WEBHOOK="https://discord.com/api/webhooks/1493432111548465244/33ebLhZEHh6FX3PRJBcP8T1MvkuxUoSTJtzruBTpSBeWYc8LCgXfTmHtznAuqmsarrOv"
 
-git diff --cached --name-only --diff-filter=A | python3 -c "
+git -c core.quotepath=false diff --cached --name-only --diff-filter=A | python3 -c "
 import sys, unicodedata, re
 for line in sys.stdin:
     line = unicodedata.normalize('NFC', line.strip())
@@ -86,13 +86,13 @@ for line in sys.stdin:
         print(line)
 " | while IFS= read -r QNA_FILE; do
   TITLE=$(basename "$QNA_FILE" .md | sed 's/^\[Q&A\]-//')
-  curl -s -o /dev/null -X POST "$DISCORD_WEBHOOK" \
+  /usr/bin/curl -s -o /dev/null -X POST "$DISCORD_WEBHOOK" \
     -H "Content-Type: application/json" \
     -d "{\"content\": \"❓ **새 질문이 등록됐어요!** 아는 분 답변 부탁드립니다 🙏\n> **제목:** ${TITLE}\"}"
 done
 
 # 답변 첫 등록 시 Discord 알림
-git diff --cached --name-only --diff-filter=M | python3 -c "
+git -c core.quotepath=false diff --cached --name-only --diff-filter=M | python3 -c "
 import sys, unicodedata, re
 for line in sys.stdin:
     line = unicodedata.normalize('NFC', line.strip())
@@ -126,7 +126,7 @@ print("no")
 ')
 
   if [ "$HEAD_HAS_ANSWER" = "no" ] && [ "$STAGED_HAS_ANSWER" = "yes" ]; then
-    curl -s -o /dev/null -X POST "$DISCORD_WEBHOOK" \
+    /usr/bin/curl -s -o /dev/null -X POST "$DISCORD_WEBHOOK" \
       -H "Content-Type: application/json" \
       -d "{\"content\": \"✅ **답변이 등록됐습니다. 해결됐는지 확인해주세요!**\n> **제목:** ${TITLE}\"}"
   fi
