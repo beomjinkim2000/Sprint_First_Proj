@@ -19,7 +19,7 @@ related:
 ## 기본 설정
 
 - **GitHub Issues** 사용 (Linear 사용 안 함)
-- **이슈 번호 prefix**: PILL-1, PILL-2 ...
+- **이슈 번호**: GitHub 자동 부여 번호 사용 (#4, #5, ...)
 - **Milestone 2개**:
   - `v0.1 — 파이프라인 완성` (1차 목표)
   - `v0.2 — 성능 개선` (2차 목표)
@@ -86,32 +86,35 @@ Backlog → Todo → In Progress → In Review → Done
 | 5 | 하루 이상 → 쪼갤 것 |
 | 8 | 무조건 쪼갬 |
 
-이슈 제목 앞에 `[3] Dataset 클래스 구현` 형식으로 표기.
+이슈 제목 앞에 `[3] Dataset 클래스 구현` 형식으로 표기. (GitHub 이슈 번호와 별개)
 
 ---
 
-## Backlog 이슈 전체 목록 (v0.1)
+## 이슈 전체 목록 (v0.1)
 
-| ID | Title | Label | 담당 | Milestone |
+| # | Title | Label | 담당 | Target |
 |---|---|---|---|---|
-| PILL-1 | [setup] Github repo 생성 및 branch 전략 설정 | setup | 팀장 | v0.1 |
-| PILL-2 | [setup] 폴더 구조 생성 및 빈 파일 커밋 | setup | 팀장 | v0.1 |
-| PILL-3 | [setup] interfaces.md 작성 | setup, docs | 팀장 | v0.1 |
-| PILL-4 | [setup] pyproject.toml 및 .gitignore 작성 | setup | 팀장 | v0.1 |
-| PILL-5 | [data] 원본 데이터 구조 확인 및 annotation 컬럼 파악 | data | Data 담당 | v0.1 |
-| PILL-6 | [data] EDA 노트북 작성 (01_eda.ipynb) | data, docs | Data 담당 | v0.1 |
-| PILL-7 | [data] bbox 시각화 노트북 작성 | data | Data 담당 | v0.1 |
-| PILL-8 | [dataset] Dataset 클래스 구현 (dataset.py) | dataset | Dataset 담당 | v0.1 |
-| PILL-9 | [dataset] transforms 구현 (transforms.py) | dataset | Dataset 담당 | v0.1 |
-| PILL-10 | [dataset] train/val split 구현 (split.py) | dataset | Dataset 담당 | v0.1 |
-| PILL-11 | [model] baseline 모델 구현 (build_model) | model | Model 담당 | v0.1 |
-| PILL-12 | [train] train loop 구현 (engine/train.py) | train | Model 담당 | v0.1 |
-| PILL-13 | [train] evaluate 구현 (engine/evaluate.py) | train | Model 담당 | v0.1 |
-| PILL-14 | [train] checkpoint 저장/로드 구현 | train | Model 담당 | v0.1 |
-| PILL-15 | [inference] predict 구현 (engine/predict.py) | inference | Inference 담당 | v0.1 |
-| PILL-16 | [submission] make_submission.py 구현 | submission | 팀장 | v0.1 |
-| PILL-17 | [submission] 첫 번째 Kaggle 제출 | submission | 팀장 | v0.1 |
-| PILL-18 | [docs] README 초안 작성 | docs | 팀장 | v0.1 |
+| #4 | [setup] Github repo 생성 및 branch 전략 설정 | setup | beomjinkim2000 | 5/21 |
+| #5 | [setup] 폴더 구조 생성 및 빈 파일 커밋 | setup | beomjinkim2000 | 5/21 |
+| #6 | [setup] interfaces.md 작성 | setup, docs | beomjinkim2000 | 5/21 |
+| #7 | [setup] pyproject.toml 및 .gitignore 작성 | setup | beomjinkim2000 | 5/21 |
+| #8 | [data] 원본 데이터 구조 확인 및 annotation 컬럼 파악 | data | zipdid, beomjinkim2000 | 5/21 |
+| #9 | [data] EDA 노트북 작성 (01_eda.ipynb) | data, docs | zipdid, beomjinkim2000 | 5/22 |
+| #10 | [data] bbox 시각화 노트북 작성 | data | zipdid, beomjinkim2000 | 5/22 |
+| #11 | [dataset] Dataset 클래스 구현 (dataset.py) | dataset | zipdid | 5/22 |
+| #12 | [dataset] transforms 구현 (transforms.py) | dataset | zipdid | 5/22 |
+| #13 | [dataset] train/val split 구현 (split.py) | dataset | zipdid | 5/22 |
+| #14 | [model] baseline 모델 구현 (build_model) | model | YuJY9897 | 5/23 |
+| #15 | [train] train loop 구현 (engine/train.py) | train | YuJY9897 | 5/23 |
+| #16 | [train] evaluate 구현 (engine/evaluate.py) | train | YuJY9897 | 5/23 |
+| #17 | [train] checkpoint 저장/로드 구현 | train | YuJY9897 | 5/23 |
+| #18 | [inference] predict 구현 (engine/predict.py) | inference | cjkj1234 | 5/23 |
+| #19 | [submission] make_submission.py 구현 | submission | beomjinkim2000 | 5/24 |
+| #20 | [submission] 첫 번째 Kaggle 제출 | submission | beomjinkim2000 | 5/25 |
+| #21 | [docs] README 초안 작성 | docs | beomjinkim2000 | 5/25 |
+| #22 | [setup] YOLOv8 설치 및 예제 실행 확인 | setup | YuJY9897 | 5/21 |
+| #23 | [model] build_model() 스켈레톤 구현 | model | YuJY9897 | 5/21 |
+| #24 | [inference] predict.py 스켈레톤 구현 | inference | cjkj1234 | 5/21 |
 
 ---
 

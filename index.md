@@ -36,7 +36,8 @@ Navigation: [[Overview]] | [[experiment/log]]
 
 ## Workflow
 
-- [[workflow/task-management]] — GitHub Issues & Projects 구성 (Backlog, Label, Milestone, 자동화)
+- [[workflow/kickoff]] — **역할별 지금 당장 할 일 (여기서 시작)**
+- [[workflow/task-management]] — GitHub Issues & Projects 구성 (이슈 목록, Label, Milestone)
 - [[workflow/git-strategy]] — Git branch / PR / 리뷰 규칙
 - [[workflow/roles]] — 팀원 역할 분담 (모듈별)
 - [[workflow/decisions]] — 운영 결정사항 (태스크 관리, Git, 실험 로그 형식)
