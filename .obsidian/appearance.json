@@ -1,8 +1,5 @@
 {
   "theme": "obsidian",
   "cssTheme": "",
-  "accentColor": "",
-  "enabledCssSnippets": [
-    "kanban-custom"
-  ]
+  "accentColor": ""
 }
