@@ -8,8 +8,6 @@ kanban-plugin: board
 
 ## 미해결
 
-- [ ] [[[Q&A]-YOLOv8 설치방법|YOLOv8 설치방법]]
-  uv로 YOLOv8 설치하는 명령어가 뭔가요?
 
 ## 해결됨
 
