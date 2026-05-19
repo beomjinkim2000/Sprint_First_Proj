@@ -18,6 +18,13 @@
   opacity: 1;
 }
 
+/* 드래그 중엔 hover 효과 완전 차단 */
+.something-is-dragging .kanban-plugin__item p:not(:has(.internal-link)) {
+  max-height: 0 !important;
+  opacity: 0 !important;
+  transition: none !important;
+}
+
 /* 카드 hover 강조 */
 .kanban-plugin__item {
   transition: box-shadow 0.25s ease;
@@ -25,4 +32,8 @@
 
 .kanban-plugin__item:hover {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+}
+
+.something-is-dragging .kanban-plugin__item {
+  box-shadow: none !important;
 }
