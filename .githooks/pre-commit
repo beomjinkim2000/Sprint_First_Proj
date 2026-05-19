@@ -74,7 +74,8 @@ for line in sys.stdin:
   done
 fi
 
-# 새 Q&A 파일 커밋 시 Discord 알림
+# Discord 알림 — 테스트 중 비활성화
+exit 0
 DISCORD_WEBHOOK="https://discord.com/api/webhooks/1493432111548465244/33ebLhZEHh6FX3PRJBcP8T1MvkuxUoSTJtzruBTpSBeWYc8LCgXfTmHtznAuqmsarrOv"
 
 git -c core.quotepath=false diff --cached --name-only --diff-filter=AM | python3 -c "
