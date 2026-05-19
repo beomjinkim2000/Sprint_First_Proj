@@ -16,10 +16,10 @@ done
 while IFS= read -r FILE; do
   [ -f "$FILE" ] || continue
 
-  # 경로도 NFC 정규화 후 판별
   FILE_NFC=$(echo "$FILE" | python3 -c "import sys,unicodedata; sys.stdout.write(unicodedata.normalize('NFC',sys.stdin.read().strip()))")
 
-  if echo "$FILE_NFC" | grep -q "전체 공지사항/"; then
+  # 공지사항 또는 Q&A는 본문/질문 서명 안 함
+  if echo "$FILE_NFC" | grep -q "전체 공지사항/" || echo "$FILE_NFC" | grep -qF "[Q&A]"; then
     SIGN_BODY=0
   else
     SIGN_BODY=1
@@ -28,16 +28,19 @@ while IFS= read -r FILE; do
   TMPFILE=$(mktemp)
   awk -v author=" - $AUTHOR" -v sign_body="$SIGN_BODY" '
     BEGIN {
-      in_body=0; in_comments=0
-      last_body=0; last_comment=0
+      in_body=0; in_answer=0; in_comments=0
+      last_body=0; last_answer=0; last_comment=0
     }
-    /white-space:nowrap">내용</ { in_body=1; in_comments=0; lines[NR]=$0; next }
-    /white-space:nowrap">본문</ { in_body=1; in_comments=0; lines[NR]=$0; next }
-    /white-space:nowrap">댓글</ { in_body=0; in_comments=1; lines[NR]=$0; next }
+    /white-space:nowrap">질문</  { in_body=1; in_answer=0; in_comments=0; lines[NR]=$0; next }
+    /white-space:nowrap">본문</  { in_body=1; in_answer=0; in_comments=0; lines[NR]=$0; next }
+    /white-space:nowrap">내용</  { in_body=1; in_answer=0; in_comments=0; lines[NR]=$0; next }
+    /white-space:nowrap">답변</  { in_body=0; in_answer=1; in_comments=0; lines[NR]=$0; next }
+    /white-space:nowrap">댓글</  { in_body=0; in_answer=0; in_comments=1; lines[NR]=$0; next }
     /^---$/ { lines[NR]=$0; next }
     {
       lines[NR]=$0
-      if(in_body && $0!="")    last_body=NR
+      if(in_body    && $0!="") last_body=NR
+      if(in_answer  && $0!="") last_answer=NR
       if(in_comments && $0!="") last_comment=NR
     }
     END {
@@ -45,6 +48,10 @@ while IFS= read -r FILE; do
         print lines[i]
         if(sign_body && last_body>0 && i==last_body && lines[last_body]!=author) {
           print author
+        }
+        if(last_answer>0 && i==last_answer && lines[last_answer]!=author) {
+          print author
+          print ""
         }
         if(last_comment>0 && i==last_comment && lines[last_comment]!=author) {
           print author
@@ -64,7 +71,7 @@ done < <(git diff --cached --name-only --diff-filter=AM | python3 -c "
 import sys, unicodedata, re
 for line in sys.stdin:
     line = unicodedata.normalize('NFC', line.strip())
-    if re.search(r'(자유게시판|전체 공지사항)/.*\.md$', line):
+    if re.search(r'(게시판|전체 공지사항)/.*\.md$', line):
         print(line)
 ")
 

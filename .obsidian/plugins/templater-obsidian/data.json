@@ -15,8 +15,8 @@
   "enable_folder_templates": true,
   "folder_templates": [
     {
-      "folder": "자유게시판",
-      "template": "_templates/자유게시판.md"
+      "folder": "게시판",
+      "template": "_templates/게시판.md"
     },
     {
       "folder": "전체 공지사항",
