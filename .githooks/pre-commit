@@ -49,13 +49,16 @@ while IFS= read -r FILE; do
         if(sign_body && last_body>0 && i==last_body && lines[last_body]!=author) {
           print author
           print ""
+          print ""
         }
         if(last_answer>0 && i==last_answer && lines[last_answer]!=author) {
           print author
           print ""
+          print ""
         }
         if(last_comment>0 && i==last_comment && lines[last_comment]!=author) {
           print author
+          print ""
           print ""
         }
       }
