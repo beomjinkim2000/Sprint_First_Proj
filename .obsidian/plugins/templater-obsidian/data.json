@@ -21,6 +21,22 @@
     {
       "folder": "전체 공지사항",
       "template": "_templates/공지사항.md"
+    },
+    {
+      "folder": "협업일지/김범진(PM)",
+      "template": "_templates/협업일지.md"
+    },
+    {
+      "folder": "협업일지/박창준(Exp)",
+      "template": "_templates/협업일지.md"
+    },
+    {
+      "folder": "협업일지/유재열(Model)",
+      "template": "_templates/협업일지.md"
+    },
+    {
+      "folder": "협업일지/황원재(Data)",
+      "template": "_templates/협업일지.md"
     }
   ],
   "enable_file_templates": false,
