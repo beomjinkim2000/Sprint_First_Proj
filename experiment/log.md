@@ -9,7 +9,7 @@ tags:
 status: current
 related:
   - "[[index]]"
-  - "[[00_overview]]"
+  - "[[Overview]]"
 ---
 
 # 실험 로그
@@ -62,5 +62,5 @@ submission_v2_yolov8s_augmented.csv
 
 ## Connections
 
-- [[00_overview]] — 프로젝트 전체 목표
+- [[Overview]] — 프로젝트 전체 목표
 - [[architecture/module-design]] — 각 모듈 구조

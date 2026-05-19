@@ -12,7 +12,6 @@ related:
   - "[[index]]"
   - "[[workflow/roles]]"
   - "[[workflow/task-management]]"
-  - "[[workflow/pm-checklist]]"
 ---
 
 # Git Branch & PR 전략

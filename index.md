@@ -7,14 +7,13 @@ tags:
   - index
 status: evergreen
 related:
-  - "[[00_overview]]"
+  - "[[Overview]]"
   - "[[architecture/folder-structure]]"
   - "[[architecture/module-design]]"
   - "[[architecture/interfaces]]"
   - "[[workflow/task-management]]"
   - "[[workflow/git-strategy]]"
   - "[[workflow/roles]]"
-  - "[[workflow/pm-checklist]]"
   - "[[experiment/log]]"
 ---
 
@@ -23,7 +22,7 @@ related:
 > 경구약제 이미지 인식 객체 탐지 프로젝트 (코드잇 AI 초급)
 > 팀장: 김범진 | 팀원 4명 | 모델: YOLOv8 | 제출: Kaggle submission.csv
 
-Navigation: [[00_overview]] | [[experiment/log]]
+Navigation: [[Overview]] | [[experiment/log]]
 
 ---
 
@@ -46,11 +45,11 @@ Navigation: [[00_overview]] | [[experiment/log]]
 
 ## 협업일지
 
-- [[협업일지/_template]] — 협업일지 작성 양식
-- [[협업일지/김범진(PM)/]] — 김범진
-- [[협업일지/zipdid/]] — zipdid
-- [[협업일지/YuY9897/]] — YuY9897
-- [[협업일지/cjkj1234/]] — cjkj1234
+- [[_templates/협업일지]] — 협업일지 작성 양식
+- 김범진(PM)
+- 황원재(Data)
+- 유재열(Model)
+- 박창준(Exp)
 
 ---
 

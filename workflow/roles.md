@@ -10,7 +10,6 @@ status: mature
 related:
   - "[[index]]"
   - "[[architecture/module-design]]"
-  - "[[workflow/linear-setup]]"
 ---
 
 # 팀원 역할 분담
