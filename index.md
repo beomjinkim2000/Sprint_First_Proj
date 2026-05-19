@@ -46,17 +46,32 @@ Navigation: [[Overview]] | [[experiment/log]]
 
 ## 협업일지
 
-- [[_templates/협업일지]] — 협업일지 작성 양식
-- 김범진(PM)
-- 황원재(Data)
-- 유재열(Model)
-- 박창준(Exp)
+```dataview
+TABLE file.mtime as "최근 수정"
+FROM "협업일지"
+WHERE file.name != "_index"
+SORT file.mtime DESC
+LIMIT 6
+```
+
+- [[_templates/협업일지]] — 작성 양식
+- [[협업일지/김범진(PM)]] | [[협업일지/황원재(Data)]] | [[협업일지/유재열(Model)]] | [[협업일지/박창준(Exp)]]
 
 ---
 
 ## Experiment
 
 - [[experiment/log]] — 버전별 실험 결과 및 mAP 트래킹
+
+---
+
+## v0.1 태스크 현황
+
+```dataview
+TABLE issue as "#", title as "작업", assignee as "담당", target as "마감", st as "상태"
+FROM "tasks"
+SORT target ASC
+```
 
 ---
 
