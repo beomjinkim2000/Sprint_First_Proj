@@ -52,7 +52,6 @@ while IFS= read -r FILE; do
         print lines[i]
         if(sign_body && !found_body_sig && last_body>0 && i==last_body) print author
         if(!found_comment_sig && last_comment>0 && i==last_comment) {
-          print ""
           print author
           print ""
         }
