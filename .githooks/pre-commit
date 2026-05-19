@@ -1,0 +1,25 @@
+#!/bin/bash
+
+KEYS=("beomjinkim2000" "cjkj1234" "YuY9897" "zipdid")
+VALS=("김범진(PM)" "박창준(Exp)" "유재열(Model)" "황원재(Data)")
+
+GIT_USER=$(git config user.name)
+AUTHOR="$GIT_USER"
+
+for i in "${!KEYS[@]}"; do
+  if [ "${KEYS[$i]}" = "$GIT_USER" ]; then
+    AUTHOR="${VALS[$i]}"
+    break
+  fi
+done
+
+while IFS= read -r FILE; do
+  [ -f "$FILE" ] || continue
+  LAST=$(tail -1 "$FILE")
+  # 이미 서명 있으면 스킵
+  [[ "$LAST" =~ ^\ -\  ]] && continue
+  printf "\n - %s\n" "$AUTHOR" >> "$FILE"
+  git add "$FILE"
+done < <(git diff --cached --name-only --diff-filter=AM | grep "자유게시판/.*\.md$")
+
+exit 0
