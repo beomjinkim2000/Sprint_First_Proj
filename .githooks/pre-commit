@@ -1,7 +1,7 @@
 #!/bin/bash
 
-KEYS=("beomjinkim2000" "cjkj1234" "YuY9897" "zipdid")
-VALS=("김범진(PM)" "박창준(Exp)" "유재열(Model)" "황원재(Data)")
+KEYS=("김범진" "beomjinkim2000" "박창준" "cjkj1234" "유재열" "YuY9897" "YuJY9897" "황원재" "zipdid")
+VALS=("김범진(PM)" "김범진(PM)" "박창준(Exp)" "박창준(Exp)" "유재열(Model)" "유재열(Model)" "유재열(Model)" "황원재(Data)" "황원재(Data)")
 
 GIT_USER=$(git config user.name)
 AUTHOR="$GIT_USER"
