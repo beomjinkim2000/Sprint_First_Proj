@@ -44,6 +44,18 @@ while IFS= read -r FILE; do
   fi
 done <<< "$MATCHED"
 
+# 새 Q&A 파일 → 칸반 카드 자동 추가
+HAS_QNA=$(git -c core.quotepath=false diff --cached --name-only --diff-filter=AM | python3 -c "
+import sys, unicodedata, re
+for line in sys.stdin:
+    line = unicodedata.normalize('NFC', line.strip())
+    if re.search(r'게시판/\[Q&A\].*\.md$', line):
+        print('yes'); break
+")
+if [ "$HAS_QNA" = "yes" ]; then
+  python3 "$(dirname "$0")/sync_kanban.py"
+  git add "Q&A 칸반.md" 2>/dev/null || true
+fi
 
 # Discord 알림 — 테스트 중 비활성화
 exit 0
