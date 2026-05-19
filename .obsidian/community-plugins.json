@@ -4,5 +4,8 @@
   "obsidian-git",
   "metadata-menu",
   "editing-toolbar",
-  "kanban-bases-view"
+  "kanban-status-updater",
+  "kanban-bases-view",
+  "omnisearch",
+  "obsidian-kanban"
 ]
