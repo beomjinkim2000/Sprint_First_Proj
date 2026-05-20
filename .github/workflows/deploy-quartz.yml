@@ -28,6 +28,11 @@ jobs:
       - name: Install dependencies
         run: cd /tmp/quartz && npm ci
 
+      - name: Pre-render dataview blocks
+        run: |
+          pip install pyyaml -q
+          python .github/scripts/prerender_dataview.py
+
       - name: Copy vault content
         run: |
           rsync -a \

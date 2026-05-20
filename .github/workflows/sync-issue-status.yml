@@ -1,0 +1,32 @@
+name: Sync Issue Status
+
+on:
+  schedule:
+    - cron: '0 */3 * * *'   # 3시간마다
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+
+      - name: Sync issue status from GitHub Projects
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+        run: python .github/scripts/sync_issue_status.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git diff --quiet && echo "변경 없음" || (
+            git add tasks/
+            git commit -m "chore: sync issue status from GitHub Projects"
+            git push
+          )
