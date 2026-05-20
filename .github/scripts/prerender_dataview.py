@@ -11,7 +11,9 @@ except ImportError:
 
 TASKS_DIR = Path("tasks")
 DATAVIEW_PAT = re.compile(r'```dataview\n(.*?)```', re.DOTALL)
+DATAVIEWJS_PAT = re.compile(r'```dataviewjs\n(.*?)```', re.DOTALL)
 FROM_PAT = re.compile(r'FROM\s+"([^"]+)"', re.IGNORECASE)
+PRERENDER_PAT = re.compile(r'//\s*@prerender\s+(.+)', re.IGNORECASE)
 
 
 
@@ -34,18 +36,24 @@ def load_folder_files(folder):
     if not folder_path.exists():
         return rows
     for md_file in folder_path.rglob("*.md"):
-        git_out = subprocess.run(
-            ["git", "log", "-1", "--format=%ct", "--", str(md_file)],
-            capture_output=True, text=True
-        ).stdout.strip()
-        mtime_ts = float(git_out) if git_out else md_file.stat().st_mtime
-        mtime_str = datetime.datetime.fromtimestamp(mtime_ts).strftime("%Y-%m-%d %H:%M")
+        date_m = re.match(r'(\d{4}-\d{2}-\d{2})', md_file.stem)
+        if date_m:
+            date_str = date_m.group(1)
+            date_ts = datetime.datetime.strptime(date_str, "%Y-%m-%d").timestamp()
+        else:
+            git_out = subprocess.run(
+                ["git", "log", "-1", "--format=%ct", "--", str(md_file)],
+                capture_output=True, text=True
+            ).stdout.strip()
+            date_ts = float(git_out) if git_out else md_file.stat().st_mtime
+            date_str = datetime.datetime.fromtimestamp(date_ts).strftime("%Y-%m-%d")
+        folder_name = md_file.parent.name
         rows.append({
             "file.name": md_file.stem,
             "file.link": f"[[{md_file.stem}]]",
-            "file.folder": md_file.parent.name,
-            "file.mtime": mtime_str,
-            "_mtime_raw": mtime_ts,
+            "file.folder": folder_name,
+            "file.mtime": date_str,
+            "_mtime_raw": date_ts,
         })
     return rows
 
@@ -100,11 +108,11 @@ def render_table(query, rows, auto_file_col=False):
         sort_keys = []
         for part in re.split(r',\s*', sort_m.group(1).strip()):
             part = part.strip()
-            km = re.match(r'(\w+)(?:\s+(ASC|DESC))?', part, re.IGNORECASE)
+            km = re.match(r'([\w.]+)(?:\s+(ASC|DESC))?', part, re.IGNORECASE)
             if km:
                 sort_keys.append((km.group(1), (km.group(2) or "ASC").upper() == "DESC"))
         for key, desc in reversed(sort_keys):
-            raw_key = "_mtime_raw" if key == "mtime" else key
+            raw_key = "_mtime_raw" if key in ("mtime", "file.mtime") else key
             rows = sorted(rows,
                           key=lambda r, k=raw_key: (r.get(k) is None or r.get(k) == "", r.get(k, "")),
                           reverse=desc)
@@ -129,10 +137,54 @@ def render_table(query, rows, auto_file_col=False):
     return "\n".join(lines)
 
 
+def render_folder_latest(from_folder, limit=6):
+    folder_rows = load_folder_files(from_folder)
+    best = {}
+    for r in folder_rows:
+        folder = r.get("file.folder", "")
+        if folder not in best or r["_mtime_raw"] > best[folder]["_mtime_raw"]:
+            best[folder] = r
+    result = sorted(best.values(), key=lambda r: r["_mtime_raw"], reverse=True)[:limit]
+    lines = [
+        "| 파일 | 폴더 | 날짜 |",
+        "| --- | --- | --- |",
+    ]
+    for r in result:
+        link = r.get("file.link", r["file.name"])
+        folder = r.get("file.folder", "")
+        date = r.get("file.mtime", "")
+        lines.append(f"| {link} | [{folder}]({folder}/) | {date} |")
+    return "\n".join(lines)
+
+
 def process_file(path, rows):
     content = path.read_text(encoding="utf-8")
-    if "```dataview" not in content:
+    if "```dataview" not in content and "```dataviewjs" not in content:
         return False
+
+    changed = False
+
+    def replace_js(m):
+        body = m.group(1)
+        pr_m = PRERENDER_PAT.search(body)
+        if not pr_m:
+            return m.group(0)
+        params_str = pr_m.group(1)
+        from_m = re.search(r'from="([^"]+)"', params_str)
+        limit_m = re.search(r'limit=(\d+)', params_str)
+        group_folder = "group-by-folder" in params_str
+        if not from_m:
+            return m.group(0)
+        from_folder = from_m.group(1)
+        limit = int(limit_m.group(1)) if limit_m else 10
+        if group_folder:
+            return render_folder_latest(from_folder, limit)
+        return m.group(0)
+
+    new_content = DATAVIEWJS_PAT.sub(replace_js, content)
+    if new_content != content:
+        changed = True
+        content = new_content
 
     def replace(m):
         query = m.group(1).strip()
@@ -143,6 +195,13 @@ def process_file(path, rows):
             rendered = render_table(query, rows)
         elif from_folder:
             folder_rows = load_folder_files(from_folder)
+            # 폴더당 가장 최신 파일 하나만 유지
+            best = {}
+            for r in folder_rows:
+                folder = r.get("file.folder", "")
+                if folder not in best or r["_mtime_raw"] > best[folder]["_mtime_raw"]:
+                    best[folder] = r
+            folder_rows = list(best.values())
             rendered = render_table(query, folder_rows, auto_file_col=True)
         else:
             return m.group(0)
@@ -150,9 +209,13 @@ def process_file(path, rows):
         return rendered if rendered else ""
 
     new_content = DATAVIEW_PAT.sub(replace, content)
-    if new_content == content:
+    if new_content != content:
+        changed = True
+        content = new_content
+
+    if not changed:
         return False
-    path.write_text(new_content, encoding="utf-8")
+    path.write_text(content, encoding="utf-8")
     print(f"  rendered: {path}")
     return True
 
