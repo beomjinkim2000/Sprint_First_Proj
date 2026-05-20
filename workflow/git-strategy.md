@@ -41,10 +41,10 @@ fix/19-submission-format
 
 ```bash
 # GitHub 이슈와 브랜치 자동 연결 (권장)
-gh issue develop {이슈번호} --checkout --branch --name feature/{이슈번호}-{label}-{짧은설명}
+gh issue develop {이슈번호} --checkout --name feature/{이슈번호}-{label}-{짧은설명}
 
 # 예시
-gh issue develop 8 --checkout --branch --name feature/8-data-structure-check
+gh issue develop 8 --checkout --name feature/8-data-structure-check
 ```
 
 > `gh issue develop`을 쓰면 GitHub 이슈 페이지 사이드바 "Development" 섹션에 브랜치가 자동 연결됨.

@@ -13,3 +13,6 @@
 
 # 개인 설정 (GitHub ID 저장)
 _config/
+
+# Claude Code 지시 파일 (로컬 전용)
+CLAUDE.md

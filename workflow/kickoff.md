@@ -22,14 +22,11 @@ related:
 
 ## 황원재 (Data/Dataset) — zipdid
 
-```dataviewjs
-const pages = dv.pages('"tasks"').where(p => {
-  const a = p.assignee;
-  return Array.isArray(a) ? a.includes("zipdid") : a === "zipdid";
-}).sort(p => p.priority);
-dv.table(["#", "작업", "상태", "우선순위", "마감", "마일스톤"], pages.map(p => [
-  p.issue, p.title, p.st, p.priority, p.target, p.milestone
-]));
+```dataview
+TABLE issue as "#", title as "작업", st as "상태", priority as "우선순위", target as "마감", milestone as "마일스톤"
+FROM "tasks"
+WHERE contains(assignee, "zipdid")
+SORT priority ASC
 ```
 
 **순서**
@@ -45,14 +42,11 @@ dv.table(["#", "작업", "상태", "우선순위", "마감", "마일스톤"], pa
 
 ## 유재열 (Model/Train) — YuJY9897
 
-```dataviewjs
-const pages = dv.pages('"tasks"').where(p => {
-  const a = p.assignee;
-  return Array.isArray(a) ? a.includes("YuJY9897") : a === "YuJY9897";
-}).sort(p => p.priority);
-dv.table(["#", "작업", "상태", "우선순위", "마감", "마일스톤"], pages.map(p => [
-  p.issue, p.title, p.st, p.priority, p.target, p.milestone
-]));
+```dataview
+TABLE issue as "#", title as "작업", st as "상태", priority as "우선순위", target as "마감", milestone as "마일스톤"
+FROM "tasks"
+WHERE contains(assignee, "YuJY9897")
+SORT priority ASC
 ```
 
 **순서**
@@ -68,14 +62,11 @@ dv.table(["#", "작업", "상태", "우선순위", "마감", "마일스톤"], pa
 
 ## 박창준 (Inference) — cjkj1234
 
-```dataviewjs
-const pages = dv.pages('"tasks"').where(p => {
-  const a = p.assignee;
-  return Array.isArray(a) ? a.includes("cjkj1234") : a === "cjkj1234";
-}).sort(p => p.priority);
-dv.table(["#", "작업", "상태", "우선순위", "마감", "마일스톤"], pages.map(p => [
-  p.issue, p.title, p.st, p.priority, p.target, p.milestone
-]));
+```dataview
+TABLE issue as "#", title as "작업", st as "상태", priority as "우선순위", target as "마감", milestone as "마일스톤"
+FROM "tasks"
+WHERE contains(assignee, "cjkj1234")
+SORT priority ASC
 ```
 
 **순서**
@@ -89,14 +80,11 @@ dv.table(["#", "작업", "상태", "우선순위", "마감", "마일스톤"], pa
 
 ## 김범진 (PM) — beomjinkim2000
 
-```dataviewjs
-const pages = dv.pages('"tasks"').where(p => {
-  const a = p.assignee;
-  return Array.isArray(a) ? a.includes("beomjinkim2000") : a === "beomjinkim2000";
-}).sort(p => p.priority);
-dv.table(["#", "작업", "상태", "우선순위", "마감", "마일스톤"], pages.map(p => [
-  p.issue, p.title, p.st, p.priority, p.target, p.milestone
-]));
+```dataview
+TABLE issue as "#", title as "작업", st as "상태", priority as "우선순위", target as "마감", milestone as "마일스톤"
+FROM "tasks"
+WHERE contains(assignee, "beomjinkim2000")
+SORT priority ASC
 ```
 
 ---
