@@ -8,9 +8,9 @@ tags:
   - utils
 status: mature
 related:
-  - "[[architecture/interfaces]]"
-  - "[[architecture/module-design]]"
-  - "[[workflow/dev-rules]]"
+  - "[[architecture/인터페이스 계약서]]"
+  - "[[architecture/모듈 설계]]"
+  - "[[workflow/개발 규칙]]"
 ---
 
 # src/utils 사용 가이드
@@ -162,6 +162,6 @@ result.show()
 
 ## Connections
 
-- [[architecture/interfaces]] — 각 함수가 따르는 형식 계약
-- [[architecture/module-design]] — 어떤 모듈에서 어떤 유틸을 쓰는지
-- [[workflow/dev-rules]] — utils 직접 구현 금지 규칙
+- [[architecture/인터페이스 계약서]]
+- [[architecture/모듈 설계]]
+- [[workflow/개발 규칙]]

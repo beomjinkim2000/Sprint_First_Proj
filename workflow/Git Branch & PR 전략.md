@@ -9,9 +9,9 @@ tags:
   - collaboration
 status: mature
 related:
-  - "[[index]]"
-  - "[[workflow/roles]]"
-  - "[[workflow/task-management]]"
+  - "[[홈]]"
+  - "[[workflow/팀원 역할 분담]]"
+  - "[[workflow/태스크 관리]]"
 ---
 
 # Git Branch & PR 전략
@@ -123,6 +123,6 @@ git push origin v0.1-submission
 
 ## Connections
 
-- [[workflow/task-management]] — 이슈 번호가 branch 이름에 들어감
-- [[workflow/decisions]] — Git 전략 확정 결정사항
-- [[architecture/interfaces]] — 인터페이스 변경 시 PR에서 확인
+- [[workflow/태스크 관리]]
+- [[workflow/운영 결정사항]]
+- [[architecture/인터페이스 계약서]]
