@@ -2,7 +2,7 @@
 type: concept
 title: "프로젝트 개요"
 created: 2026-05-19
-updated: 2026-05-19
+updated: 2026-05-20
 tags:
   - overview
   - project
@@ -61,6 +61,7 @@ AI Hub 내 두 데이터셋 학습 사용 금지:
 
 ## Connections
 
+- [[architecture/pipeline]] — 전체 실행 파이프라인 & 담당자
 - [[architecture/folder-structure]] — 디렉토리 구조
 - [[workflow/roles]] — 팀원 역할
 - [[experiment/log]] — 실험 결과 트래킹

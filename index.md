@@ -1,7 +1,7 @@
 ---
 type: meta
 title: "Sprint First Project Index"
-updated: 2026-05-19
+updated: 2026-05-20
 tags:
   - meta
   - index
@@ -14,6 +14,7 @@ related:
   - "[[workflow/task-management]]"
   - "[[workflow/git-strategy]]"
   - "[[workflow/roles]]"
+  - "[[architecture/pipeline]]"
   - "[[experiment/log]]"
 ---
 
@@ -28,6 +29,7 @@ Navigation: [[Overview]] | [[experiment/log]]
 
 ## Architecture
 
+- [[architecture/pipeline]] — **전체 실행 파이프라인 & 파일별 담당자 (여기서 흐름 확인)**
 - [[architecture/folder-structure]] — 프로젝트 디렉토리 구조
 - [[architecture/module-design]] — 모듈별 책임과 입출력
 - [[architecture/interfaces]] — **팀 인터페이스 계약서 (변경 시 팀장 승인 필요)**
@@ -37,9 +39,10 @@ Navigation: [[Overview]] | [[experiment/log]]
 ## Workflow
 
 - [[workflow/kickoff]] — **역할별 지금 당장 할 일 (여기서 시작)**
+- [[workflow/roles]] — 팀원 역할 분담 (모듈별)
+- [[workflow/dev-rules]] — 개발 규칙 (인터페이스 변경, 소통 방법)
 - [[workflow/task-management]] — GitHub Issues & Projects 구성 (이슈 목록, Label, Milestone)
 - [[workflow/git-strategy]] — Git branch / PR / 리뷰 규칙
-- [[workflow/roles]] — 팀원 역할 분담 (모듈별)
 - [[workflow/decisions]] — 운영 결정사항 (태스크 관리, Git, 실험 로그 형식)
 
 ---
