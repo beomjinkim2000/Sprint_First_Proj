@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""GitHub Projects v2 이슈 상태 → tasks/issue-*.md st 필드 동기화"""
+"""GitHub Projects v2 이슈 상태 → tasks/issue-*.md st 필드 동기화
+- Projects Status → st 필드 업데이트
+- GitHub issue CLOSED → st: done
+- milestone 필드 동기화
+- tasks/에 없는 이슈는 파일 자동 생성
+"""
 import re, subprocess, json, sys
 from pathlib import Path
 
@@ -36,7 +41,35 @@ def get_project_number():
     return projects[0]["number"]
 
 
-def get_issue_statuses(project_num):
+def get_all_issues():
+    """모든 이슈의 번호, 상태(open/closed), 제목, assignees, labels, milestone 반환"""
+    out = gh("issue", "list",
+             "--repo", f"{OWNER}/Code_IT_Team_1_FirstProject",
+             "--state", "all",
+             "--json", "number,state,title,assignees,labels,milestone",
+             "--limit", "200")
+    if not out:
+        return {}
+    issues = {}
+    for issue in json.loads(out):
+        num = issue["number"]
+        assignees = ",".join(a["login"] for a in issue.get("assignees", []))
+        labels = ",".join(l["name"] for l in issue.get("labels", []))
+        milestone = issue.get("milestone") or {}
+        milestone_title = milestone.get("title", "")
+        # v0.1 — 파이프라인 완성 → v0.1
+        milestone_short = milestone_title.split(" ")[0] if milestone_title else ""
+        issues[num] = {
+            "state": issue["state"],
+            "title": issue["title"],
+            "assignee": assignees,
+            "label": labels,
+            "milestone": milestone_short,
+        }
+    return issues
+
+
+def get_project_statuses(project_num):
     query = """
     query($owner: String!, $num: Int!) {
       user(login: $owner) {
@@ -88,32 +121,82 @@ def get_issue_statuses(project_num):
     return statuses
 
 
-def update_files(statuses):
+def create_task_file(issue_num, issue_info, st):
+    path = TASKS_DIR / f"issue-{issue_num}.md"
+    milestone = issue_info.get("milestone", "")
+    content = f"""---
+issue: {issue_num}
+title: "{issue_info['title']}"
+assignee: {issue_info['assignee']}
+label: {issue_info['label']}
+st: {st}
+milestone: {milestone}
+target: ""
+github: https://github.com/{OWNER}/Code_IT_Team_1_FirstProject/issues/{issue_num}
+---
+"""
+    path.write_text(content, encoding="utf-8")
+    print(f"  created: issue-{issue_num}.md")
+
+
+def update_files(issues, project_statuses):
+    existing = {
+        int(re.search(r'issue-(\d+)', f.stem).group(1)): f
+        for f in TASKS_DIR.glob("issue-*.md")
+    }
+
     changed = 0
+
+    # 새 이슈 파일 생성
+    for num, info in issues.items():
+        if num not in existing:
+            st = "done" if info["state"] == "CLOSED" else project_statuses.get(num, "todo")
+            create_task_file(num, info, st)
+            changed += 1
+
+    # 기존 파일 업데이트
     for md_file in sorted(TASKS_DIR.glob("issue-*.md")):
         content = md_file.read_text(encoding="utf-8")
-
         m = re.search(r'^issue:\s*(\d+)', content, re.MULTILINE)
         if not m:
             continue
-        issue_num = int(m.group(1))
+        num = int(m.group(1))
+        info = issues.get(num, {})
 
-        new_st = statuses.get(issue_num)
+        # st 결정: CLOSED면 done, 아니면 Projects Status
+        if info.get("state") == "CLOSED":
+            new_st = "done"
+        else:
+            new_st = project_statuses.get(num)
         if not new_st:
             continue
 
+        # milestone
+        new_milestone = info.get("milestone", "")
+
+        new_content = content
         st_m = re.search(r'^st:\s*(.+)$', content, re.MULTILINE)
         current_st = st_m.group(1).strip() if st_m else None
+        if new_st != current_st:
+            new_content = re.sub(r'^st:\s*.+$', f'st: {new_st}', new_content, flags=re.MULTILINE)
+            print(f"  issue-{num}: st {current_st} → {new_st}")
+            changed += 1
 
-        if new_st == current_st:
-            continue
+        mil_m = re.search(r'^milestone:\s*(.*)$', new_content, re.MULTILINE)
+        current_mil = mil_m.group(1).strip() if mil_m else None
+        if new_milestone and new_milestone != current_mil:
+            if mil_m:
+                new_content = re.sub(r'^milestone:\s*.*$', f'milestone: {new_milestone}', new_content, flags=re.MULTILINE)
+            else:
+                new_content = re.sub(r'^(st:\s*.+)$', rf'\1\nmilestone: {new_milestone}', new_content, flags=re.MULTILINE)
+            if new_content != content:
+                print(f"  issue-{num}: milestone → {new_milestone}")
+            changed += 1
 
-        new_content = re.sub(r'^st:\s*.+$', f'st: {new_st}', content, flags=re.MULTILINE)
-        md_file.write_text(new_content, encoding="utf-8")
-        print(f"  issue-{issue_num}: {current_st} → {new_st}")
-        changed += 1
+        if new_content != content:
+            md_file.write_text(new_content, encoding="utf-8")
 
-    print(f"{changed}개 파일 업데이트")
+    print(f"{changed}개 변경")
 
 
 if __name__ == "__main__":
@@ -122,7 +205,10 @@ if __name__ == "__main__":
         sys.exit(1)
     print(f"Project #{proj_num}")
 
-    statuses = get_issue_statuses(proj_num)
-    print(f"{len(statuses)}개 이슈 상태 읽음")
+    issues = get_all_issues()
+    print(f"{len(issues)}개 이슈 로드")
 
-    update_files(statuses)
+    project_statuses = get_project_statuses(proj_num)
+    print(f"{len(project_statuses)}개 Projects 상태 읽음")
+
+    update_files(issues, project_statuses)
