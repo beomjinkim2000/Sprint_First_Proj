@@ -30,11 +30,23 @@ def gh(*args):
 
 
 def get_project_number():
-    out = gh("project", "list", "--owner", OWNER, "--format", "json", "--limit", "20")
+    query = """
+    query($owner: String!) {
+      user(login: $owner) {
+        projectsV2(first: 20) {
+          nodes { number title }
+        }
+      }
+    }
+    """
+    out = gh("api", "graphql", "-f", f"query={query}", "-f", f"owner={OWNER}")
     if not out:
         return None
     data = json.loads(out)
-    projects = data.get("projects", [])
+    projects = (data.get("data", {})
+                    .get("user", {})
+                    .get("projectsV2", {})
+                    .get("nodes", []))
     if not projects:
         print("프로젝트 없음", file=sys.stderr)
         return None
