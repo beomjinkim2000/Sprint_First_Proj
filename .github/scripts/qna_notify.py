@@ -1,4 +1,4 @@
-import os, subprocess, json, urllib.request, unicodedata
+import os, subprocess, json, unicodedata
 
 webhook = os.environ["DISCORD_WEBHOOK"]
 
@@ -30,7 +30,9 @@ for path in result.stdout.splitlines():
         continue
 
     title = os.path.basename(path)[len("[Q&A]-"):-len(".md")]
-    body = json.dumps({"content": f"❓ **새 질문이 등록됐어요!** 아는 분 답변 부탁드립니다 🙏\n> **제목:** {title}"}).encode()
-    req = urllib.request.Request(webhook, data=body, headers={"Content-Type": "application/json"})
-    urllib.request.urlopen(req)
+    body = json.dumps({"content": f"❓ **새 질문이 등록됐어요!** 아는 분 답변 부탁드립니다 🙏\n> **제목:** {title}"})
+    subprocess.run(
+        ["curl", "-s", "-X", "POST", webhook, "-H", "Content-Type: application/json", "-d", body],
+        check=True
+    )
     print(f"알림 전송: {title}")
