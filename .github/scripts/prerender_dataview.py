@@ -69,7 +69,7 @@ def load_tasks():
 
 def render_table(query, rows, auto_file_col=False):
     # TABLE field as "alias", ... FROM "tasks" SORT x ASC|DESC
-    table_m = re.match(r'TABLE\s+(.+?)\s+FROM', query, re.DOTALL | re.IGNORECASE)
+    table_m = re.match(r'TABLE(?:\s+WITHOUT\s+ID)?\s+(.+?)\s+FROM', query, re.DOTALL | re.IGNORECASE)
     if not table_m:
         return None
 
