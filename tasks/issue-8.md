@@ -5,7 +5,7 @@ assignee:
   - zipdid
   - beomjinkim2000
 label: data
-st: in-progress
+st: in-review
 milestone: v0.1
 priority: p0
 target: 2026-05-21
