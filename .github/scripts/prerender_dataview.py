@@ -151,11 +151,25 @@ def render_folder_latest(from_folder, limit=6, link_to_index=False):
     ]
     for r in result:
         folder = r.get("file.folder", "")
-        date = r.get("file.mtime", "")
+        name = r.get("file.name", "")
+        date = name[:10] if len(name) >= 10 else r.get("file.mtime", "")
         if link_to_index:
-            link = f"[[{from_folder}/{folder}/_index|{folder}]]"
+            link = f"[[{from_folder}/{folder}/index|{folder}]]"
         else:
             link = r.get("file.link", folder)
+        lines.append(f"| {link} | {date} |")
+    return "\n".join(lines)
+
+
+def render_folder_list(from_folder):
+    folder_rows = load_folder_files(from_folder)
+    folder_rows = [r for r in folder_rows if r.get("file.name") != "index"]
+    folder_rows = sorted(folder_rows, key=lambda r: r.get("file.name", ""), reverse=True)
+    lines = ["| 파일 | 날짜 |", "| --- | --- |"]
+    for r in folder_rows:
+        name = r.get("file.name", "")
+        date = name[:10] if len(name) >= 10 else ""
+        link = f"[[{from_folder}/{name}|{name}]]"
         lines.append(f"| {link} | {date} |")
     return "\n".join(lines)
 
@@ -181,8 +195,11 @@ def process_file(path, rows):
             return m.group(0)
         from_folder = from_m.group(1)
         limit = int(limit_m.group(1)) if limit_m else 10
+        list_mode = "list" in params_str.split()
         if group_folder:
             return render_folder_latest(from_folder, limit, link_to_index=link_index)
+        elif list_mode:
+            return render_folder_list(from_folder)
         return m.group(0)
 
     new_content = DATAVIEWJS_PAT.sub(replace_js, content)

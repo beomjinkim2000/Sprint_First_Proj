@@ -48,7 +48,7 @@ Navigation: [[Overview]] | [[experiment/log]]
 
 ```dataviewjs
 // @prerender from="협업일지" group-by-folder link-to-index limit=6
-const all = dv.pages('"협업일지"').where(p => p.file.name !== "_index");
+const all = dv.pages('"협업일지"').where(p => p.file.name !== "index");
 const best = {};
 for (const p of all) {
   const folder = p.file.folder.split('/').pop();
@@ -61,7 +61,7 @@ const rows = Object.values(best)
   .slice(0, 6)
   .map(p => {
     const folder = p.file.folder.split('/').pop();
-    return [dv.fileLink(p.file.folder + "/_index", false, folder), p.file.name.slice(0, 10)];
+    return [dv.fileLink(p.file.folder + "/index", false, folder), p.file.name.slice(0, 10)];
   });
 dv.table(["팀원", "최근 작성"], rows);
 ```
