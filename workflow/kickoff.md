@@ -22,14 +22,15 @@ related:
 
 ## 황원재 (Data/Dataset) — zipdid
 
-| #   | 작업                                      | 상태   | 우선순위 | 마감         | 마일스톤 |
-| --- | --------------------------------------- | ---- | ---- | ---------- | ---- |
-| 8   | [data] 원본 데이터 구조 확인 및 annotation 컬럼 파악  | todo | p0   | 2026-05-21 | v0.1 |
-| 9   | [data] EDA 노트북 작성 (01_eda.ipynb)        | todo | p1   | 2026-05-22 | v0.1 |
-| 10  | [data] bbox 시각화 노트북 작성                  | todo | p1   | 2026-05-22 | v0.1 |
-| 11  | [dataset] Dataset 클래스 구현 (dataset.py)   | todo | p1   | 2026-05-22 | v0.1 |
-| 12  | [dataset] transforms 구현 (transforms.py) | todo | p1   | 2026-05-22 | v0.1 |
-| 13  | [dataset] train/val split 구현 (split.py) | todo | p2   | 2026-05-22 | v0.1 |
+```dataviewjs
+const pages = dv.pages('"tasks"').where(p => {
+  const a = p.assignee;
+  return Array.isArray(a) ? a.includes("zipdid") : a === "zipdid";
+}).sort(p => p.priority);
+dv.table(["#", "작업", "상태", "우선순위", "마감", "마일스톤"], pages.map(p => [
+  p.issue, p.title, p.st, p.priority, p.target, p.milestone
+]));
+```
 
 **순서**
 1. **[#8](https://github.com/beomjinkim2000/Code_IT_Team_1_FirstProject/issues/8)** — 원본 데이터 구조 확인 ← **여기서 시작**
@@ -44,14 +45,15 @@ related:
 
 ## 유재열 (Model/Train) — YuJY9897
 
-| # | 작업 | 상태 | 우선순위 | 마감 | 마일스톤 |
-| --- | --- | --- | --- | --- | --- |
-| 22 | [setup] YOLOv8 설치 및 예제 실행 확인 | in-progress | p0 | 2026-05-21 | v0.1 |
-| 23 | [model] build_model() 스켈레톤 구현 | todo | p1 | 2026-05-21 | v0.1 |
-| 16 | [train] evaluate 구현 (engine/evaluate.py) | todo | p1 | 2026-05-23 | v0.1 |
-| 17 | [train] checkpoint 저장/로드 구현 | todo | p1 | 2026-05-23 | v0.1 |
-| 14 | [model] baseline 모델 구현 (build_model) | todo | p2 | 2026-05-23 | v0.1 |
-| 15 | [train] train loop 구현 (engine/train.py) | todo | p2 | 2026-05-23 | v0.1 |
+```dataviewjs
+const pages = dv.pages('"tasks"').where(p => {
+  const a = p.assignee;
+  return Array.isArray(a) ? a.includes("YuJY9897") : a === "YuJY9897";
+}).sort(p => p.priority);
+dv.table(["#", "작업", "상태", "우선순위", "마감", "마일스톤"], pages.map(p => [
+  p.issue, p.title, p.st, p.priority, p.target, p.milestone
+]));
+```
 
 **순서**
 1. **[#22](https://github.com/beomjinkim2000/Code_IT_Team_1_FirstProject/issues/22)** — YOLOv8 설치 및 예제 실행 (30분, 데이터 없이 가능)
@@ -66,10 +68,15 @@ related:
 
 ## 박창준 (Inference) — cjkj1234
 
-| # | 작업 | 상태 | 우선순위 | 마감 | 마일스톤 |
-| --- | --- | --- | --- | --- | --- |
-| 24 | [inference] predict.py 스켈레톤 구현 | todo | p1 | 2026-05-21 | v0.1 |
-| 18 | [inference] predict 구현 (engine/predict.py) | todo | p2 | 2026-05-23 | v0.1 |
+```dataviewjs
+const pages = dv.pages('"tasks"').where(p => {
+  const a = p.assignee;
+  return Array.isArray(a) ? a.includes("cjkj1234") : a === "cjkj1234";
+}).sort(p => p.priority);
+dv.table(["#", "작업", "상태", "우선순위", "마감", "마일스톤"], pages.map(p => [
+  p.issue, p.title, p.st, p.priority, p.target, p.milestone
+]));
+```
 
 **순서**
 1. **[#24](https://github.com/beomjinkim2000/Code_IT_Team_1_FirstProject/issues/24)** — `predict.py` 스켈레톤 (데이터 없이 가능)
@@ -82,18 +89,15 @@ related:
 
 ## 김범진 (PM) — beomjinkim2000
 
-| # | 작업 | 상태 | 우선순위 | 마감 | 마일스톤 |
-| --- | --- | --- | --- | --- | --- |
-| 4 | [setup] Github repo 생성 및 branch 전략 설정 | todo | p0 | 2026-05-21 | v0.1 |
-| 8 | [data] 원본 데이터 구조 확인 및 annotation 컬럼 파악 | todo | p0 | 2026-05-21 | v0.1 |
-| 5 | [setup] 폴더 구조 생성 및 빈 파일 커밋 | todo | p1 | 2026-05-21 | v0.1 |
-| 6 | [setup] interfaces.md 작성 | todo | p1 | 2026-05-21 | v0.1 |
-| 7 | [setup] pyproject.toml 및 .gitignore 작성 | todo | p1 | 2026-05-21 | v0.1 |
-| 9 | [data] EDA 노트북 작성 (01_eda.ipynb) | todo | p1 | 2026-05-22 | v0.1 |
-| 10 | [data] bbox 시각화 노트북 작성 | todo | p1 | 2026-05-22 | v0.1 |
-| 19 | [submission] make_submission.py 구현 | todo | p1 | 2026-05-24 | v0.1 |
-| 20 | [submission] 첫 번째 Kaggle 제출 | todo | p1 | 2026-05-25 | v0.1 |
-| 21 | [docs] README 초안 작성 | todo | p1 | 2026-05-25 | v0.1 |
+```dataviewjs
+const pages = dv.pages('"tasks"').where(p => {
+  const a = p.assignee;
+  return Array.isArray(a) ? a.includes("beomjinkim2000") : a === "beomjinkim2000";
+}).sort(p => p.priority);
+dv.table(["#", "작업", "상태", "우선순위", "마감", "마일스톤"], pages.map(p => [
+  p.issue, p.title, p.st, p.priority, p.target, p.milestone
+]));
+```
 
 ---
 

@@ -92,29 +92,29 @@ Backlog → Todo → In Progress → In Review → Done
 
 ## 이슈 전체 목록 (v0.1)
 
-| # | 작업 | 상태 | 라벨 | 담당 | 우선순위 | 마감 | 마일스톤 |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| 4 | [setup] Github repo 생성 및 branch 전략 설정 | todo | setup | beomjinkim2000 | p0 | 2026-05-21 | v0.1 |
-| 8 | [data] 원본 데이터 구조 확인 및 annotation 컬럼 파악 | todo | data | zipdid, beomjinkim2000 | p0 | 2026-05-21 | v0.1 |
-| 22 | [setup] YOLOv8 설치 및 예제 실행 확인 | in-progress | setup | YuJY9897 | p0 | 2026-05-21 | v0.1 |
-| 5 | [setup] 폴더 구조 생성 및 빈 파일 커밋 | todo | setup | beomjinkim2000 | p1 | 2026-05-21 | v0.1 |
-| 6 | [setup] interfaces.md 작성 | todo | setup | beomjinkim2000 | p1 | 2026-05-21 | v0.1 |
-| 7 | [setup] pyproject.toml 및 .gitignore 작성 | todo | setup | beomjinkim2000 | p1 | 2026-05-21 | v0.1 |
-| 23 | [model] build_model() 스켈레톤 구현 | todo | model | YuJY9897 | p1 | 2026-05-21 | v0.1 |
-| 24 | [inference] predict.py 스켈레톤 구현 | todo | inference | cjkj1234 | p1 | 2026-05-21 | v0.1 |
-| 9 | [data] EDA 노트북 작성 (01_eda.ipynb) | todo | data | zipdid, beomjinkim2000 | p1 | 2026-05-22 | v0.1 |
-| 10 | [data] bbox 시각화 노트북 작성 | todo | data | zipdid, beomjinkim2000 | p1 | 2026-05-22 | v0.1 |
-| 11 | [dataset] Dataset 클래스 구현 (dataset.py) | todo | dataset | zipdid | p1 | 2026-05-22 | v0.1 |
-| 12 | [dataset] transforms 구현 (transforms.py) | todo | dataset | zipdid | p1 | 2026-05-22 | v0.1 |
-| 13 | [dataset] train/val split 구현 (split.py) | todo | dataset | zipdid | p2 | 2026-05-22 | v0.1 |
-| 16 | [train] evaluate 구현 (engine/evaluate.py) | todo | train | YuJY9897 | p1 | 2026-05-23 | v0.1 |
-| 17 | [train] checkpoint 저장/로드 구현 | todo | train | YuJY9897 | p1 | 2026-05-23 | v0.1 |
-| 14 | [model] baseline 모델 구현 (build_model) | todo | model | YuJY9897 | p2 | 2026-05-23 | v0.1 |
-| 15 | [train] train loop 구현 (engine/train.py) | todo | train | YuJY9897 | p2 | 2026-05-23 | v0.1 |
-| 18 | [inference] predict 구현 (engine/predict.py) | todo | inference | cjkj1234 | p2 | 2026-05-23 | v0.1 |
-| 19 | [submission] make_submission.py 구현 | todo | submission | beomjinkim2000 | p1 | 2026-05-24 | v0.1 |
-| 20 | [submission] 첫 번째 Kaggle 제출 | todo | submission | beomjinkim2000 | p1 | 2026-05-25 | v0.1 |
-| 21 | [docs] README 초안 작성 | todo | docs | beomjinkim2000 | p1 | 2026-05-25 | v0.1 |
+| #   | 작업                                         | 상태          | 라벨         | 담당                     | 우선순위 | 마감         | 마일스톤 |
+| --- | ------------------------------------------ | ----------- | ---------- | ---------------------- | ---- | ---------- | ---- |
+| 4   | [setup] Github repo 생성 및 branch 전략 설정      | todo        | setup      | beomjinkim2000         | p0   | 2026-05-21 | v0.1 |
+| 8   | [data] 원본 데이터 구조 확인 및 annotation 컬럼 파악     | todo        | data       | zipdid, beomjinkim2000 | p0   | 2026-05-21 | v0.1 |
+| 22  | [setup] YOLOv8 설치 및 예제 실행 확인               | in-progress | setup      | YuJY9897               | p0   | 2026-05-21 | v0.1 |
+| 5   | [setup] 폴더 구조 생성 및 빈 파일 커밋                 | todo        | setup      | beomjinkim2000         | p1   | 2026-05-21 | v0.1 |
+| 6   | [setup] interfaces.md 작성                   | todo        | setup      | beomjinkim2000         | p1   | 2026-05-21 | v0.1 |
+| 7   | [setup] pyproject.toml 및 .gitignore 작성     | todo        | setup      | beomjinkim2000         | p1   | 2026-05-21 | v0.1 |
+| 23  | [model] build_model() 스켈레톤 구현              | todo        | model      | YuJY9897               | p1   | 2026-05-21 | v0.1 |
+| 24  | [inference] predict.py 스켈레톤 구현             | todo        | inference  | cjkj1234               | p1   | 2026-05-21 | v0.1 |
+| 9   | [data] EDA 노트북 작성 (01_eda.ipynb)           | todo        | data       | zipdid, beomjinkim2000 | p1   | 2026-05-22 | v0.1 |
+| 10  | [data] bbox 시각화 노트북 작성                     | todo        | data       | zipdid, beomjinkim2000 | p1   | 2026-05-22 | v0.1 |
+| 11  | [dataset] Dataset 클래스 구현 (dataset.py)      | todo        | dataset    | zipdid                 | p1   | 2026-05-22 | v0.1 |
+| 12  | [dataset] transforms 구현 (transforms.py)    | todo        | dataset    | zipdid                 | p1   | 2026-05-22 | v0.1 |
+| 13  | [dataset] train/val split 구현 (split.py)    | todo        | dataset    | zipdid                 | p2   | 2026-05-22 | v0.1 |
+| 16  | [train] evaluate 구현 (engine/evaluate.py)   | todo        | train      | YuJY9897               | p1   | 2026-05-23 | v0.1 |
+| 17  | [train] checkpoint 저장/로드 구현                | todo        | train      | YuJY9897               | p1   | 2026-05-23 | v0.1 |
+| 14  | [model] baseline 모델 구현 (build_model)       | todo        | model      | YuJY9897               | p2   | 2026-05-23 | v0.1 |
+| 15  | [train] train loop 구현 (engine/train.py)    | todo        | train      | YuJY9897               | p2   | 2026-05-23 | v0.1 |
+| 18  | [inference] predict 구현 (engine/predict.py) | todo        | inference  | cjkj1234               | p2   | 2026-05-23 | v0.1 |
+| 19  | [submission] make_submission.py 구현         | todo        | submission | beomjinkim2000         | p1   | 2026-05-24 | v0.1 |
+| 20  | [submission] 첫 번째 Kaggle 제출                | todo        | submission | beomjinkim2000         | p1   | 2026-05-25 | v0.1 |
+| 21  | [docs] README 초안 작성                        | todo        | docs       | beomjinkim2000         | p1   | 2026-05-25 | v0.1 |
 
 ---
 
