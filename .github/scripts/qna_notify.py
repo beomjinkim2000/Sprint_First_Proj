@@ -7,12 +7,24 @@ if not before or before == "0" * 40:
     before = "HEAD~1"
 
 result = subprocess.run(
-    ["git", "-c", "core.quotepath=false", "log", "--diff-filter=A", "--name-only", "--format=", f"{before}..HEAD"],
+    ["git", "-c", "core.quotepath=false", "log", "--diff-filter=AR", "--name-status", "--format=", f"{before}..HEAD"],
     capture_output=True, text=True
 )
 
-for path in result.stdout.splitlines():
-    path = unicodedata.normalize("NFC", path.strip())
+seen = set()
+paths = []
+for line in result.stdout.splitlines():
+    line = line.strip()
+    if not line:
+        continue
+    parts = line.split("\t")
+    # A: [status, path], R: [status, old_path, new_path]
+    path = unicodedata.normalize("NFC", parts[-1])
+    if path not in seen:
+        seen.add(path)
+        paths.append(path)
+
+for path in paths:
     if not path.startswith("게시판/[Q&A]") or not path.endswith(".md"):
         continue
     try:
