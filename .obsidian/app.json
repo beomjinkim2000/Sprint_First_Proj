@@ -1,5 +1,7 @@
 {
   "promptDelete": false,
   "newFileLocation": "current",
-  "userIgnoreFilters": ["CLAUDE.md"]
+  "userIgnoreFilters": [
+    "CLAUDE.md"
+  ]
 }
