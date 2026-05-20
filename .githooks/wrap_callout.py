@@ -77,11 +77,14 @@ for line in lines:
         if line.startswith('>'):
             # already a callout/quote line — flush pending plain text first
             if buf:
-                flush(buf, output)
+                non_blank = [l for l in buf if l.strip()]
+                if non_blank:
+                    flush(buf, output)
+                else:
+                    # 빈 줄만 있는 버퍼 → callout 블록 사이 구분자만 보장
+                    if output and output[-1].startswith('>'):
+                        output.append('')
                 buf = []
-            # 연속된 > 블록 사이에 빈 줄 보장 (없으면 Obsidian이 하나로 합침)
-            if output and output[-1].startswith('>'):
-                output.append('')
             output.append(line)
         else:
             buf.append(line)
