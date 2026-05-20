@@ -32,21 +32,35 @@ for path in paths:
     except Exception:
         continue
 
-    in_q = has_question = False
+    # 질문 섹션 추출
+    question_lines = []
+    in_q = False
     for line in content.splitlines():
         if "nowrap" in line and "질문" in line:
             in_q = True; continue
         if in_q and "nowrap" in line:
             break
-        s = line.strip()
-        if in_q and s and not s.startswith("> [!") and s != ">":
-            has_question = True; break
+        if in_q:
+            s = line.strip()
+            if s and not s.startswith("> [!") and s != ">":
+                question_lines.append(s)
 
-    if not has_question:
+    if not question_lines:
         continue
 
     title = os.path.basename(path)[len("[Q&A]-"):-len(".md")]
-    body = json.dumps({"content": f"❓ **새 질문이 등록됐어요!** 아는 분 답변 부탁드립니다 🙏\n> **제목:** {title}"})
+    question_text = "\n".join(question_lines)
+    if len(question_text) > 800:
+        question_text = question_text[:800] + "…"
+
+    msg = (
+        f"❓ **새 질문이 등록됐어요!** 아는 분 답변 부탁드립니다 🙏\n"
+        f"**제목:** {title}\n"
+        f"─────────────────\n"
+        f"{question_text}\n"
+        f"─────────────────"
+    )
+    body = json.dumps({"content": msg})
     subprocess.run(
         ["curl", "-s", "-X", "POST", webhook, "-H", "Content-Type: application/json", "-d", body],
         check=True

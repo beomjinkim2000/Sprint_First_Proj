@@ -50,7 +50,7 @@ async def on_message(message):
     if '새 질문이 등록됐어요' not in original.content:
         return
 
-    # 제목 추출 → 파일명 복원
+    # 제목 추출
     m = re.search(r'\*\*제목:\*\*\s*(.+)', original.content)
     if not m:
         return
@@ -59,6 +59,10 @@ async def on_message(message):
     qna_stem = nfc(f'[Q&A]-{title}')
     author   = resolve_author(message.author.display_name)
     answer   = message.content.strip()
+
+    # 질문 내용 추출 (─── 사이)
+    q_m = re.search(r'─+\n(.+?)\n─+', original.content, re.DOTALL)
+    question = q_m.group(1).strip() if q_m else ""
 
     # GitHub Actions 트리거
     resp = requests.post(
@@ -81,6 +85,16 @@ async def on_message(message):
     if resp.status_code == 204:
         await message.add_reaction('✅')
         print(f'Dispatched: {qna_stem} by {author}')
+
+        notify = (
+            f"✅ **답변이 등록됐어요!**\n"
+            f"**제목:** {title}\n"
+            f"─────────────────\n"
+            f"**질문**\n{question}\n"
+            f"─────────────────\n"
+            f"**답변** ({author})\n{answer}"
+        )
+        await message.channel.send(notify)
     else:
         await message.add_reaction('❌')
         print(f'Dispatch failed: {resp.status_code} {resp.text}')
