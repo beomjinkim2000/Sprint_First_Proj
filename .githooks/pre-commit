@@ -45,7 +45,7 @@ while IFS= read -r FILE; do
 done <<< "$MATCHED"
 
 # Q&A 파일 추가 또는 칸반 파일 변경 시 → 칸반 동기화
-NEEDS_SYNC=$(git -c core.quotepath=false diff --cached --name-only --diff-filter=AM | python3 -c "
+NEEDS_SYNC=$(git -c core.quotepath=false diff --cached --name-only --diff-filter=AMD | python3 -c "
 import sys, unicodedata, re
 for line in sys.stdin:
     line = unicodedata.normalize('NFC', line.strip())
