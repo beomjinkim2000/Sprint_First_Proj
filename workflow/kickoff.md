@@ -23,7 +23,7 @@ related:
 ## 황원재 (Data/Dataset) — zipdid
 
 ```dataview
-TABLE issue as "#", title as "작업", milestone as "마일스톤", priority as "우선순위", target as "마감", st as "상태"
+TABLE issue as "#", title as "작업", st as "상태", priority as "우선순위", target as "마감", milestone as "마일스톤"
 FROM "tasks"
 WHERE contains(assignee, "zipdid") AND milestone = "v0.1"
 SORT target ASC, priority ASC, issue ASC
@@ -43,7 +43,7 @@ SORT target ASC, priority ASC, issue ASC
 ## 유재열 (Model/Train) — YuJY9897
 
 ```dataview
-TABLE issue as "#", title as "작업", milestone as "마일스톤", priority as "우선순위", target as "마감", st as "상태"
+TABLE issue as "#", title as "작업", st as "상태", priority as "우선순위", target as "마감", milestone as "마일스톤"
 FROM "tasks"
 WHERE contains(assignee, "YuJY9897") AND milestone = "v0.1"
 SORT target ASC, priority ASC, issue ASC
@@ -63,7 +63,7 @@ SORT target ASC, priority ASC, issue ASC
 ## 박창준 (Inference) — cjkj1234
 
 ```dataview
-TABLE issue as "#", title as "작업", milestone as "마일스톤", priority as "우선순위", target as "마감", st as "상태"
+TABLE issue as "#", title as "작업", st as "상태", priority as "우선순위", target as "마감", milestone as "마일스톤"
 FROM "tasks"
 WHERE contains(assignee, "cjkj1234") AND milestone = "v0.1"
 SORT target ASC, priority ASC, issue ASC
@@ -81,7 +81,7 @@ SORT target ASC, priority ASC, issue ASC
 ## 김범진 (PM) — beomjinkim2000
 
 ```dataview
-TABLE issue as "#", title as "작업", milestone as "마일스톤", priority as "우선순위", target as "마감", st as "상태"
+TABLE issue as "#", title as "작업", st as "상태", priority as "우선순위", target as "마감", milestone as "마일스톤"
 FROM "tasks"
 WHERE contains(assignee, "beomjinkim2000") AND milestone = "v0.1"
 SORT target ASC, priority ASC, issue ASC

@@ -53,6 +53,21 @@ def render_table(query, rows):
             key = part.strip()
             columns.append((key, key))
 
+    # WHERE 파싱 (contains(field, "val") AND field = "val" 지원)
+    where_m = re.search(r'WHERE\s+(.+?)(?:\n|SORT|LIMIT|$)', query, re.IGNORECASE | re.DOTALL)
+    if where_m:
+        conditions = re.split(r'\bAND\b', where_m.group(1), flags=re.IGNORECASE)
+        for cond in conditions:
+            cond = cond.strip()
+            contains_m = re.match(r'contains\((\w+),\s*"([^"]+)"\)', cond, re.IGNORECASE)
+            eq_m = re.match(r'(\w+)\s*=\s*"([^"]+)"', cond)
+            if contains_m:
+                field, val = contains_m.group(1), contains_m.group(2)
+                rows = [r for r in rows if val in str(r.get(field, ""))]
+            elif eq_m:
+                field, val = eq_m.group(1), eq_m.group(2)
+                rows = [r for r in rows if str(r.get(field, "")) == val]
+
     # SORT 파싱 (다중 키 지원: SORT a ASC, b ASC, c ASC)
     sort_m = re.search(r'SORT\s+(.+?)(?:\n|$)', query, re.IGNORECASE)
     if sort_m:
