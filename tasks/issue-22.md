@@ -3,7 +3,7 @@ issue: 22
 title: "[setup] YOLOv8 설치 및 예제 실행 확인"
 assignee: YuJY9897
 label: setup
-st: in-progress
+st: in-review
 milestone: v0.1
 priority: p0
 target: 2026-05-21
