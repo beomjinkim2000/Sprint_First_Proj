@@ -16,3 +16,4 @@ _config/
 
 # Claude Code 지시 파일 (로컬 전용)
 CLAUDE.md
+.claude/
