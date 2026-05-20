@@ -19,7 +19,7 @@ related:
 ## 기본 설정
 
 - **GitHub Issues** 사용 (Linear 사용 안 함)
-- **이슈 번호 prefix**: PILL-1, PILL-2 ...
+- **이슈 번호**: GitHub 자동 부여 번호 사용 (#4, #5, ...)
 - **Milestone 2개**:
   - `v0.1 — 파이프라인 완성` (1차 목표)
   - `v0.2 — 성능 개선` (2차 목표)
@@ -86,32 +86,17 @@ Backlog → Todo → In Progress → In Review → Done
 | 5 | 하루 이상 → 쪼갤 것 |
 | 8 | 무조건 쪼갬 |
 
-이슈 제목 앞에 `[3] Dataset 클래스 구현` 형식으로 표기.
+이슈 제목 앞에 `[3] Dataset 클래스 구현` 형식으로 표기. (GitHub 이슈 번호와 별개)
 
 ---
 
-## Backlog 이슈 전체 목록 (v0.1)
+## 이슈 전체 목록 (v0.1)
 
-| ID | Title | Label | 담당 | Milestone |
-|---|---|---|---|---|
-| PILL-1 | [setup] Github repo 생성 및 branch 전략 설정 | setup | 팀장 | v0.1 |
-| PILL-2 | [setup] 폴더 구조 생성 및 빈 파일 커밋 | setup | 팀장 | v0.1 |
-| PILL-3 | [setup] interfaces.md 작성 | setup, docs | 팀장 | v0.1 |
-| PILL-4 | [setup] pyproject.toml 및 .gitignore 작성 | setup | 팀장 | v0.1 |
-| PILL-5 | [data] 원본 데이터 구조 확인 및 annotation 컬럼 파악 | data | Data 담당 | v0.1 |
-| PILL-6 | [data] EDA 노트북 작성 (01_eda.ipynb) | data, docs | Data 담당 | v0.1 |
-| PILL-7 | [data] bbox 시각화 노트북 작성 | data | Data 담당 | v0.1 |
-| PILL-8 | [dataset] Dataset 클래스 구현 (dataset.py) | dataset | Dataset 담당 | v0.1 |
-| PILL-9 | [dataset] transforms 구현 (transforms.py) | dataset | Dataset 담당 | v0.1 |
-| PILL-10 | [dataset] train/val split 구현 (split.py) | dataset | Dataset 담당 | v0.1 |
-| PILL-11 | [model] baseline 모델 구현 (build_model) | model | Model 담당 | v0.1 |
-| PILL-12 | [train] train loop 구현 (engine/train.py) | train | Model 담당 | v0.1 |
-| PILL-13 | [train] evaluate 구현 (engine/evaluate.py) | train | Model 담당 | v0.1 |
-| PILL-14 | [train] checkpoint 저장/로드 구현 | train | Model 담당 | v0.1 |
-| PILL-15 | [inference] predict 구현 (engine/predict.py) | inference | Inference 담당 | v0.1 |
-| PILL-16 | [submission] make_submission.py 구현 | submission | 팀장 | v0.1 |
-| PILL-17 | [submission] 첫 번째 Kaggle 제출 | submission | 팀장 | v0.1 |
-| PILL-18 | [docs] README 초안 작성 | docs | 팀장 | v0.1 |
+```dataview
+TABLE issue as "#", title as "작업", assignee as "담당", label as "라벨", target as "마감", st as "상태"
+FROM "tasks"
+SORT target ASC, issue ASC
+```
 
 ---
 

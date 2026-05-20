@@ -9,3 +9,6 @@
 
 # macOS
 .DS_Store
+
+# 개인 설정 (GitHub ID 저장)
+_config/

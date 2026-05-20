@@ -36,7 +36,8 @@ Navigation: [[Overview]] | [[experiment/log]]
 
 ## Workflow
 
-- [[workflow/task-management]] — GitHub Issues & Projects 구성 (Backlog, Label, Milestone, 자동화)
+- [[workflow/kickoff]] — **역할별 지금 당장 할 일 (여기서 시작)**
+- [[workflow/task-management]] — GitHub Issues & Projects 구성 (이슈 목록, Label, Milestone)
 - [[workflow/git-strategy]] — Git branch / PR / 리뷰 규칙
 - [[workflow/roles]] — 팀원 역할 분담 (모듈별)
 - [[workflow/decisions]] — 운영 결정사항 (태스크 관리, Git, 실험 로그 형식)
@@ -45,17 +46,32 @@ Navigation: [[Overview]] | [[experiment/log]]
 
 ## 협업일지
 
-- [[_templates/협업일지]] — 협업일지 작성 양식
-- 김범진(PM)
-- 황원재(Data)
-- 유재열(Model)
-- 박창준(Exp)
+```dataview
+TABLE file.mtime as "최근 수정"
+FROM "협업일지"
+WHERE file.name != "_index"
+SORT file.mtime DESC
+LIMIT 6
+```
+
+- [[_templates/협업일지]] — 작성 양식
+- [[협업일지/김범진(PM)]] | [[협업일지/황원재(Data)]] | [[협업일지/유재열(Model)]] | [[협업일지/박창준(Exp)]]
 
 ---
 
 ## Experiment
 
 - [[experiment/log]] — 버전별 실험 결과 및 mAP 트래킹
+
+---
+
+## v0.1 태스크 현황
+
+```dataview
+TABLE issue as "#", title as "작업", assignee as "담당", target as "마감", st as "상태"
+FROM "tasks"
+SORT target ASC
+```
 
 ---
 

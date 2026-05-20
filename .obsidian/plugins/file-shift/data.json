@@ -5,13 +5,17 @@
     "/": [
       "협업일지.md",
       "전체 공지사항",
-      "자유게시판",
+      "게시판",
+      "Q&A 칸반.md",
       "메모",
       "협업일지",
       "architecture",
       "experiment",
       "workflow",
       "_templates",
+      "_config",
+      "tasks",
+      "discord_bot",
       "index.md"
     ],
     "_templates": [

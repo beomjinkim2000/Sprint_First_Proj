@@ -20,8 +20,8 @@ related:
 
 ```
 main   ← 항상 실행 가능한 상태. PR 없이 직접 push 금지
-  ├── feature/PILL-{번호}-{짧은설명}
-  └── fix/PILL-{번호}-{짧은설명}
+  ├── feature/{이슈번호}-{label}-{짧은설명}
+  └── fix/{이슈번호}-{label}-{짧은설명}
 ```
 
 > develop 브랜치 없음. feature → main 직행.
@@ -29,10 +29,10 @@ main   ← 항상 실행 가능한 상태. PR 없이 직접 push 금지
 ### 브랜치 이름 예시
 
 ```bash
-feature/PILL-8-dataset-class
-feature/PILL-12-train-loop
-feature/PILL-15-predict
-fix/PILL-16-submission-format
+feature/8-data-structure-check
+feature/11-dataset-class
+feature/15-train-loop
+fix/19-submission-format
 ```
 
 ---
@@ -41,10 +41,10 @@ fix/PILL-16-submission-format
 
 ```bash
 # GitHub 이슈와 브랜치 자동 연결 (권장)
-gh issue develop {이슈번호} --checkout --branch-name feature/PILL-{번호}-{짧은설명}
+gh issue develop {이슈번호} --checkout --branch-name feature/{이슈번호}-{label}-{짧은설명}
 
 # 예시
-gh issue develop 8 --checkout --branch-name feature/PILL-8-dataset-class
+gh issue develop 8 --checkout --branch-name feature/8-data-structure-check
 ```
 
 > `gh issue develop`을 쓰면 GitHub 이슈 페이지 사이드바 "Development" 섹션에 브랜치가 자동 연결됨.
@@ -53,7 +53,7 @@ gh issue develop 8 --checkout --branch-name feature/PILL-8-dataset-class
 # gh CLI 없을 경우 대체 방법
 git checkout main
 git pull origin main
-git checkout -b feature/PILL-8-dataset-class
+git checkout -b feature/8-data-structure-check
 ```
 
 > 이걸 안 하면 남이 merge한 변경사항 없이 작업하다가 충돌남.
@@ -73,7 +73,7 @@ git checkout -b feature/PILL-8-dataset-class
 ## PR 규칙
 
 1. feature 브랜치에서 작업 후 `main`으로 PR
-2. PR 제목: `[PILL-8] Dataset 클래스 구현`
+2. PR 제목: `[#11] Dataset 클래스 구현`
 3. PR 본문 필수 항목: 작업 내용 + 테스트 결과 (실행 출력 or 스크린샷)
 4. 머지 조건: **팀장 approve 필수** (예외 없음)
 5. Merge 후 GitHub 원격 feature 브랜치 삭제 (로컬은 유지해도 무방)

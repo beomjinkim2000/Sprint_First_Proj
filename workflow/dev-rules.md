@@ -22,11 +22,11 @@ related:
 ## 커밋 메시지
 
 ```
-[PILL-번호] 한 줄 요약
+[#이슈번호] 한 줄 요약
 
-[PILL-8] Dataset __getitem__ 구현
-[PILL-12] train loop 1 epoch 반환값 추가
-[fix/PILL-16] submission bbox 형식 xywh로 수정
+[#11] Dataset __getitem__ 구현
+[#15] train loop 1 epoch 반환값 추가
+[#19] submission bbox 형식 xywh로 수정
 ```
 
 - 현재형 동사 ("추가", "수정", "제거")

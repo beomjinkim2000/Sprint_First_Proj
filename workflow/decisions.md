@@ -22,15 +22,14 @@ related:
 
 - GitHub Issues + GitHub Projects 사용
 - 프로젝트 권한: 팀장 Admin / 팀원 Read
-- 이슈 쪼개기: 팀원이 자기 이슈 안에서 Sub-issue로 직접 분리
-- 스토리포인트: 1(30분) / 2(반나절) / 3(하루) / 5(하루 이상, 쪼갤 것) / 8(무조건 쪼갬)
+- 스토리포인트: 이슈 제목 앞에 `[숫자]` 표기 — 1(30분) / 2(반나절) / 3(하루) / 5(하루 이상, 쪼갤 것)
 
 → 상세: [[workflow/task-management]]
 
 ## Git 전략
 
 - GitHub Flow (develop 브랜치 없음)
-- `feature/PILL-번호-설명` → main으로 PR
+- `feature/{이슈번호}-{label}-{설명}` → main으로 PR
 - 머지 조건: **팀장 approve 필수** (예외 없음)
 - `interfaces.md` 건드리는 PR → 팀장 필수 리뷰 (예외 없음)
 - PR 머지 후 GitHub 원격 feature 브랜치 삭제 (로컬은 유지해도 무방)

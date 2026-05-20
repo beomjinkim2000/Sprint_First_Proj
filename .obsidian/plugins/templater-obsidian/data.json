@@ -9,18 +9,34 @@
   ],
   "trigger_on_file_creation": true,
   "auto_jump_to_cursor": true,
-  "enable_system_commands": false,
+  "enable_system_commands": true,
   "shell_path": "",
   "user_scripts_folder": "",
   "enable_folder_templates": true,
   "folder_templates": [
     {
-      "folder": "자유게시판",
-      "template": "_templates/자유게시판.md"
+      "folder": "게시판",
+      "template": "_templates/게시판.md"
     },
     {
       "folder": "전체 공지사항",
       "template": "_templates/공지사항.md"
+    },
+    {
+      "folder": "협업일지/김범진(PM)",
+      "template": "_templates/협업일지.md"
+    },
+    {
+      "folder": "협업일지/박창준(Exp)",
+      "template": "_templates/협업일지.md"
+    },
+    {
+      "folder": "협업일지/유재열(Model)",
+      "template": "_templates/협업일지.md"
+    },
+    {
+      "folder": "협업일지/황원재(Data)",
+      "template": "_templates/협업일지.md"
     }
   ],
   "enable_file_templates": false,
@@ -36,7 +52,7 @@
     ""
   ],
   "startup_templates": [
-    ""
+    "_templates/_hooks-setup.md"
   ],
   "intellisense_render": 1,
   "ignore_folders_on_creation": [

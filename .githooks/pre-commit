@@ -1,9 +1,9 @@
 #!/bin/bash
 
-KEYS=("beomjinkim2000" "cjkj1234" "YuY9897" "zipdid")
-VALS=("김범진(PM)" "박창준(Exp)" "유재열(Model)" "황원재(Data)")
+KEYS=("김범진" "beomjinkim2000" "박창준" "cjkj1234" "유재열" "YuY9897" "YuJY9897" "황원재" "zipdid")
+VALS=("김범진(PM)" "김범진(PM)" "박창준(Exp)" "박창준(Exp)" "유재열(Model)" "유재열(Model)" "유재열(Model)" "황원재(Data)" "황원재(Data)")
 
-GIT_USER=$(git config user.name)
+GIT_USER=$(git config user.name | python3 -c "import sys,unicodedata; sys.stdout.write(unicodedata.normalize('NFC',sys.stdin.read().strip()))")
 AUTHOR="$GIT_USER"
 
 for i in "${!KEYS[@]}"; do
@@ -13,13 +13,144 @@ for i in "${!KEYS[@]}"; do
   fi
 done
 
+MATCHED=$(git -c core.quotepath=false diff --cached --name-only --diff-filter=AM | python3 -c "
+import sys, unicodedata, re
+for line in sys.stdin:
+    line = unicodedata.normalize('NFC', line.strip())
+    if re.search(r'(게시판|전체 공지사항)/.*\.md$', line):
+        print(line)
+")
+
 while IFS= read -r FILE; do
   [ -f "$FILE" ] || continue
-  LAST=$(tail -1 "$FILE")
-  # 이미 서명 있으면 스킵
-  [[ "$LAST" =~ ^\ -\  ]] && continue
-  printf "\n - %s\n" "$AUTHOR" >> "$FILE"
-  git add "$FILE"
-done < <(git diff --cached --name-only --diff-filter=AM | grep "자유게시판/.*\.md$")
+
+  FILE_NFC=$(echo "$FILE" | python3 -c "import sys,unicodedata; sys.stdout.write(unicodedata.normalize('NFC',sys.stdin.read().strip()))")
+
+  # Q&A는 질문 서명 안 함 (답변/댓글만 서명)
+  if echo "$FILE_NFC" | grep -qF "[Q&A]"; then
+    SIGN_BODY=0
+  else
+    SIGN_BODY=1
+  fi
+
+  TMPFILE=$(mktemp)
+  python3 "$(dirname "$0")/wrap_callout.py" "$AUTHOR" "$SIGN_BODY" "$FILE" "$TMPFILE"
+
+  if ! diff -q "$FILE" "$TMPFILE" > /dev/null 2>&1; then
+    mv "$TMPFILE" "$FILE"
+    git add "$FILE"
+  else
+    rm "$TMPFILE"
+  fi
+done <<< "$MATCHED"
+
+# Q&A 파일 추가 또는 칸반 파일 변경 시 → 칸반 동기화
+NEEDS_SYNC=$(git -c core.quotepath=false diff --cached --name-only --diff-filter=AM | python3 -c "
+import sys, unicodedata, re
+for line in sys.stdin:
+    line = unicodedata.normalize('NFC', line.strip())
+    if re.search(r'게시판/\[Q&A\].*\.md$', line) or re.search(r'Q&A 칸반\.md$', line):
+        print('yes'); break
+")
+if [ "$NEEDS_SYNC" = "yes" ]; then
+  python3 "$(dirname "$0")/sync_kanban.py"
+  git add "Q&A 칸반.md" 2>/dev/null || true
+  git -c core.quotepath=false diff --cached --name-only | python3 -c "
+import sys, unicodedata, re
+for line in sys.stdin:
+    line = unicodedata.normalize('NFC', line.strip())
+    if re.search(r'게시판/\[Q&A\].*\.md$', line):
+        print(line)
+" | while IFS= read -r f; do git add "$f" 2>/dev/null || true; done
+fi
+
+# Discord 알림 — 테스트 중 비활성화
+exit 0
+DISCORD_WEBHOOK="https://discord.com/api/webhooks/1493432111548465244/33ebLhZEHh6FX3PRJBcP8T1MvkuxUoSTJtzruBTpSBeWYc8LCgXfTmHtznAuqmsarrOv"
+
+git -c core.quotepath=false diff --cached --name-only --diff-filter=AM | python3 -c "
+import sys, unicodedata, re
+for line in sys.stdin:
+    line = unicodedata.normalize('NFC', line.strip())
+    if re.search(r'게시판/\[Q&A\].*\.md$', line):
+        print(line)
+" | while IFS= read -r QNA_FILE; do
+  TITLE=$(basename "$QNA_FILE" .md | sed 's/^\[Q&A\]-//')
+
+  HEAD_HAS_QUESTION=$(git show "HEAD:$QNA_FILE" 2>/dev/null | python3 -c '
+import sys
+in_q=False
+for line in sys.stdin:
+    if "white-space:nowrap\">질문<" in line:
+        in_q=True; continue
+    if in_q and "white-space:nowrap\">" in line: break
+    s = line.strip()
+    if in_q and s and not s.startswith("> [!") and s != ">":
+        print("yes"); exit()
+print("no")
+')
+
+  STAGED_HAS_QUESTION=$(git show ":$QNA_FILE" 2>/dev/null | python3 -c '
+import sys
+in_q=False
+for line in sys.stdin:
+    if "white-space:nowrap\">질문<" in line:
+        in_q=True; continue
+    if in_q and "white-space:nowrap\">" in line: break
+    s = line.strip()
+    if in_q and s and not s.startswith("> [!") and s != ">":
+        print("yes"); exit()
+print("no")
+')
+
+  if [ "$HEAD_HAS_QUESTION" = "no" ] && [ "$STAGED_HAS_QUESTION" = "yes" ]; then
+    /usr/bin/curl -s -o /dev/null -X POST "$DISCORD_WEBHOOK" \
+      -H "Content-Type: application/json" \
+      -d "{\"content\": \"❓ **새 질문이 등록됐어요!** 아는 분 답변 부탁드립니다 🙏\n> **제목:** ${TITLE}\"}"
+  fi
+done
+
+# 답변 첫 등록 시 Discord 알림
+git -c core.quotepath=false diff --cached --name-only --diff-filter=M | python3 -c "
+import sys, unicodedata, re
+for line in sys.stdin:
+    line = unicodedata.normalize('NFC', line.strip())
+    if re.search(r'게시판/\[Q&A\].*\.md$', line):
+        print(line)
+" | while IFS= read -r QNA_FILE; do
+  TITLE=$(basename "$QNA_FILE" .md | sed 's/^\[Q&A\]-//')
+
+  HEAD_HAS_ANSWER=$(git show "HEAD:$QNA_FILE" 2>/dev/null | python3 -c '
+import sys
+in_a=False
+for line in sys.stdin:
+    if "white-space:nowrap\">답변<" in line:
+        in_a=True; continue
+    if in_a and "white-space:nowrap\">" in line: break
+    s = line.strip()
+    if in_a and s and not s.startswith("> [!") and s != ">":
+        print("yes"); exit()
+print("no")
+')
+
+  STAGED_HAS_ANSWER=$(git show ":$QNA_FILE" 2>/dev/null | python3 -c '
+import sys
+in_a=False
+for line in sys.stdin:
+    if "white-space:nowrap\">답변<" in line:
+        in_a=True; continue
+    if in_a and "white-space:nowrap\">" in line: break
+    s = line.strip()
+    if in_a and s and not s.startswith("> [!") and s != ">":
+        print("yes"); exit()
+print("no")
+')
+
+  if [ "$HEAD_HAS_ANSWER" = "no" ] && [ "$STAGED_HAS_ANSWER" = "yes" ]; then
+    /usr/bin/curl -s -o /dev/null -X POST "$DISCORD_WEBHOOK" \
+      -H "Content-Type: application/json" \
+      -d "{\"content\": \"✅ **답변이 등록됐습니다. 해결됐는지 확인해주세요!**\n> **제목:** ${TITLE}\"}"
+  fi
+done
 
 exit 0

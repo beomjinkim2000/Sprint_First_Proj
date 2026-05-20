@@ -1,0 +1,29 @@
+name: Discord 답변 자동 추가
+
+on:
+  repository_dispatch:
+    types: [discord-answer]
+
+jobs:
+  add-answer:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Q&A 파일에 답변 추가
+        env:
+          QNA_STEM: ${{ github.event.client_payload.qna_stem }}
+          ANSWER: ${{ github.event.client_payload.answer }}
+          AUTHOR: ${{ github.event.client_payload.author }}
+        run: python .githooks/add_discord_answer.py
+
+      - name: 커밋 & 푸시
+        run: |
+          git config user.name "discord-bot"
+          git config user.email "bot@noreply"
+          git add -A
+          git diff --staged --quiet || git commit -m "답변 추가 (Discord): ${{ github.event.client_payload.qna_stem }} — ${{ github.event.client_payload.author }}"
+          git push

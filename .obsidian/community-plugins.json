@@ -1,5 +1,11 @@
 [
   "templater-obsidian",
   "file-shift",
-  "obsidian-git"
+  "obsidian-git",
+  "metadata-menu",
+  "editing-toolbar",
+  "omnisearch",
+  "obsidian-kanban",
+  "kanban-status-updater",
+  "dataview"
 ]
