@@ -1,9 +1,13 @@
 import os, subprocess, json, unicodedata
 
 webhook = os.environ["DISCORD_WEBHOOK"]
+before = os.environ.get("BEFORE_SHA", "").strip()
+
+if not before or before == "0" * 40:
+    before = "HEAD~1"
 
 result = subprocess.run(
-    ["git", "-c", "core.quotepath=false", "diff", "--name-only", "--diff-filter=A", "HEAD~1", "HEAD"],
+    ["git", "-c", "core.quotepath=false", "log", "--diff-filter=A", "--name-only", "--format=", f"{before}..HEAD"],
     capture_output=True, text=True
 )
 

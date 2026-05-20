@@ -10,10 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - name: 새 Q&A 알림
         env:
           DISCORD_WEBHOOK: "https://discord.com/api/webhooks/1493432111548465244/33ebLhZEHh6FX3PRJBcP8T1MvkuxUoSTJtzruBTpSBeWYc8LCgXfTmHtznAuqmsarrOv"
+          BEFORE_SHA: ${{ github.event.before }}
         run: |
           python3 .github/scripts/qna_notify.py
