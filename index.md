@@ -46,13 +46,12 @@ Navigation: [[Overview]] | [[experiment/log]]
 
 ## 협업일지
 
-```dataview
-TABLE file.mtime as "최근 수정"
-FROM "협업일지"
-WHERE file.name != "_index"
-SORT file.mtime DESC
-LIMIT 6
-```
+| 팀원 | 최근 작성 |
+| --- | --- |
+| [[협업일지/박창준(Exp)/_index|박창준(Exp)]] | 2026-05-20 |
+| [[협업일지/유재열(Model)/_index|유재열(Model)]] | 2026-05-20 |
+| [[협업일지/황원재(Data)/_index|황원재(Data)]] | 2026-05-20 |
+| [[협업일지/김범진(PM)/_index|김범진(PM)]] | 2026-05-20 |
 ---
 
 ## Experiment

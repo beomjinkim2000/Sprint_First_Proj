@@ -22,12 +22,14 @@ related:
 
 ## 황원재 (Data/Dataset) — zipdid
 
-```dataview
-TABLE issue as "#", title as "작업", st as "상태", priority as "우선순위", target as "마감", milestone as "마일스톤"
-FROM "tasks"
-WHERE contains(assignee, "zipdid") AND milestone = "v0.1"
-SORT target ASC, priority ASC, issue ASC
-```
+| # | 작업 | 상태 | 우선순위 | 마감 | 마일스톤 |
+| --- | --- | --- | --- | --- | --- |
+| 8 | [data] 원본 데이터 구조 확인 및 annotation 컬럼 파악 | todo | p0 | 2026-05-21 | v0.1 |
+| 9 | [data] EDA 노트북 작성 (01_eda.ipynb) | todo | p1 | 2026-05-22 | v0.1 |
+| 10 | [data] bbox 시각화 노트북 작성 | todo | p1 | 2026-05-22 | v0.1 |
+| 11 | [dataset] Dataset 클래스 구현 (dataset.py) | todo | p1 | 2026-05-22 | v0.1 |
+| 12 | [dataset] transforms 구현 (transforms.py) | todo | p1 | 2026-05-22 | v0.1 |
+| 13 | [dataset] train/val split 구현 (split.py) | todo | p2 | 2026-05-22 | v0.1 |
 
 **순서**
 1. **[#8](https://github.com/beomjinkim2000/Code_IT_Team_1_FirstProject/issues/8)** — 원본 데이터 구조 확인 ← **여기서 시작**
@@ -42,12 +44,14 @@ SORT target ASC, priority ASC, issue ASC
 
 ## 유재열 (Model/Train) — YuJY9897
 
-```dataview
-TABLE issue as "#", title as "작업", st as "상태", priority as "우선순위", target as "마감", milestone as "마일스톤"
-FROM "tasks"
-WHERE contains(assignee, "YuJY9897") AND milestone = "v0.1"
-SORT target ASC, priority ASC, issue ASC
-```
+| # | 작업 | 상태 | 우선순위 | 마감 | 마일스톤 |
+| --- | --- | --- | --- | --- | --- |
+| 22 | [setup] YOLOv8 설치 및 예제 실행 확인 | in-progress | p0 | 2026-05-21 | v0.1 |
+| 23 | [model] build_model() 스켈레톤 구현 | todo | p1 | 2026-05-21 | v0.1 |
+| 16 | [train] evaluate 구현 (engine/evaluate.py) | todo | p1 | 2026-05-23 | v0.1 |
+| 17 | [train] checkpoint 저장/로드 구현 | todo | p1 | 2026-05-23 | v0.1 |
+| 14 | [model] baseline 모델 구현 (build_model) | todo | p2 | 2026-05-23 | v0.1 |
+| 15 | [train] train loop 구현 (engine/train.py) | todo | p2 | 2026-05-23 | v0.1 |
 
 **순서**
 1. **[#22](https://github.com/beomjinkim2000/Code_IT_Team_1_FirstProject/issues/22)** — YOLOv8 설치 및 예제 실행 (30분, 데이터 없이 가능)
@@ -62,12 +66,10 @@ SORT target ASC, priority ASC, issue ASC
 
 ## 박창준 (Inference) — cjkj1234
 
-```dataview
-TABLE issue as "#", title as "작업", st as "상태", priority as "우선순위", target as "마감", milestone as "마일스톤"
-FROM "tasks"
-WHERE contains(assignee, "cjkj1234") AND milestone = "v0.1"
-SORT target ASC, priority ASC, issue ASC
-```
+| # | 작업 | 상태 | 우선순위 | 마감 | 마일스톤 |
+| --- | --- | --- | --- | --- | --- |
+| 24 | [inference] predict.py 스켈레톤 구현 | todo | p1 | 2026-05-21 | v0.1 |
+| 18 | [inference] predict 구현 (engine/predict.py) | todo | p2 | 2026-05-23 | v0.1 |
 
 **순서**
 1. **[#24](https://github.com/beomjinkim2000/Code_IT_Team_1_FirstProject/issues/24)** — `predict.py` 스켈레톤 (데이터 없이 가능)
@@ -80,12 +82,18 @@ SORT target ASC, priority ASC, issue ASC
 
 ## 김범진 (PM) — beomjinkim2000
 
-```dataview
-TABLE issue as "#", title as "작업", st as "상태", priority as "우선순위", target as "마감", milestone as "마일스톤"
-FROM "tasks"
-WHERE contains(assignee, "beomjinkim2000") AND milestone = "v0.1"
-SORT target ASC, priority ASC, issue ASC
-```
+| # | 작업 | 상태 | 우선순위 | 마감 | 마일스톤 |
+| --- | --- | --- | --- | --- | --- |
+| 4 | [setup] Github repo 생성 및 branch 전략 설정 | todo | p0 | 2026-05-21 | v0.1 |
+| 8 | [data] 원본 데이터 구조 확인 및 annotation 컬럼 파악 | todo | p0 | 2026-05-21 | v0.1 |
+| 5 | [setup] 폴더 구조 생성 및 빈 파일 커밋 | todo | p1 | 2026-05-21 | v0.1 |
+| 6 | [setup] interfaces.md 작성 | todo | p1 | 2026-05-21 | v0.1 |
+| 7 | [setup] pyproject.toml 및 .gitignore 작성 | todo | p1 | 2026-05-21 | v0.1 |
+| 9 | [data] EDA 노트북 작성 (01_eda.ipynb) | todo | p1 | 2026-05-22 | v0.1 |
+| 10 | [data] bbox 시각화 노트북 작성 | todo | p1 | 2026-05-22 | v0.1 |
+| 19 | [submission] make_submission.py 구현 | todo | p1 | 2026-05-24 | v0.1 |
+| 20 | [submission] 첫 번째 Kaggle 제출 | todo | p1 | 2026-05-25 | v0.1 |
+| 21 | [docs] README 초안 작성 | todo | p1 | 2026-05-25 | v0.1 |
 
 ---
 

@@ -137,7 +137,7 @@ def render_table(query, rows, auto_file_col=False):
     return "\n".join(lines)
 
 
-def render_folder_latest(from_folder, limit=6):
+def render_folder_latest(from_folder, limit=6, link_to_index=False):
     folder_rows = load_folder_files(from_folder)
     best = {}
     for r in folder_rows:
@@ -146,14 +146,17 @@ def render_folder_latest(from_folder, limit=6):
             best[folder] = r
     result = sorted(best.values(), key=lambda r: r["_mtime_raw"], reverse=True)[:limit]
     lines = [
-        "| 파일 | 폴더 | 날짜 |",
-        "| --- | --- | --- |",
+        "| 팀원 | 최근 작성 |",
+        "| --- | --- |",
     ]
     for r in result:
-        link = r.get("file.link", r["file.name"])
         folder = r.get("file.folder", "")
         date = r.get("file.mtime", "")
-        lines.append(f"| {link} | [{folder}]({folder}/) | {date} |")
+        if link_to_index:
+            link = f"[[{from_folder}/{folder}/_index|{folder}]]"
+        else:
+            link = r.get("file.link", folder)
+        lines.append(f"| {link} | {date} |")
     return "\n".join(lines)
 
 
@@ -173,12 +176,13 @@ def process_file(path, rows):
         from_m = re.search(r'from="([^"]+)"', params_str)
         limit_m = re.search(r'limit=(\d+)', params_str)
         group_folder = "group-by-folder" in params_str
+        link_index = "link-to-index" in params_str
         if not from_m:
             return m.group(0)
         from_folder = from_m.group(1)
         limit = int(limit_m.group(1)) if limit_m else 10
         if group_folder:
-            return render_folder_latest(from_folder, limit)
+            return render_folder_latest(from_folder, limit, link_to_index=link_index)
         return m.group(0)
 
     new_content = DATAVIEWJS_PAT.sub(replace_js, content)
@@ -195,14 +199,8 @@ def process_file(path, rows):
             rendered = render_table(query, rows)
         elif from_folder:
             folder_rows = load_folder_files(from_folder)
-            # 폴더당 가장 최신 파일 하나만 유지
-            best = {}
-            for r in folder_rows:
-                folder = r.get("file.folder", "")
-                if folder not in best or r["_mtime_raw"] > best[folder]["_mtime_raw"]:
-                    best[folder] = r
-            folder_rows = list(best.values())
-            rendered = render_table(query, folder_rows, auto_file_col=True)
+            has_file_col = bool(re.search(r'\bfile\.\w+', query, re.IGNORECASE))
+            rendered = render_table(query, folder_rows, auto_file_col=not has_file_col)
         else:
             return m.group(0)
 
