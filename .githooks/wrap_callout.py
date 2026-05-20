@@ -79,6 +79,9 @@ for line in lines:
             if buf:
                 flush(buf, output)
                 buf = []
+            # 연속된 > 블록 사이에 빈 줄 보장 (없으면 Obsidian이 하나로 합침)
+            if output and output[-1].startswith('>'):
+                output.append('')
             output.append(line)
         else:
             buf.append(line)
