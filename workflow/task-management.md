@@ -92,11 +92,29 @@ Backlog → Todo → In Progress → In Review → Done
 
 ## 이슈 전체 목록 (v0.1)
 
-```dataview
-TABLE issue as "#", title as "작업", assignee as "담당", label as "라벨", target as "마감", st as "상태"
-FROM "tasks"
-SORT target ASC, issue ASC
-```
+| # | 작업 | 담당 | 라벨 | 마감 | 상태 |
+| --- | --- | --- | --- | --- | --- |
+| 22 | [setup] YOLOv8 설치 및 예제 실행 확인 | YuJY9897 | setup | 2026-05-21 | in-progress |
+| 23 | [model] build_model() 스켈레톤 구현 | YuJY9897 | model | 2026-05-21 | todo |
+| 24 | [inference] predict.py 스켈레톤 구현 | cjkj1234 | inference | 2026-05-21 | todo |
+| 4 | [setup] Github repo 생성 및 branch 전략 설정 | beomjinkim2000 | setup | 2026-05-21 | todo |
+| 5 | [setup] 폴더 구조 생성 및 빈 파일 커밋 | beomjinkim2000 | setup | 2026-05-21 | todo |
+| 6 | [setup] interfaces.md 작성 | beomjinkim2000 | setup | 2026-05-21 | todo |
+| 7 | [setup] pyproject.toml 및 .gitignore 작성 | beomjinkim2000 | setup | 2026-05-21 | todo |
+| 8 | [data] 원본 데이터 구조 확인 및 annotation 컬럼 파악 | zipdid, beomjinkim2000 | data | 2026-05-21 | todo |
+| 10 | [data] bbox 시각화 노트북 작성 | zipdid, beomjinkim2000 | data | 2026-05-22 | todo |
+| 11 | [dataset] Dataset 클래스 구현 (dataset.py) | zipdid | dataset | 2026-05-22 | todo |
+| 12 | [dataset] transforms 구현 (transforms.py) | zipdid | dataset | 2026-05-22 | todo |
+| 13 | [dataset] train/val split 구현 (split.py) | zipdid | dataset | 2026-05-22 | todo |
+| 9 | [data] EDA 노트북 작성 (01_eda.ipynb) | zipdid, beomjinkim2000 | data | 2026-05-22 | todo |
+| 14 | [model] baseline 모델 구현 (build_model) | YuJY9897 | model | 2026-05-23 | todo |
+| 15 | [train] train loop 구현 (engine/train.py) | YuJY9897 | train | 2026-05-23 | todo |
+| 16 | [train] evaluate 구현 (engine/evaluate.py) | YuJY9897 | train | 2026-05-23 | todo |
+| 17 | [train] checkpoint 저장/로드 구현 | YuJY9897 | train | 2026-05-23 | todo |
+| 18 | [inference] predict 구현 (engine/predict.py) | cjkj1234 | inference | 2026-05-23 | todo |
+| 19 | [submission] make_submission.py 구현 | beomjinkim2000 | submission | 2026-05-24 | todo |
+| 20 | [submission] 첫 번째 Kaggle 제출 | beomjinkim2000 | submission | 2026-05-25 | todo |
+| 21 | [docs] README 초안 작성 | beomjinkim2000 | docs | 2026-05-25 | todo |
 
 ---
 

@@ -11,6 +11,7 @@ except ImportError:
 
 TASKS_DIR = Path("tasks")
 DATAVIEW_PAT = re.compile(r'```dataview\n(.*?)```', re.DOTALL)
+FROM_PAT = re.compile(r'FROM\s+"([^"]+)"', re.IGNORECASE)
 
 
 def parse_frontmatter(text):
@@ -32,6 +33,20 @@ def load_tasks():
         fm, _ = parse_frontmatter(md_file.read_text(encoding="utf-8"))
         fm["_file"] = md_file.stem
         rows.append(fm)
+    return rows
+
+
+def load_folder_files(folder):
+    """폴더 내 .md 파일을 file.name / file.mtime 형태로 로드"""
+    import datetime
+    rows = []
+    folder_path = Path(folder)
+    if not folder_path.exists():
+        return rows
+    for md_file in folder_path.rglob("*.md"):
+        mtime = md_file.stat().st_mtime
+        dt = datetime.datetime.fromtimestamp(mtime).strftime("%Y-%m-%d %H:%M")
+        rows.append({"file.name": md_file.stem, "file.mtime": dt, "_mtime_raw": mtime})
     return rows
 
 
@@ -61,7 +76,7 @@ def render_table(query, rows):
                       reverse=sort_desc)
 
     def cell(row, key):
-        val = row.get(key, "")
+        val = row.get(key, row.get(key.split(".")[-1], ""))
         if isinstance(val, list):
             return ", ".join(str(v) for v in val)
         return str(val) if val is not None else ""
@@ -84,10 +99,36 @@ def process_file(path, rows):
 
     def replace(m):
         query = m.group(1).strip()
-        if 'FROM "tasks"' not in query and "FROM 'tasks'" not in query:
-            return m.group(0)
-        rendered = render_table(query, rows)
-        return rendered if rendered else m.group(0)
+        from_m = FROM_PAT.search(query)
+        from_folder = from_m.group(1) if from_m else None
+
+        if from_folder == "tasks":
+            rendered = render_table(query, rows)
+        elif from_folder:
+            folder_rows = load_folder_files(from_folder)
+            # WHERE file.name != "_index" 처리
+            where_m = re.search(r'WHERE\s+file\.name\s*!=\s*"([^"]+)"', query, re.IGNORECASE)
+            if where_m:
+                exclude = where_m.group(1)
+                folder_rows = [r for r in folder_rows if r["file.name"] != exclude]
+            # SORT
+            sort_m = re.search(r'SORT\s+([\w.]+)(?:\s+(ASC|DESC))?', query, re.IGNORECASE)
+            if sort_m:
+                sk = sort_m.group(1)
+                desc = (sort_m.group(2) or "ASC").upper() == "DESC"
+                raw_key = "_mtime_raw" if sk == "file.mtime" else sk
+                folder_rows = sorted(folder_rows,
+                                     key=lambda r: (r.get(raw_key) is None, r.get(raw_key, "")),
+                                     reverse=desc)
+            # LIMIT
+            limit_m = re.search(r'LIMIT\s+(\d+)', query, re.IGNORECASE)
+            if limit_m:
+                folder_rows = folder_rows[:int(limit_m.group(1))]
+            rendered = render_table(query, folder_rows)
+        else:
+            return ""  # FROM 없는 쿼리는 제거
+
+        return rendered if rendered else ""
 
     new_content = DATAVIEW_PAT.sub(replace, content)
     if new_content == content:
