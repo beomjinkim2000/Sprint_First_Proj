@@ -75,7 +75,7 @@ DataLoader(dataset, batch_size=cfg.train.batch_size)
 
 > 팀 전체 계약서 — 멋대로 바꾸면 다른 사람 코드가 깨짐
 
-1. 팀장에게 먼저 카톡으로 변경 내용 공유
+1. 팀장에게 먼저 디스코드로 변경 내용 공유
 2. 팀장 확인 후 PR에서 변경
 3. PR approve: 팀장 필수 (예외 없음)
 

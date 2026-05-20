@@ -106,7 +106,7 @@ notebooks/01_data_structure.ipynb (EDA용) 과 별개 파일.
 
 ## Connections
 
-- [[architecture/folder-structure]]
-- [[architecture/module-design]]
-- [[architecture/interfaces]]
-- [[workflow/roles]]
+- [[architecture/folder-structure]] — 파일 경로 기준
+- [[architecture/module-design]] — 각 모듈 입출력 상세
+- [[architecture/interfaces]] — pred_dict 형식 계약
+- [[workflow/roles]] — 전체 역할 분담

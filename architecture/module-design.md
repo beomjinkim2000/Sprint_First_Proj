@@ -19,10 +19,11 @@ related:
 ## 전체 파이프라인
 
 ```
-Data(raw) → Dataset → Model → Train → Inference → Submission(csv)
-    ↓            ↓        ↓       ↓          ↓           ↓
-src/data/   dataset  baseline engine/  engine/   submission/
-            .py      .py     train.py  predict.py make_submission.py
+Data(raw) → Dataset → Model → Train → Predict → Postprocess → Submission(csv)
+    ↓            ↓        ↓       ↓        ↓           ↓              ↓
+src/data/   dataset  baseline engine/  engine/    engine/       submission/
+            .py      .py     train.py  predict.py postprocess  make_submission.py
+                                                  .py
 ```
 
 ---
@@ -64,8 +65,13 @@ src/data/   dataset  baseline engine/  engine/   submission/
 - **출력**: `{"mAP": float, "mAP_50": float, ...}`
 
 ### `src/engine/predict.py`
-- **책임**: 이미지 → 예측 결과
-- **입력**: model, image_tensor or 이미지 경로 목록, device
+- **책임**: 1 batch 예측 → raw predictions (model forward 단일 책임)
+- **입력**: model, batch tensor, device
+- **출력**: raw model output (postprocess 전 단계)
+
+### `src/engine/postprocess.py`
+- **책임**: NMS / confidence 필터링 / max_detections
+- **입력**: raw predictions, iou_threshold, score_threshold, max_detections
 - **출력**: `List[pred_dict]` (형식은 [[architecture/interfaces]] 참고)
 
 ### `src/submission/make_submission.py`
@@ -79,14 +85,22 @@ src/data/   dataset  baseline engine/  engine/   submission/
 - **함수**: `xyxy_to_xywh()`, `xywh_to_xyxy()`
 - **팀장이 직접 구현** — 모든 모듈에서 사용하므로
 
-### `src/utils/visualize.py`
-- **책임**: 바운딩 박스 오버레이 이미지 생성
-- **입력**: 이미지, boxes, labels, scores
-- **출력**: PIL Image or matplotlib figure
-
 ### `src/utils/seed.py`
 - **책임**: 재현성 시드 고정
 - **함수**: `set_seed(seed: int)`
+
+### `src/utils/config.py`
+- **책임**: config 로드 + null 검증
+- **함수**: `load_config(path)` — num_classes, data.names 등 null 검증 포함
+- **팀장이 직접 구현** — train.py, predict.py 모두 의존
+
+### `src/utils/collate.py`
+- **책임**: DataLoader collate 함수
+- **함수**: `collate_fn(batch)` — target_dict 리스트를 배치로 묶음
+
+### `src/utils/validate.py`
+- **책임**: 데이터셋/배치 형식 검증
+- **함수**: 인터페이스 계약 형식 준수 여부 검사
 
 ---
 

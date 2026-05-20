@@ -96,7 +96,7 @@ SORT priority ASC
 | 이슈 시작할 때 | Project 보드 → **In Progress** |
 | PR 올릴 때 | 본문에 `closes #번호` 명시 |
 | 막혔을 때 | 이슈 코멘트에 이유 + Project 보드 → **Blocked** |
-| interfaces.md 변경 필요 시 | 팀장에게 카톡 먼저, PR에서 변경 |
+| interfaces.md 변경 필요 시 | 팀장에게 디스코드 먼저, PR에서 변경 |
 
 ---
 

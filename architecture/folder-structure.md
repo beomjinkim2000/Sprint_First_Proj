@@ -24,6 +24,7 @@ project/
 ├── .gitignore
 ├── interfaces.md              ← 팀 인터페이스 계약서 (변경 시 팀장 승인)
 ├── train.py                   ← 루트 진입점: python train.py --config configs/default.yaml
+├── predict.py                 ← 루트 진입점: 전체 이미지 순회, 제출/평가 분기
 ├── configs/
 │   └── default.yaml           ← 하이퍼파라미터, 경로, 클래스 목록
 ├── data/
@@ -43,19 +44,24 @@ project/
 │   ├── engine/
 │   │   ├── train.py           ← 1 epoch 학습 루프
 │   │   ├── evaluate.py        ← val mAP 계산
-│   │   └── predict.py         ← 이미지 → pred_dict 리스트
+│   │   ├── predict.py         ← 1 batch 예측 → raw predictions
+│   │   └── postprocess.py     ← NMS / confidence 필터링 / max_detections
 │   ├── submission/
 │   │   └── make_submission.py ← pred_dict → submission.csv
 │   └── utils/
 │       ├── bbox.py            ← [x1,y1,x2,y2] ↔ [x,y,w,h] 변환
-│       ├── visualize.py       ← 바운딩 박스 오버레이
-│       └── seed.py            ← 재현성 시드 고정
+│       ├── seed.py            ← 재현성 시드 고정
+│       ├── config.py          ← load_config() + null 검증
+│       ├── collate.py         ← DataLoader collate 함수
+│       └── validate.py        ← 데이터셋/배치 형식 검증
 ├── outputs/                   ← .gitignore 처리
 │   ├── checkpoints/           ← best.pt, last.pt
 │   ├── predictions/           ← 예측 결과 중간 저장
 │   └── submissions/           ← submission_v1.csv, submission_v2.csv
+├── tests/
+│   └── mock_dataset.py        ← MockDataset 텐서 (테스트용)
 └── reports/
-    ├── figures/               ← 학습 곡선, 혼동행렬 이미지
+    ├── figures/               ← 시각화 결과 이미지
     └── experiment_log.md      ← 버전별 실험 기록
 ```
 

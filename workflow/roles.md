@@ -16,21 +16,22 @@ related:
 
 ## 역할 → 모듈 매핑
 
-| 역할              | 정 (주담당)       | 부 (보조)              | 주담당 모듈                                                                                                                        | Label             |
-| --------------- | ------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
-| 팀장/PM          | beomjinkim2000 | -                    | `interfaces.md`, `utils/bbox.py`, 루트 `train.py`, `configs/`, PR 리뷰, Kaggle 제출, 전체 관리 및 총괄                                     | setup, submission |
-| Data·Dataset 담당 | zipdid        | YuY9897 · cjkj1234   | `data/raw` 확인, annotation 분석, `notebooks/01_eda.ipynb`, `notebooks/02_visualize_bbox.ipynb`, `src/data/dataset.py`, `transforms.py`, `split.py` | data, dataset     |
-| Model·Train 담당  | YuY9897       | cjkj1234             | `src/models/baseline.py`, `src/engine/train.py`, `src/engine/evaluate.py`, checkpoint 관리                                      | model, train      |
-| 후처리 담당         | cjkj1234      | YuY9897              | `src/engine/predict.py`, `submission/`                                                                                         | inference         |
-| 보고서            | 전원            | -                    | `reports/experiment_log.md`, 발표자료/보고서                                                                                         | docs              |
+| 역할              | 정 (주담당)                   | 부 (보조)              | 주담당 모듈                                                                                                                        | Label             |
+| --------------- | ------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| 팀장/PM          | beomjinkim2000 (김범진)      | -                    | `interfaces.md`, `utils/bbox.py`, `utils/config.py`, `utils/collate.py`, `utils/validate.py`, `utils/seed.py`, 루트 `train.py`, 루트 `predict.py`, `configs/`, PR 리뷰, Kaggle 제출, 전체 관리 및 총괄 | setup, submission |
+| Data·Dataset 담당 | zipdid (황원재)              | beomjinkim2000       | `data/raw` 확인, annotation 분석, `notebooks/01_eda.ipynb`, `notebooks/02_visualize_bbox.ipynb`, `src/data/dataset.py`, `transforms.py`, `split.py` | data, dataset     |
+| Model·Train 담당  | YuY9897 (유재열)             | cjkj1234             | `src/models/baseline.py`, `src/engine/train.py`, `src/engine/evaluate.py`(Step 1), `outputs/checkpoints/` 관리                   | model, train      |
+| 후처리·실험 담당      | cjkj1234 (박창준)            | YuY9897              | `src/engine/predict.py`, `src/engine/postprocess.py`, `src/engine/evaluate.py`(Step 2a), `reports/experiment_log.md`, `outputs/predictions/` | inference         |
+| 보고서            | 전원            | -                    | `reports/`, 발표자료/보고서                                                                                                           | docs              |
 
 ---
 
 ## 팀장이 직접 하는 이유
 
 - `interfaces.md`: 팀 전체 계약 → 팀장이 확정해야 권위 생김
-- `utils/bbox.py`: 모든 모듈에서 공통으로 쓰는 코드 → 한 명이 책임져야 버그 추적 쉬움
+- `utils/bbox.py`, `config.py`, `collate.py`, `validate.py`, `seed.py`: 모든 모듈에서 공통으로 쓰는 코드 → 한 명이 책임져야 버그 추적 쉬움
 - `submission/make_submission.py`: Kaggle 형식 오류 시 제출 불가 → 팀장이 직접 검증
+- 루트 `train.py`, `predict.py`: 전체 흐름 진입점 → 팀장 책임
 - PR 리뷰: 팀장이 모든 모듈 코드를 직접 안 짜야 리뷰어 역할 가능
 
 ---
