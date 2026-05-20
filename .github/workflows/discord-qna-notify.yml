@@ -1,0 +1,54 @@
+name: Q&A Discord 알림
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: 새 Q&A 알림
+        run: |
+          WEBHOOK="https://discord.com/api/webhooks/1493432111548465244/33ebLhZEHh6FX3PRJBcP8T1MvkuxUoSTJtzruBTpSBeWYc8LCgXfTmHtznAuqmsarrOv"
+
+          git -c core.quotepath=false diff --name-only --diff-filter=A HEAD~1 HEAD \
+          | python3 - "$WEBHOOK" <<'EOF'
+import sys, subprocess, json, urllib.request
+
+webhook = sys.argv[1]
+
+for line in sys.stdin:
+    path = line.strip()
+    if not path.startswith('게시판/[Q&A]') or not path.endswith('.md'):
+        continue
+
+    try:
+        content = open(path, encoding='utf-8').read()
+    except Exception:
+        continue
+
+    in_q = False
+    has_question = False
+    for l in content.splitlines():
+        if 'nowrap' in l and '질문' in l:
+            in_q = True; continue
+        if in_q and 'nowrap' in l: break
+        s = l.strip()
+        if in_q and s and not s.startswith('> [!') and s != '>':
+            has_question = True; break
+
+    if not has_question:
+        continue
+
+    import os
+    title = os.path.basename(path)[len('[Q&A]-'):-len('.md')]
+    body = json.dumps({"content": f"❓ **새 질문이 등록됐어요!** 아는 분 답변 부탁드립니다 🙏\n> **제목:** {title}"}).encode()
+    req = urllib.request.Request(webhook, data=body, headers={"Content-Type": "application/json"})
+    urllib.request.urlopen(req)
+    print(f"알림 전송: {title}")
+EOF
