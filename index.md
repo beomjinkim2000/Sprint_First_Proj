@@ -48,15 +48,15 @@ Navigation: [[Overview]] | [[experiment/log]]
 
 ```dataviewjs
 // @prerender from="협업일지" group-by-folder link-to-index limit=6
-const pages = dv.pages('"협업일지"')
-  .where(p => p.file.name !== "_index")
-  .sort(p => p.file.name, 'desc');
-const best = new Map();
-for (const p of pages) {
+const all = dv.pages('"협업일지"').where(p => p.file.name !== "_index");
+const best = {};
+for (const p of all) {
   const folder = p.file.folder.split('/').pop();
-  if (!best.has(folder)) best.set(folder, p);
+  if (!best[folder] || p.file.name > best[folder].file.name) {
+    best[folder] = p;
+  }
 }
-const rows = [...best.values()]
+const rows = Object.values(best)
   .sort((a, b) => b.file.name.localeCompare(a.file.name))
   .slice(0, 6)
   .map(p => {
