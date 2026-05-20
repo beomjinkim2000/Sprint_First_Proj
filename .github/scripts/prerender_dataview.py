@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """dataview TABLE 쿼리를 정적 마크다운 표로 변환 (Quartz 빌드 전 실행)"""
-import re, sys
+import re, sys, datetime
 from pathlib import Path
 
 try:
@@ -26,6 +26,22 @@ def parse_frontmatter(text):
         return fm or {}, text[end + 3:]
     except Exception:
         return {}, text
+
+
+def load_folder_files(folder):
+    rows = []
+    folder_path = Path(folder)
+    if not folder_path.exists():
+        return rows
+    for md_file in folder_path.rglob("*.md"):
+        mtime_ts = md_file.stat().st_mtime
+        mtime_str = datetime.datetime.fromtimestamp(mtime_ts).strftime("%Y-%m-%d %H:%M")
+        rows.append({
+            "file.name": md_file.stem,
+            "file.mtime": mtime_str,
+            "_mtime_raw": mtime_ts,
+        })
+    return rows
 
 
 def load_tasks():
@@ -59,12 +75,16 @@ def render_table(query, rows):
         conditions = re.split(r'\bAND\b', where_m.group(1), flags=re.IGNORECASE)
         for cond in conditions:
             cond = cond.strip()
-            contains_m = re.match(r'contains\((\w+),\s*"([^"]+)"\)', cond, re.IGNORECASE)
-            eq_m = re.match(r'(\w+)\s*=\s*"([^"]+)"', cond)
+            contains_m = re.match(r'contains\(([\w.]+),\s*"([^"]+)"\)', cond, re.IGNORECASE)
+            neq_m = re.match(r'([\w.]+)\s*!=\s*"([^"]+)"', cond)
+            eq_m = re.match(r'([\w.]+)\s*=\s*"([^"]+)"', cond)
             if contains_m:
                 field, val = contains_m.group(1), contains_m.group(2)
                 rows = [r for r in rows if val in str(r.get(field, ""))]
-            elif eq_m:
+            elif neq_m:
+                field, val = neq_m.group(1), neq_m.group(2)
+                rows = [r for r in rows if str(r.get(field, "")) != val]
+            elif eq_m and "!=" not in cond:
                 field, val = eq_m.group(1), eq_m.group(2)
                 rows = [r for r in rows if str(r.get(field, "")) == val]
 
@@ -78,8 +98,9 @@ def render_table(query, rows):
             if km:
                 sort_keys.append((km.group(1), (km.group(2) or "ASC").upper() == "DESC"))
         for key, desc in reversed(sort_keys):
+            raw_key = "_mtime_raw" if key == "mtime" else key
             rows = sorted(rows,
-                          key=lambda r, k=key: (r.get(k) is None or r.get(k) == "", r.get(k, "")),
+                          key=lambda r, k=raw_key: (r.get(k) is None or r.get(k) == "", r.get(k, "")),
                           reverse=desc)
 
     def cell(row, key):
@@ -111,8 +132,11 @@ def process_file(path, rows):
 
         if from_folder == "tasks":
             rendered = render_table(query, rows)
+        elif from_folder:
+            folder_rows = load_folder_files(from_folder)
+            rendered = render_table(query, folder_rows)
         else:
-            return m.group(0)  # tasks 외 쿼리는 그대로 유지
+            return m.group(0)
 
         return rendered if rendered else ""
 
