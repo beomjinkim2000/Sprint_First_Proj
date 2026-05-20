@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """dataview TABLE 쿼리를 정적 마크다운 표로 변환 (Quartz 빌드 전 실행)"""
-import re, sys, datetime
+import re, sys, datetime, subprocess
 from pathlib import Path
 
 try:
@@ -34,7 +34,11 @@ def load_folder_files(folder):
     if not folder_path.exists():
         return rows
     for md_file in folder_path.rglob("*.md"):
-        mtime_ts = md_file.stat().st_mtime
+        git_out = subprocess.run(
+            ["git", "log", "-1", "--format=%ct", "--", str(md_file)],
+            capture_output=True, text=True
+        ).stdout.strip()
+        mtime_ts = float(git_out) if git_out else md_file.stat().st_mtime
         mtime_str = datetime.datetime.fromtimestamp(mtime_ts).strftime("%Y-%m-%d %H:%M")
         rows.append({
             "file.name": md_file.stem,
