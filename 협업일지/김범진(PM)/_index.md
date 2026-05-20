@@ -5,7 +5,9 @@ tags: [협업일지]
 
 # 협업일지 — 김범진(PM)
 
-| 파일 | 날짜 |
-| --- | --- |
-| [[2026-05-20-김범진(PM)]] | 2026-05-20 |
-| [[2026-05-19-김범진(PM)]] | 2026-05-19 |
+```dataview
+TABLE file.link as "파일", file.mtime as "날짜"
+FROM "협업일지/김범진(PM)"
+WHERE file.name != "_index"
+SORT file.name DESC
+```

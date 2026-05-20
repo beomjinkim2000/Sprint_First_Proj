@@ -46,12 +46,25 @@ Navigation: [[Overview]] | [[experiment/log]]
 
 ## 협업일지
 
-| 팀원 | 최근 작성 |
-| --- | --- |
-| [[협업일지/박창준(Exp)/_index|박창준(Exp)]] | 2026-05-20 |
-| [[협업일지/유재열(Model)/_index|유재열(Model)]] | 2026-05-20 |
-| [[협업일지/황원재(Data)/_index|황원재(Data)]] | 2026-05-20 |
-| [[협업일지/김범진(PM)/_index|김범진(PM)]] | 2026-05-20 |
+```dataviewjs
+// @prerender from="협업일지" group-by-folder link-to-index limit=6
+const pages = dv.pages('"협업일지"')
+  .where(p => p.file.name !== "_index")
+  .sort(p => p.file.name, 'desc');
+const best = new Map();
+for (const p of pages) {
+  const folder = p.file.folder.split('/').pop();
+  if (!best.has(folder)) best.set(folder, p);
+}
+const rows = [...best.values()]
+  .sort((a, b) => b.file.name.localeCompare(a.file.name))
+  .slice(0, 6)
+  .map(p => {
+    const folder = p.file.folder.split('/').pop();
+    return [dv.fileLink(p.file.folder + "/_index", false, folder), p.file.name.slice(0, 10)];
+  });
+dv.table(["팀원", "최근 작성"], rows);
+```
 ---
 
 ## Experiment

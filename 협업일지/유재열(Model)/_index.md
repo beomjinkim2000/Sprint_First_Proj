@@ -5,6 +5,9 @@ tags: [협업일지]
 
 # 협업일지 — 유재열(Model)
 
-| 파일 | 날짜 |
-| --- | --- |
-| [[2026-05-19-유재열(Model)]] | 2026-05-19 |
+```dataview
+TABLE file.link as "파일", file.mtime as "날짜"
+FROM "협업일지/유재열(Model)"
+WHERE file.name != "_index"
+SORT file.name DESC
+```

@@ -5,6 +5,9 @@ tags: [협업일지]
 
 # 협업일지 — 박창준(Exp)
 
-| 파일 | 날짜 |
-| --- | --- |
-| [[2026-05-19-박창준(Exp)]] | 2026-05-19 |
+```dataview
+TABLE file.link as "파일", file.mtime as "날짜"
+FROM "협업일지/박창준(Exp)"
+WHERE file.name != "_index"
+SORT file.name DESC
+```
