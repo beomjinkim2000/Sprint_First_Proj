@@ -38,6 +38,8 @@ def load_folder_files(folder):
         mtime_str = datetime.datetime.fromtimestamp(mtime_ts).strftime("%Y-%m-%d %H:%M")
         rows.append({
             "file.name": md_file.stem,
+            "file.link": f"[[{md_file.stem}]]",
+            "file.folder": md_file.parent.name,
             "file.mtime": mtime_str,
             "_mtime_raw": mtime_ts,
         })
@@ -53,7 +55,7 @@ def load_tasks():
     return rows
 
 
-def render_table(query, rows):
+def render_table(query, rows, auto_file_col=False):
     # TABLE field as "alias", ... FROM "tasks" SORT x ASC|DESC
     table_m = re.match(r'TABLE\s+(.+?)\s+FROM', query, re.DOTALL | re.IGNORECASE)
     if not table_m:
@@ -109,6 +111,9 @@ def render_table(query, rows):
             return ", ".join(str(v) for v in val)
         return str(val) if val is not None else ""
 
+    if auto_file_col:
+        columns = [("file.link", "파일")] + columns
+
     headers = [alias for _, alias in columns]
     lines = [
         "| " + " | ".join(headers) + " |",
@@ -134,7 +139,7 @@ def process_file(path, rows):
             rendered = render_table(query, rows)
         elif from_folder:
             folder_rows = load_folder_files(from_folder)
-            rendered = render_table(query, folder_rows)
+            rendered = render_table(query, folder_rows, auto_file_col=True)
         else:
             return m.group(0)
 
