@@ -51,8 +51,8 @@ SORT target ASC
 
 **순서**
 1. **[#22](https://github.com/beomjinkim2000/Code_IT_Team_1_FirstProject/issues/22)** — YOLOv8 설치 및 예제 실행 (30분, 데이터 없이 가능)
-   - `pip install ultralytics` → 예제 실행 → GPU 여부 이슈 코멘트 남기고 close
-2. **[#23](https://github.com/beomjinkim2000/Code_IT_Team_1_FirstProject/issues/23)** — `build_model()` 스켈레톤 (데이터 없이 가능)
+   - `uv install ultralytics` → 예제 실행 → GPU 여부 이슈 코멘트 남기고 close
+1. **[#23](https://github.com/beomjinkim2000/Code_IT_Team_1_FirstProject/issues/23)** — `build_model()` 스켈레톤 (데이터 없이 가능)
    - `src/models/baseline.py` 생성, 더미 텐서로 forward 통과 확인
    - 참고: [[architecture/interfaces]] 섹션 3
 3. **#8 완료 후** → #14 → #15 → #16 → #17 (model → train → evaluate → checkpoint)

@@ -48,11 +48,11 @@ Backlog → Todo → In Progress → In Review → Done
 
 > Settings → Projects → 해당 프로젝트 → Workflows
 
-| 트리거 | 동작 |
-|---|---|
+| 트리거                 | 동작                     |
+| ------------------- | ---------------------- |
 | Pull request opened | 연결된 이슈 → **In Review** |
-| Pull request merged | 연결된 이슈 → **Done** |
-| Issue closed | 이슈 → **Done** |
+| Pull request merged | 연결된 이슈 → **Done**      |
+| Issue closed        | 이슈 → **Done**          |
 
 **연결 방법**: PR 본문에 `closes #8` 또는 `fixes #8` 명시 → 자동으로 이슈와 연결됨
 
