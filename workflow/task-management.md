@@ -93,9 +93,9 @@ Backlog → Todo → In Progress → In Review → Done
 ## 이슈 전체 목록 (v0.1)
 
 ```dataview
-TABLE issue as "#", title as "작업", label as "라벨", assignee as "담당", target as "마감", st as "상태"
+TABLE issue as "#", title as "작업", label as "라벨", assignee as "담당", milestone as "마일스톤", priority as "우선순위", target as "마감", st as "상태"
 FROM "tasks"
-SORT target ASC
+SORT target ASC, priority ASC, issue ASC
 ```
 
 ---

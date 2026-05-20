@@ -5,6 +5,7 @@ assignee: YuJY9897
 label: setup
 st: in-progress
 milestone: v0.1
+priority: p0
 target: 2026-05-21
 github: https://github.com/beomjinkim2000/Code_IT_Team_1_FirstProject/issues/22
 ---

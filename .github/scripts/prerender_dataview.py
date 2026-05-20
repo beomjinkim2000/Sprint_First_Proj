@@ -53,14 +53,19 @@ def render_table(query, rows):
             key = part.strip()
             columns.append((key, key))
 
-    # SORT 파싱
-    sort_m = re.search(r'SORT\s+(\w+)(?:\s+(ASC|DESC))?', query, re.IGNORECASE)
+    # SORT 파싱 (다중 키 지원: SORT a ASC, b ASC, c ASC)
+    sort_m = re.search(r'SORT\s+(.+?)(?:\n|$)', query, re.IGNORECASE)
     if sort_m:
-        sort_key = sort_m.group(1)
-        sort_desc = (sort_m.group(2) or "ASC").upper() == "DESC"
-        rows = sorted(rows,
-                      key=lambda r: (r.get(sort_key) is None, r.get(sort_key, "")),
-                      reverse=sort_desc)
+        sort_keys = []
+        for part in re.split(r',\s*', sort_m.group(1).strip()):
+            part = part.strip()
+            km = re.match(r'(\w+)(?:\s+(ASC|DESC))?', part, re.IGNORECASE)
+            if km:
+                sort_keys.append((km.group(1), (km.group(2) or "ASC").upper() == "DESC"))
+        for key, desc in reversed(sort_keys):
+            rows = sorted(rows,
+                          key=lambda r, k=key: (r.get(k) is None or r.get(k) == "", r.get(k, "")),
+                          reverse=desc)
 
     def cell(row, key):
         val = row.get(key, row.get(key.split(".")[-1], ""))

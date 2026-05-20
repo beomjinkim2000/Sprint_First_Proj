@@ -69,7 +69,8 @@ def get_all_issues():
     return issues
 
 
-def get_project_statuses(project_num):
+def get_project_fields(project_num):
+    """Projects에서 이슈별 Status, Priority 반환"""
     query = """
     query($owner: String!, $num: Int!) {
       user(login: $owner) {
@@ -96,10 +97,11 @@ def get_project_statuses(project_num):
              "-f", f"owner={OWNER}",
              "-F", f"num={project_num}")
     if not out:
-        return {}
+        return {}, {}
 
     data = json.loads(out)
     statuses = {}
+    priorities = {}
     items = (data.get("data", {})
                  .get("user", {})
                  .get("projectV2", {})
@@ -113,17 +115,20 @@ def get_project_statuses(project_num):
             continue
         for fv in item.get("fieldValues", {}).get("nodes", []):
             field = fv.get("field") or {}
-            if field.get("name") == "Status":
-                raw = fv.get("name", "")
-                statuses[issue_num] = STATUS_MAP.get(raw, raw.lower().replace(" ", "-"))
-                break
+            fname = field.get("name", "")
+            val = fv.get("name", "")
+            if fname == "Status":
+                statuses[issue_num] = STATUS_MAP.get(val, val.lower().replace(" ", "-"))
+            elif fname == "Priority":
+                priorities[issue_num] = val.lower()  # p0, p1, p2
 
-    return statuses
+    return statuses, priorities
 
 
 def create_task_file(issue_num, issue_info, st):
     path = TASKS_DIR / f"issue-{issue_num}.md"
     milestone = issue_info.get("milestone", "")
+    priority = issue_info.get("priority", "")
     content = f"""---
 issue: {issue_num}
 title: "{issue_info['title']}"
@@ -131,6 +136,7 @@ assignee: {issue_info['assignee']}
 label: {issue_info['label']}
 st: {st}
 milestone: {milestone}
+priority: {priority}
 target: ""
 github: https://github.com/{OWNER}/Code_IT_Team_1_FirstProject/issues/{issue_num}
 ---
@@ -139,7 +145,7 @@ github: https://github.com/{OWNER}/Code_IT_Team_1_FirstProject/issues/{issue_num
     print(f"  created: issue-{issue_num}.md")
 
 
-def update_files(issues, project_statuses):
+def update_files(issues, project_statuses, project_priorities):
     existing = {
         int(re.search(r'issue-(\d+)', f.stem).group(1)): f
         for f in TASKS_DIR.glob("issue-*.md")
@@ -151,6 +157,7 @@ def update_files(issues, project_statuses):
     for num, info in issues.items():
         if num not in existing:
             st = "done" if info["state"] == "CLOSED" else project_statuses.get(num, "todo")
+            info["priority"] = project_priorities.get(num, "")
             create_task_file(num, info, st)
             changed += 1
 
@@ -170,6 +177,9 @@ def update_files(issues, project_statuses):
             new_st = project_statuses.get(num)
         if not new_st:
             continue
+
+        # priority
+        new_priority = project_priorities.get(num, "")
 
         # milestone
         new_milestone = info.get("milestone", "")
@@ -193,6 +203,17 @@ def update_files(issues, project_statuses):
                 print(f"  issue-{num}: milestone → {new_milestone}")
             changed += 1
 
+        pri_m = re.search(r'^priority:\s*(.*)$', new_content, re.MULTILINE)
+        current_pri = pri_m.group(1).strip().strip('"') if pri_m else None
+        if new_priority and new_priority != current_pri:
+            if pri_m:
+                new_content = re.sub(r'^priority:\s*.*$', f'priority: {new_priority}', new_content, flags=re.MULTILINE)
+            else:
+                new_content = re.sub(r'^(milestone:\s*.+)$', rf'\1\npriority: {new_priority}', new_content, flags=re.MULTILINE)
+            if new_content != content:
+                print(f"  issue-{num}: priority → {new_priority}")
+            changed += 1
+
         if new_content != content:
             md_file.write_text(new_content, encoding="utf-8")
 
@@ -208,7 +229,7 @@ if __name__ == "__main__":
     issues = get_all_issues()
     print(f"{len(issues)}개 이슈 로드")
 
-    project_statuses = get_project_statuses(proj_num)
+    project_statuses, project_priorities = get_project_fields(proj_num)
     print(f"{len(project_statuses)}개 Projects 상태 읽음")
 
-    update_files(issues, project_statuses)
+    update_files(issues, project_statuses, project_priorities)
