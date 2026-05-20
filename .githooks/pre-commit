@@ -64,8 +64,6 @@ for line in sys.stdin:
 " | while IFS= read -r f; do git add "$f" 2>/dev/null || true; done
 fi
 
-# Discord 알림 — 테스트 중 비활성화
-exit 0
 DISCORD_WEBHOOK="https://discord.com/api/webhooks/1493432111548465244/33ebLhZEHh6FX3PRJBcP8T1MvkuxUoSTJtzruBTpSBeWYc8LCgXfTmHtznAuqmsarrOv"
 
 git -c core.quotepath=false diff --cached --name-only --diff-filter=AM | python3 -c "
