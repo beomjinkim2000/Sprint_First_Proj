@@ -22,14 +22,14 @@ related:
 
 ## 황원재 (Data/Dataset) — zipdid
 
-| # | 작업 | 상태 | 우선순위 | 마감 | 마일스톤 |
-| --- | --- | --- | --- | --- | --- |
-| 8 | [data] 원본 데이터 구조 확인 및 annotation 컬럼 파악 | todo | p0 | 2026-05-21 | v0.1 |
-| 9 | [data] EDA 노트북 작성 (01_eda.ipynb) | todo | p1 | 2026-05-22 | v0.1 |
-| 10 | [data] bbox 시각화 노트북 작성 | todo | p1 | 2026-05-22 | v0.1 |
-| 11 | [dataset] Dataset 클래스 구현 (dataset.py) | todo | p1 | 2026-05-22 | v0.1 |
-| 12 | [dataset] transforms 구현 (transforms.py) | todo | p1 | 2026-05-22 | v0.1 |
-| 13 | [dataset] train/val split 구현 (split.py) | todo | p2 | 2026-05-22 | v0.1 |
+| #   | 작업                                      | 상태   | 우선순위 | 마감         | 마일스톤 |
+| --- | --------------------------------------- | ---- | ---- | ---------- | ---- |
+| 8   | [data] 원본 데이터 구조 확인 및 annotation 컬럼 파악  | todo | p0   | 2026-05-21 | v0.1 |
+| 9   | [data] EDA 노트북 작성 (01_eda.ipynb)        | todo | p1   | 2026-05-22 | v0.1 |
+| 10  | [data] bbox 시각화 노트북 작성                  | todo | p1   | 2026-05-22 | v0.1 |
+| 11  | [dataset] Dataset 클래스 구현 (dataset.py)   | todo | p1   | 2026-05-22 | v0.1 |
+| 12  | [dataset] transforms 구현 (transforms.py) | todo | p1   | 2026-05-22 | v0.1 |
+| 13  | [dataset] train/val split 구현 (split.py) | todo | p2   | 2026-05-22 | v0.1 |
 
 **순서**
 1. **[#8](https://github.com/beomjinkim2000/Code_IT_Team_1_FirstProject/issues/8)** — 원본 데이터 구조 확인 ← **여기서 시작**
