@@ -48,11 +48,11 @@ Backlog → Todo → In Progress → In Review → Done
 
 > Settings → Projects → 해당 프로젝트 → Workflows
 
-| 트리거                 | 동작                     |
-| ------------------- | ---------------------- |
+| 트리거 | 동작 |
+|---|---|
 | Pull request opened | 연결된 이슈 → **In Review** |
-| Pull request merged | 연결된 이슈 → **Done**      |
-| Issue closed        | 이슈 → **Done**          |
+| Pull request merged | 연결된 이슈 → **Done** |
+| Issue closed | 이슈 → **Done** |
 
 **연결 방법**: PR 본문에 `closes #8` 또는 `fixes #8` 명시 → 자동으로 이슈와 연결됨
 
@@ -92,29 +92,29 @@ Backlog → Todo → In Progress → In Review → Done
 
 ## 이슈 전체 목록 (v0.1)
 
-| # | 작업 | 담당 | 라벨 | 마감 | 상태 |
-| --- | --- | --- | --- | --- | --- |
-| 22 | [setup] YOLOv8 설치 및 예제 실행 확인 | YuJY9897 | setup | 2026-05-21 | in-progress |
-| 23 | [model] build_model() 스켈레톤 구현 | YuJY9897 | model | 2026-05-21 | todo |
-| 24 | [inference] predict.py 스켈레톤 구현 | cjkj1234 | inference | 2026-05-21 | todo |
-| 4 | [setup] Github repo 생성 및 branch 전략 설정 | beomjinkim2000 | setup | 2026-05-21 | todo |
-| 5 | [setup] 폴더 구조 생성 및 빈 파일 커밋 | beomjinkim2000 | setup | 2026-05-21 | todo |
-| 6 | [setup] interfaces.md 작성 | beomjinkim2000 | setup | 2026-05-21 | todo |
-| 7 | [setup] pyproject.toml 및 .gitignore 작성 | beomjinkim2000 | setup | 2026-05-21 | todo |
-| 8 | [data] 원본 데이터 구조 확인 및 annotation 컬럼 파악 | zipdid, beomjinkim2000 | data | 2026-05-21 | todo |
-| 10 | [data] bbox 시각화 노트북 작성 | zipdid, beomjinkim2000 | data | 2026-05-22 | todo |
-| 11 | [dataset] Dataset 클래스 구현 (dataset.py) | zipdid | dataset | 2026-05-22 | todo |
-| 12 | [dataset] transforms 구현 (transforms.py) | zipdid | dataset | 2026-05-22 | todo |
-| 13 | [dataset] train/val split 구현 (split.py) | zipdid | dataset | 2026-05-22 | todo |
-| 9 | [data] EDA 노트북 작성 (01_eda.ipynb) | zipdid, beomjinkim2000 | data | 2026-05-22 | todo |
-| 14 | [model] baseline 모델 구현 (build_model) | YuJY9897 | model | 2026-05-23 | todo |
-| 15 | [train] train loop 구현 (engine/train.py) | YuJY9897 | train | 2026-05-23 | todo |
-| 16 | [train] evaluate 구현 (engine/evaluate.py) | YuJY9897 | train | 2026-05-23 | todo |
-| 17 | [train] checkpoint 저장/로드 구현 | YuJY9897 | train | 2026-05-23 | todo |
-| 18 | [inference] predict 구현 (engine/predict.py) | cjkj1234 | inference | 2026-05-23 | todo |
-| 19 | [submission] make_submission.py 구현 | beomjinkim2000 | submission | 2026-05-24 | todo |
-| 20 | [submission] 첫 번째 Kaggle 제출 | beomjinkim2000 | submission | 2026-05-25 | todo |
-| 21 | [docs] README 초안 작성 | beomjinkim2000 | docs | 2026-05-25 | todo |
+| # | Title | Label | 담당 | Target |
+|---|---|---|---|---|
+| #4 | [setup] Github repo 생성 및 branch 전략 설정 | setup | beomjinkim2000 | 5/21 |
+| #5 | [setup] 폴더 구조 생성 및 빈 파일 커밋 | setup | beomjinkim2000 | 5/21 |
+| #6 | [setup] interfaces.md 작성 | setup, docs | beomjinkim2000 | 5/21 |
+| #7 | [setup] pyproject.toml 및 .gitignore 작성 | setup | beomjinkim2000 | 5/21 |
+| #8 | [data] 원본 데이터 구조 확인 및 annotation 컬럼 파악 | data | zipdid, beomjinkim2000 | 5/21 |
+| #9 | [data] EDA 노트북 작성 (01_eda.ipynb) | data, docs | zipdid, beomjinkim2000 | 5/22 |
+| #10 | [data] bbox 시각화 노트북 작성 | data | zipdid, beomjinkim2000 | 5/22 |
+| #11 | [dataset] Dataset 클래스 구현 (dataset.py) | dataset | zipdid | 5/22 |
+| #12 | [dataset] transforms 구현 (transforms.py) | dataset | zipdid | 5/22 |
+| #13 | [dataset] train/val split 구현 (split.py) | dataset | zipdid | 5/22 |
+| #14 | [model] baseline 모델 구현 (build_model) | model | YuJY9897 | 5/23 |
+| #15 | [train] train loop 구현 (engine/train.py) | train | YuJY9897 | 5/23 |
+| #16 | [train] evaluate 구현 (engine/evaluate.py) | train | YuJY9897 | 5/23 |
+| #17 | [train] checkpoint 저장/로드 구현 | train | YuJY9897 | 5/23 |
+| #18 | [inference] predict 구현 (engine/predict.py) | inference | cjkj1234 | 5/23 |
+| #19 | [submission] make_submission.py 구현 | submission | beomjinkim2000 | 5/24 |
+| #20 | [submission] 첫 번째 Kaggle 제출 | submission | beomjinkim2000 | 5/25 |
+| #21 | [docs] README 초안 작성 | docs | beomjinkim2000 | 5/25 |
+| #22 | [setup] YOLOv8 설치 및 예제 실행 확인 | setup | YuJY9897 | 5/21 |
+| #23 | [model] build_model() 스켈레톤 구현 | model | YuJY9897 | 5/21 |
+| #24 | [inference] predict.py 스켈레톤 구현 | inference | cjkj1234 | 5/21 |
 
 ---
 
