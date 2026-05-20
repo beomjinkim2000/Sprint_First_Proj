@@ -65,7 +65,8 @@ git checkout -b feature/8-data-structure-check
 > GitHub repo → Settings → Branches → Add rule
 
 - `main` 직접 push 금지
-- PR 필수 (최소 approve 1명)
+- PR 필수 (팀장 + 팀원 최소 1명, 총 2명 approve)
+- PR 작성자 본인은 자기 PR 리뷰 불가
 - `interfaces.md` 변경 PR → 팀장 필수 리뷰 (예외 없음)
 
 ---
@@ -75,8 +76,9 @@ git checkout -b feature/8-data-structure-check
 1. feature 브랜치에서 작업 후 `main`으로 PR
 2. PR 제목: `[#11] Dataset 클래스 구현`
 3. PR 본문 필수 항목: 작업 내용 + 테스트 결과 (실행 출력 or 스크린샷)
-4. 머지 조건: **팀장 approve 필수** (예외 없음)
-5. Merge 후 GitHub 원격 feature 브랜치 삭제 (로컬은 유지해도 무방)
+4. 머지 조건: **팀장 approve + 팀원 최소 1명 approve** (총 2명, 예외 없음)
+5. PR 작성자 본인은 자기 PR 리뷰 불가 — 팀장이 본인 PR 올릴 경우에도 팀원 2명 approve 필요
+6. Merge 후 GitHub 원격 feature 브랜치 삭제 (로컬은 유지해도 무방)
 
 ### PR 리뷰 시 확인사항
 
