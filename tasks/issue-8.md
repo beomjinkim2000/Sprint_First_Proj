@@ -6,7 +6,7 @@ assignee:
   - beomjinkim2000
 label: data
 st: in-review
-milestone: v0.1
+milestone: Milestone
 priority: p0
 target: 2026-05-21
 github: https://github.com/beomjinkim2000/Code_IT_Team_1_FirstProject/issues/8
