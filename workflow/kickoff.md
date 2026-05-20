@@ -25,7 +25,7 @@ related:
 ```dataview
 TABLE issue as "#", title as "작업", target as "마감", st as "상태"
 FROM "tasks"
-WHERE contains(assignee, "zipdid")
+WHERE contains(assignee, "zipdid") AND milestone = "v0.1"
 SORT target ASC
 ```
 
@@ -45,7 +45,7 @@ SORT target ASC
 ```dataview
 TABLE issue as "#", title as "작업", target as "마감", st as "상태"
 FROM "tasks"
-WHERE contains(assignee, "YuJY9897")
+WHERE contains(assignee, "YuJY9897") AND milestone = "v0.1"
 SORT target ASC
 ```
 
@@ -65,7 +65,7 @@ SORT target ASC
 ```dataview
 TABLE issue as "#", title as "작업", target as "마감", st as "상태"
 FROM "tasks"
-WHERE contains(assignee, "cjkj1234")
+WHERE contains(assignee, "cjkj1234") AND milestone = "v0.1"
 SORT target ASC
 ```
 
@@ -83,7 +83,7 @@ SORT target ASC
 ```dataview
 TABLE issue as "#", title as "작업", target as "마감", st as "상태"
 FROM "tasks"
-WHERE contains(assignee, "beomjinkim2000")
+WHERE contains(assignee, "beomjinkim2000") AND milestone = "v0.1"
 SORT target ASC
 ```
 
