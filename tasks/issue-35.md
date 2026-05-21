@@ -3,7 +3,7 @@ issue: 35
 title: "[inference] src/engine/postprocess.py 구현"
 assignee: cjkj1234
 label: inference
-st: backlog
+st: in-review
 milestone: Milestone
 priority: 
 target: ""

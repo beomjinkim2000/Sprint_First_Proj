@@ -3,7 +3,7 @@ issue: 23
 title: "[model] build_model() 스켈레톤 구현"
 assignee: YuJY9897
 label: model
-st: in-progress
+st: in-review
 milestone: Milestone
 priority: p1
 target: 2026-05-21

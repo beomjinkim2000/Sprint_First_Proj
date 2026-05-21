@@ -3,7 +3,7 @@ issue: 15
 title: "[train] train loop 구현 (engine/train.py)"
 assignee: YuJY9897
 label: train
-st: todo
+st: in-progress
 milestone: v0.1
 priority: p2
 target: 2026-05-23

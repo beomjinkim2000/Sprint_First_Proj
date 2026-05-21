@@ -3,7 +3,7 @@ issue: 14
 title: "[model] baseline 모델 구현 (build_model)"
 assignee: YuJY9897
 label: model
-st: todo
+st: in-review
 milestone: v0.1
 priority: p2
 target: 2026-05-23
