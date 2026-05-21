@@ -7,6 +7,7 @@ tags:
 ---
 <div style="display:flex;align-items:center;gap:12px;margin:16px 0"><hr style="flex:1;margin:0"><span style="font-weight:bold;white-space:nowrap">질문</span><hr style="flex:1;margin:0"></div>
 
+
 train.py를 만들면서 한 가지 의문점에 부딪혔는데
 Ultralytics 래퍼를 쓰지 않으면 현재 loss값을 알 수 없습니다.
 loss를 저희 내부에서 자체적으로 구현하기엔 복잡하다고 합니다.
@@ -20,6 +21,20 @@ Ultralytics 래퍼를 쓰면 전처리, 후처리를 자동으로 해주는데
 Ultralytics 래퍼를 쓰는게 맞을까요 아닐까요
 
 <div style="display:flex;align-items:center;gap:12px;margin:16px 0"><hr style="flex:1;margin:0"><span style="font-weight:bold;white-space:nowrap">답변</span><hr style="flex:1;margin:0"></div>
+
+> [!note] 유재열(Model)
+> Ultralytics 래퍼를 쓰면 제 베이스라인 코드가
+>
+> from ultralytics import YOLO
+> def build_model_u(model_name: str) -> YOLO:
+>     return YOLO(f"{model_name}.pt")
+>
+> 딸랑 이 3줄이 되버린답니다.
+> 그렇다면 아무것도 안한게 되겠죠... 추가로 위에 쓴 전,후처리도 많은걸 Ultralytics래퍼가 처리해줄겁니다..
+>
+> 그래서 생각한 방안 1 loss계산을 위한 내부 loss클래스만 참고하거나 가져와서 쓴다.
+> 그러면 가져온 Ultralytics loss클래스가 원하는 포맷 변환이 필요하다고 합니다.
+> (xyxy를 xywh로 바꾸기), (2. 이미지 크기로 나눠서 0~1 정규화)
 
 <div style="display:flex;align-items:center;gap:12px;margin:16px 0"><hr style="flex:1;margin:0"><span style="font-weight:bold;white-space:nowrap">댓글</span><hr style="flex:1;margin:0"></div>
 
