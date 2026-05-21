@@ -3,7 +3,7 @@ issue: 29
 title: "[setup] src/utils/config.py 구현 (load_config + null 검증)"
 assignee: beomjinkim2000
 label: setup
-st: backlog
+st: done
 milestone: Milestone
 priority: 
 target: ""
