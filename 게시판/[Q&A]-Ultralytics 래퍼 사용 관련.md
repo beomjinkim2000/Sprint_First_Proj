@@ -7,6 +7,7 @@ tags:
 ---
 <div style="display:flex;align-items:center;gap:12px;margin:16px 0"><hr style="flex:1;margin:0"><span style="font-weight:bold;white-space:nowrap">질문</span><hr style="flex:1;margin:0"></div>
 
+
 train.py를 만들면서 한 가지 의문점에 부딪혔는데
 Ultralytics 래퍼를 쓰지 않으면 현재 loss값을 알 수 없습니다.
 loss를 저희 내부에서 자체적으로 구현하기엔 복잡하다고 합니다.
@@ -37,6 +38,7 @@ xyxy를 xywh로 바꾸기, 이미지 크기로 나눠서 0~1 정규화, batch_id
 사실상 Ultralytics에 loss를 계산하는 내부 클래스만 가져오는게 좋을 것 같습니다.
 저는 이렇게 진행하려고 합니다.
 어서 찬반을 내주세요
+사실상 전,후처리 하시는분들이 달라지는건 없습니다. 하하하
 
 <div style="display:flex;align-items:center;gap:12px;margin:16px 0"><hr style="flex:1;margin:0"><span style="font-weight:bold;white-space:nowrap">답변</span><hr style="flex:1;margin:0"></div>
 
