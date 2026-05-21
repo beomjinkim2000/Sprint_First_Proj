@@ -30,5 +30,6 @@ jobs:
           git diff --quiet && echo "변경 없음" || (
             git add tasks/
             git commit -m "chore: sync issue status from GitHub Projects"
+            git pull --rebase
             git push
           )
