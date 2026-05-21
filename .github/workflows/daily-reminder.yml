@@ -1,8 +1,6 @@
 name: Daily Collaboration Journal Reminder
 
 on:
-  schedule:
-    - cron: '50 9 * * 1-5'  # 18:50 KST (UTC+9), 월~금
   workflow_dispatch:
 
 jobs:
