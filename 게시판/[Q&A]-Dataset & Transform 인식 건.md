@@ -8,6 +8,7 @@ tags:
 <div style="display:flex;align-items:center;gap:12px;margin:16px 0"><hr style="flex:1;margin:0"><span style="font-weight:bold;white-space:nowrap">질문</span><hr style="flex:1;margin:0"></div>
 
 
+
 코덱스 5.5 high랑 두시간 싸우다가
 데이터셋 트랜스폼에 대해서 질문 남깁니다.
 
@@ -29,7 +30,7 @@ tags:
 
 > [!note] 유재열(Model)
 > 1. 인터페이스 계약서에는 image: torch.Tensor [C,H,W], float32, 0~1 정규화 로 출력을 하도록 명시가 되어있다
-> 2. 2. YOLOv8은 보통 mean/std normalize를 안 씀
+> 2. YOLOv8은 보통 mean/std normalize를 안 씀
 >
 > 결론 : nomalize+mean/std nomaliz를 하지 않는게 맞다고 합니다.
 
