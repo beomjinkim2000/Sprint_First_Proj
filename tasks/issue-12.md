@@ -3,7 +3,7 @@ issue: 12
 title: "[dataset] transforms 구현 (transforms.py)"
 assignee: zipdid
 label: dataset
-st: todo
+st: done
 milestone: v0.1
 priority: p1
 target: 2026-05-22
