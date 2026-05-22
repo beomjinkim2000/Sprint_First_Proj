@@ -9,6 +9,7 @@ tags:
 
 
 
+
 코덱스 5.5 high랑 두시간 싸우다가
 데이터셋 트랜스폼에 대해서 질문 남깁니다.
 
@@ -35,10 +36,15 @@ tags:
 > 결론 : nomalize+mean/std nomaliz를 하지 않는게 맞다고 합니다.
 
 <div style="display:flex;align-items:center;gap:12px;margin:16px 0"><hr style="flex:1;margin:0"><span style="font-weight:bold;white-space:nowrap">댓글</span><hr style="flex:1;margin:0"></div>
-박창준
--0~1 normalize: 0~255 픽셀값을 0~1 float tensor로 변환
--mean/std normalize: 0~1 tensor를 평균/표준편차 기준으로 표준화하므로 값 범위가 (-2~2) 등으로 바뀔 수 있음
 
-계약서를 유지한다면 transform에서는 resize/augmentation/bbox 변환/ToTensor까지만 적용하고, mean/std normalize는 기본 비활성 또는 별도 옵션으로 분리라고 하네요
-
---------저거 블록 어케 만들어요?---------
+> [!note] 김범진(PM)
+> 박창준
+> -0~1 normalize: 0~255 픽셀값을 0~1 float tensor로 변환
+> -mean/std normalize: 0~1 tensor를 평균/표준편차 기준으로 표준화하므로 값 범위가 (-2~2) 등으로 바뀔 수 있음
+>
+> 계약서를 유지한다면 transform에서는 resize/augmentation/bbox 변환/ToTensor까지만 적용하고, mean/std normalize는 기본 비활성 또는 별도 옵션으로 분리라고 하네요
+>
+> --------저거 블록 어케 만들어요?---------
+>
+>
+> 저거 그냥 쓰고 commit , push하면 알아서 hook으로 타는건데 버근가봐요 뭐지..
