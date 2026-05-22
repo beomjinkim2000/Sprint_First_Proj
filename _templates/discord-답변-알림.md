@@ -1,7 +1,6 @@
 <%*
 const WEBHOOK = "https://discord.com/api/webhooks/1493432111548465244/33ebLhZEHh6FX3PRJBcP8T1MvkuxUoSTJtzruBTpSBeWYc8LCgXfTmHtznAuqmsarrOv";
 
-// Insert 모드: 현재 파일 / Create 모드: 열려있는 Q&A 파일 탐색
 let tfile = app.workspace.getActiveFile();
 const tempFile = (tfile && !tfile.name.startsWith('[Q&A]')) ? tfile : null;
 
@@ -29,21 +28,22 @@ let curLines = [];
 const callouts = [];
 
 for (const line of lines) {
-  if (line.includes('white-space:nowrap">답변<') || line.includes('white-space:nowrap">댓글<')) {
+  if (line.includes('white-space:nowrap">답변<')) {
+    if (curAuthor !== null) { callouts.push([curAuthor, curLines.join(' ')]); curAuthor = null; curLines = []; }
     inSec = true; continue;
   }
+
   if (inSec && line.includes('white-space:nowrap">')) {
-    if (curAuthor !== null) callouts.push([curAuthor, curLines.join(' ')]);
-    inSec = false; curAuthor = null; curLines = [];
-    continue;
+    if (curAuthor !== null) { callouts.push([curAuthor, curLines.join(' ')]); curAuthor = null; curLines = []; }
+    inSec = false; continue;
   }
+
   if (!inSec) continue;
 
   const m = line.match(/^>\s*\[!note\]\s*(.+)/);
   if (m) {
     if (curAuthor !== null) callouts.push([curAuthor, curLines.join(' ')]);
-    curAuthor = m[1].trim();
-    curLines = [];
+    curAuthor = m[1].trim(); curLines = [];
   } else if (curAuthor !== null && line.startsWith('>')) {
     const text = line.slice(1).trim();
     if (text) curLines.push(text);
@@ -65,13 +65,12 @@ let msg = `💬 **${author}님이 답변을 등록했습니다!**\n> **제목:**
 if (preview) msg += `\n> **내용:** ${preview}`;
 
 try {
-  const { requestUrl } = require('obsidian');
-  await requestUrl({
-    url: WEBHOOK,
+  const res = await fetch(WEBHOOK, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ content: msg })
   });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
   new Notice("✅ Discord에 답변 알림을 보냈습니다!");
 } catch(e) {
   new Notice("❌ 전송 실패: " + String(e));

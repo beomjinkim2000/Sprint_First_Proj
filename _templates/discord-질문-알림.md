@@ -1,7 +1,6 @@
 <%*
 const WEBHOOK = "https://discord.com/api/webhooks/1493432111548465244/33ebLhZEHh6FX3PRJBcP8T1MvkuxUoSTJtzruBTpSBeWYc8LCgXfTmHtznAuqmsarrOv";
 
-// Insert 모드: 현재 파일 / Create 모드: 열려있는 Q&A 파일 탐색
 let tfile = app.workspace.getActiveFile();
 const tempFile = (tfile && !tfile.name.startsWith('[Q&A]')) ? tfile : null;
 
@@ -45,13 +44,12 @@ let msg = `❓ **새 질문이 등록됐어요!** 아는 분 답변 부탁드립
 if (preview) msg += `\n> **질문:** ${preview}`;
 
 try {
-  const { requestUrl } = require('obsidian');
-  await requestUrl({
-    url: WEBHOOK,
+  const res = await fetch(WEBHOOK, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ content: msg })
   });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
   new Notice("✅ Discord에 질문 알림을 보냈습니다!");
 } catch(e) {
   new Notice("❌ 전송 실패: " + String(e));
