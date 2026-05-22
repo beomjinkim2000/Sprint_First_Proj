@@ -41,4 +41,4 @@ tags:
 
 계약서를 유지한다면 transform에서는 resize/augmentation/bbox 변환/ToTensor까지만 적용하고, mean/std normalize는 기본 비활성 또는 별도 옵션으로 분리라고 하네요
 
---------ㅈ
+--------저거 블록 어케 만들어요?---------
