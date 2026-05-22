@@ -1,8 +1,7 @@
-name: Q&A Discord 알림
+name: Q&A Discord 알림 (비활성 — Obsidian 버튼으로 대체됨)
 
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 jobs:
   notify:

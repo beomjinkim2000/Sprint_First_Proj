@@ -11,6 +11,7 @@ tags:
 
 
 
+
 코덱스 5.5 high랑 두시간 싸우다가
 데이터셋 트랜스폼에 대해서 질문 남깁니다.
 
@@ -38,7 +39,7 @@ tags:
 
 <div style="display:flex;align-items:center;gap:12px;margin:16px 0"><hr style="flex:1;margin:0"><span style="font-weight:bold;white-space:nowrap">댓글</span><hr style="flex:1;margin:0"></div>
 
-> 박창준
+> [!note] 박창준(Exp)
 > -0~1 normalize: 0~255 픽셀값을 0~1 float tensor로 변환
 > -mean/std normalize: 0~1 tensor를 평균/표준편차 기준으로 표준화하므로 값 범위가 (-2~2) 등으로 바뀔 수 있음
 >

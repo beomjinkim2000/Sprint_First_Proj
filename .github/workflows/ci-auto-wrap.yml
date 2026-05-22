@@ -1,0 +1,28 @@
+name: Q&A 자동 서명 처리 (CI 안전망)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '게시판/[Q&A]*.md'
+
+jobs:
+  wrap:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: 서명 처리 (로컬 hook 미실행 파일 보완)
+        run: python3 .github/scripts/ci_wrap_callout.py
+
+      - name: 변경사항 커밋 & 푸시
+        run: |
+          git config user.name "ci-bot"
+          git config user.email "bot@noreply"
+          git add -A
+          git diff --staged --quiet || git commit -m "자동 서명 처리 (CI)"
+          git diff --staged --quiet || git push

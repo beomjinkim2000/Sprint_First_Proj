@@ -49,6 +49,8 @@
   "syntax_highlighting": true,
   "syntax_highlighting_mobile": false,
   "enabled_templates_hotkeys": [
+    "_templates/discord-질문-알림.md",
+    "_templates/discord-답변-알림.md",
     ""
   ],
   "startup_templates": [
