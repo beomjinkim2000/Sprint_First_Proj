@@ -6,6 +6,10 @@ kanban-plugin: board
 
 ## 미해결
 
+- [ ] [[[Q&A]-Dataset & Transform 인식 건|Dataset & Transform 인식 건]]
+  Q. 코덱스 5.5 high랑 두시간 싸우다가
+  A. 1. 인터페이스 계약서에는 image: torch.Tensor [C,H,W], float32, 0~…
+
 ## 해결됨
 
 - [ ] [[[Q&A]-Ultralytics 래퍼 사용 관련|Ultralytics 래퍼 사용 관련]]
