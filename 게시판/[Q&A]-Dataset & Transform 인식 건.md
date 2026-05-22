@@ -13,6 +13,7 @@ tags:
 
 
 
+
 코덱스 5.5 high랑 두시간 싸우다가
 데이터셋 트랜스폼에 대해서 질문 남깁니다.
 
@@ -49,17 +50,17 @@ tags:
 >
 >
 >
-> 결론 : 0~1 normalize만 한다. Mean/std normalize는 하지 않습니다.
+> 최종 결론 : 0~1 normalize만 한다. Mean/std normalize는 하지 않습니다.
 >
 >
 >
-> Normalize
+>< Normalize>
 >
 > 픽셀값 범위를 0~255에서 0~1로 바꿔서 입력값 스케일 자체를 줄임. -> 그럼 가중치가 팍 안튐.
 >
 >
 >
-> Mean/std normalize
+> <Mean/std normalize>
 >
 > 평균을 계산이 들어가서 값을 0기준으로 맞춤 + 응집도 분포를 맞춤 -> 그럼 feature더 잘찾고 기울기가 이뻐져서 모델이 슥삭 김치함.
 >
