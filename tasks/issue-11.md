@@ -3,7 +3,7 @@ issue: 11
 title: "[dataset] Dataset 클래스 구현 (dataset.py)"
 assignee: zipdid
 label: dataset
-st: in-review
+st: in-progress
 milestone: v0.1
 priority: p1
 target: 2026-05-22
