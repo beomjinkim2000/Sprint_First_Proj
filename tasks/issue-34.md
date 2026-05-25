@@ -3,7 +3,7 @@ issue: 34
 title: "[inference] 루트 predict.py 구현"
 assignee: beomjinkim2000
 label: inference
-st: backlog
+st: done
 milestone: Milestone
 priority: 
 target: ""
