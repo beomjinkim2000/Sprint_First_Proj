@@ -3,7 +3,7 @@ issue: 24
 title: "[inference] predict.py 스켈레톤 구현"
 assignee: cjkj1234
 label: inference
-st: in-review
+st: done
 milestone: Milestone
 priority: p1
 target: 2026-05-21
