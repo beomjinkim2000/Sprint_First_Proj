@@ -3,7 +3,7 @@ issue: 13
 title: "[dataset] train/val split 구현 (split.py)"
 assignee: zipdid
 label: dataset
-st: todo
+st: done
 milestone: v0.1
 priority: p2
 target: 2026-05-22
