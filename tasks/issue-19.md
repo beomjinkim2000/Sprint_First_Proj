@@ -3,7 +3,7 @@ issue: 19
 title: "[submission] make_submission.py 구현"
 assignee: beomjinkim2000
 label: submission
-st: todo
+st: done
 milestone: v0.1
 priority: p1
 target: 2026-05-24
