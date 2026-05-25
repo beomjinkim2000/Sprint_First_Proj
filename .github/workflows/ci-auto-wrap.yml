@@ -1,10 +1,10 @@
-name: Q&A 자동 서명 처리 (CI 안전망)
+name: "Q&A 자동 서명 처리 (CI 안전망)"
 
 on:
   push:
     branches: [main]
     paths:
-      - '게시판/[Q&A]*.md'
+      - '게시판/*.md'
 
 jobs:
   wrap:
