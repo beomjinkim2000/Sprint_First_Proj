@@ -3,7 +3,7 @@ issue: 17
 title: "[train] checkpoint 저장/로드 구현"
 assignee: YuJY9897
 label: train
-st: todo
+st: done
 milestone: v0.1
 priority: p1
 target: 2026-05-23
