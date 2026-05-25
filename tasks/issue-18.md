@@ -3,7 +3,7 @@ issue: 18
 title: "[inference] predict 구현 (engine/predict.py)"
 assignee: cjkj1234
 label: inference
-st: todo
+st: done
 milestone: v0.1
 priority: p2
 target: 2026-05-23

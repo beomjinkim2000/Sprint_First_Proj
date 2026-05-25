@@ -3,7 +3,7 @@ issue: 16
 title: "[train] evaluate 구현 (engine/evaluate.py)"
 assignee: YuJY9897
 label: train
-st: todo
+st: done
 milestone: v0.1
 priority: p1
 target: 2026-05-23
