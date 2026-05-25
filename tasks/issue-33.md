@@ -3,7 +3,7 @@ issue: 33
 title: "[train] 루트 train.py 구현"
 assignee: beomjinkim2000
 label: train
-st: backlog
+st: done
 milestone: Milestone
 priority: 
 target: ""
