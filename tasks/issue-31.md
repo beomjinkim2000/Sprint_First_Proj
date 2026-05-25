@@ -3,7 +3,7 @@ issue: 31
 title: "[setup] src/utils/validate.py 구현"
 assignee: beomjinkim2000
 label: setup
-st: backlog
+st: done
 milestone: Milestone
 priority: 
 target: ""
