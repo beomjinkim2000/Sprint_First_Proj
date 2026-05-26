@@ -48,6 +48,32 @@ Albumentations에서 bbox는 이미지 범위 내에 있어야 함.
 `model.train()` 시 Ultralytics가 자동으로 기본 augmentation 적용.
 추가 augmentation은 `augment=True` 파라미터 또는 커스텀 설정으로 조절.
 
+## Mosaic 증강
+
+이미지 4장을 2×2 그리드로 합쳐 하나의 학습 샘플로 만드는 기법. Ultralytics가 기본 적용하는 핵심 증강.
+
+```
+[이미지A][이미지B]
+[이미지C][이미지D]  →  640×640 1장으로 리사이즈 → 학습
+```
+
+**기존 증강과의 차이**
+- 기존: 이미지 1장의 모양을 바꿈 (같은 클래스 조합 유지)
+- Mosaic: 4장의 다른 이미지를 합침 → 1 스텝당 4배 많은 클래스 정보
+
+**알약 데이터에서 특히 유효한 이유**
+이미지 1장에 알약 3~4개 → Mosaic 시 12~16개를 한 스텝에 학습.
+56클래스 중 한 스텝에 보는 클래스 수가 늘어 클래스 구분 학습 효율 향상.
+
+**설정 (configs/default.yaml)**
+```yaml
+augmentation:
+  mosaic_p: 0.5             # 0=끄기, 1=항상, 0.5=절반 확률
+  mosaic_min_bbox_size: 2   # 리사이즈 후 이 픽셀 이하 박스 제거
+```
+
+구현: `src/data/mosaic.py` — MosaicDataset이 train_ds를 래핑.
+
 ## 관련 이슈
 
 - #53 [[tasks/issue-53]] — Albumentations 파이프라인 강화 (황원재)
