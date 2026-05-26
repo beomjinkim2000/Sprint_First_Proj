@@ -71,8 +71,26 @@ backbone이 lr=0.001로 처음부터 학습되면 COCO에서 학습된 특징이
 - freeze 많을수록 → 학습 빠름, 과적합 적음, COCO 특징 보존
 - freeze 적을수록 → 알약 도메인에 더 잘 적응, 학습 시간 증가
 
+## Discriminative LR (차등 학습률)
+
+Phase 3에서 레이어 그룹마다 다른 lr을 적용하는 방법.
+
+```python
+optimizer = AdamW([
+    {"params": backbone_params, "lr": 0.00001},  # 1e-5 — 사전학습 특징 보존
+    {"params": head_params,     "lr": 0.0001},   # 1e-4 — 알약 도메인에 맞게 빠르게 적응
+])
+```
+
+- backbone/neck: 이미 좋은 특징 보유 → 너무 크게 바꾸면 망가짐 → lr 작게
+- head: 새 도메인에 맞게 처음부터 학습 필요 → lr 크게
+- 한 optimizer 안에서 param_group으로 분리해 각자 다른 lr로 업데이트
+
+→ [[concepts/Optimizer]] 참고.
+
 ## 관련 개념
 
 - [[concepts/YOLOv8]] — 사용 모델
 - [[concepts/Augmentation]] — freeze와 함께 overfitting 방지에 기여
 - [[concepts/LR Scheduling]] — 코사인 스케줄러와 phase별 lr
+- [[concepts/Optimizer]] — AdamW, SGD, momentum, weight decay
