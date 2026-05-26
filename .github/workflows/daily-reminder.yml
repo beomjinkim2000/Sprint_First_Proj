@@ -19,7 +19,9 @@ jobs:
 
       - name: Send Discord reminder
         if: steps.check.outputs.expired == 'false'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          curl -s -X POST "https://discord.com/api/webhooks/1493432111548465244/33ebLhZEHh6FX3PRJBcP8T1MvkuxUoSTJtzruBTpSBeWYc8LCgXfTmHtznAuqmsarrOv" \
+          curl -s -X POST "$DISCORD_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
             -d '{"content": "🌇 오늘도 고생 많으셨습니다! 협업일지 작성 잊지 마세요 📝"}'
