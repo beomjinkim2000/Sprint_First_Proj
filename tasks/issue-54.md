@@ -7,6 +7,6 @@ label: model
 st: todo
 milestone: v0.2
 priority: p2
-target: 2026-06-05
+target: 2026-05-28
 github: https://github.com/beomjinkim2000/Code_IT_Team_1_FirstProject/issues/54
 ---

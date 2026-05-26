@@ -7,6 +7,6 @@ label: experiment
 st: todo
 milestone: v0.2
 priority: p3
-target: 2026-06-09
+target: 2026-05-27
 github: https://github.com/beomjinkim2000/Code_IT_Team_1_FirstProject/issues/56
 ---

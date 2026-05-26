@@ -4,7 +4,7 @@ title: "[model] Transfer Learning 전략 실험 (freeze 비교)"
 assignee:
   - 유재열 (Model)
 label: model
-st: todo
+st: done
 milestone: v0.2
 priority: p2
 target: 2026-06-05
