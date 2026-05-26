@@ -4,7 +4,7 @@ title: "[data] 데이터 augmentation 추가"
 assignee:
   - 황원재 (Data)
 label: data
-st: todo
+st: done
 milestone: v0.2
 priority: p2
 target: 2026-06-05
