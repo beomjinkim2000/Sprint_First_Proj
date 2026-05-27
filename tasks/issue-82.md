@@ -4,7 +4,7 @@ title: "[inference] Ultralytics NMS 적용 (nms pr)"
 assignee:
   - 박창준 (후처리)
 label: inference
-st: todo
+st: done
 milestone: v0.2
 priority: p1
 target: 2026-05-27
