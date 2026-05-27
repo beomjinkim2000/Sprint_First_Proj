@@ -4,7 +4,7 @@ title: "[train] Ultralytics 네이티브 API 전환"
 assignee:
   - 김범진 (PM)
 label: train
-st: todo
+st: done
 milestone: v0.2
 priority: p1
 target: 2026-06-02
