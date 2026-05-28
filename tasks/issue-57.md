@@ -221,6 +221,35 @@ YOLOv8m RAW checkpoint와 `class_agnostic_nms=True`, `conf_threshold=0.25`, `iou
 - `max_box_area_ratio`는 현재 샘플 기준 필요성이 확인되지 않았으므로 기본 적용은 신중하게 판단한다.
 - 다음 실험은 원본 이미지 예측과 좌우반전 예측을 결합하는 TTA를 확인한다.
 
+## 2026-05-28 YOLOv8m RAW horizontal flip TTA 비교
+
+YOLOv8m RAW checkpoint와 기본 후처리 조건을 유지한 뒤, 원본 이미지 예측과 좌우반전 이미지 예측을 결합하는 horizontal flip TTA를 비교했다.
+
+기본 조건:
+
+| 항목 | 값 |
+|---|---|
+| checkpoint | `best_model_YJY.pt` |
+| conf | 0.25 |
+| iou | 0.70 |
+| max_detections | 4 |
+| class_agnostic_nms | true |
+
+비교 조건:
+
+| 조건 | 방식 | 결과 | 판단 |
+|---|---|---|---|
+| base | 원본 이미지 예측만 사용 | 기준 이미지 5장에서 대부분 GT와 잘 맞음 | 유지 |
+| hflip TTA | 원본 예측 + 좌우반전 예측 복원 후 결합, NMS 재적용 | 일부 이미지에서 정답 bbox가 사라짐 | 보류 |
+
+### 판단
+
+- horizontal flip TTA는 이번 5장 시각화에서 개선보다 recall 감소 위험이 더 크게 보였다.
+- `train_34`, `train_35`, `train_1228`, `train_1230` 일부 알약에서 base에는 있던 prediction이 TTA 결과에서 사라졌다.
+- 원본 예측과 flip 예측을 합친 뒤 `class_agnostic_nms=True`로 NMS를 다시 적용하면서 일부 정답 후보가 제거된 것으로 보인다.
+- 현재 기준으로는 TTA를 기본 추론 파이프라인에 넣지 않고 보류한다.
+- 후처리 기본 후보는 `conf=0.25`, `iou=0.70`, `max_detections=4`, `class_agnostic_nms=True`를 유지한다.
+
 ## 참고
 
 bbox clamp와 area filtering은 전처리에서도 유사하게 사용할 수 있지만 목적이 다르다.
