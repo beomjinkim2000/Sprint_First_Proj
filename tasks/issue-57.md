@@ -115,6 +115,33 @@ python3 -m py_compile predict.py
 - 같은 train 이미지 5장 기준 수정 전후 시각화 비교
 - Kaggle score 비교
 
+## 2026-05-28 YOLOv8m checkpoint 후처리 시각화 재비교
+
+최신 main 기준 YOLOv8m 팀원 checkpoint로 후처리 결과를 다시 확인했다.
+
+비교 대상:
+
+| 구분 | checkpoint | postprocess 조건 | 결과 | 판단 |
+|---|---|---|---|---|
+| EMA default | `best_model_ema_YJY.pt` | `conf=0.25`, `iou=0.7`, `max_det=4`, `class_agnostic_nms=True` | GT와 prediction이 대부분 잘 맞음 | 유지 후보 |
+| EMA agnostic false | `best_model_ema_YJY.pt` | `class_agnostic_nms=False` | 일부 이미지에서 큰 이상 bbox 발생 | 보류 |
+| RAW default | `best_model_YJY.pt` | `conf=0.25`, `iou=0.7`, `max_det=4`, `class_agnostic_nms=True` | GT와 prediction이 잘 맞고 score가 전반적으로 높음 | 1순위 후보 |
+| RAW agnostic false | `best_model_YJY.pt` | `class_agnostic_nms=False` | 일부 이미지에서 큰 이상 bbox 발생 | 보류 |
+
+### 판단
+
+- YOLOv8m checkpoint 기준으로는 최신 main 기본값인 `class_agnostic_nms=True`가 더 안정적이었다.
+- `class_agnostic_nms=False`는 train 샘플 시각화에서 큰 false positive bbox가 발생해 기본값으로 쓰기 어렵다.
+- EMA와 RAW 모두 default 조건에서는 bbox가 GT와 잘 맞았고, RAW 쪽 score가 조금 더 높게 나오는 경향이 있었다.
+- 현재 기준 1순위 후처리 조합은 `best_model_YJY.pt` + `class_agnostic_nms=True` + `conf=0.25` + `iou=0.7` + `max_det=4`이다.
+- Kaggle 제출 비교는 진행하지 않았고, train 샘플 5장 시각화 기준 판단이다.
+
+### 이전 실험과 달라진 점
+
+- 2026-05-27 v2.2 계열 시각화에서는 `class_agnostic_nms=False`가 더 안정적으로 보였다.
+- 2026-05-28 YOLOv8m checkpoint에서는 반대로 `class_agnostic_nms=True`가 더 안정적이었다.
+- 따라서 후처리 옵션은 모델/checkpoint가 바뀌면 다시 시각화로 확인해야 한다.
+
 ## 참고
 
 bbox clamp와 area filtering은 전처리에서도 유사하게 사용할 수 있지만 목적이 다르다.
