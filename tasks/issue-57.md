@@ -162,6 +162,25 @@ YOLOv8m RAW checkpoint와 `class_agnostic_nms=True` 조건을 고정한 뒤 `con
 - 따라서 현재 기준에서는 `conf_threshold`를 바꿀 근거가 부족하고, 기본값 `0.25`를 유지한다.
 - 다음 후처리 실험은 confidence보다 NMS의 겹침 제거 기준인 `iou_threshold` 비교가 더 의미 있어 보인다.
 
+## 2026-05-28 YOLOv8m RAW IoU threshold 비교
+
+YOLOv8m RAW checkpoint와 `class_agnostic_nms=True`, `conf_threshold=0.25` 조건을 고정한 뒤 `iou_threshold`만 변경해 시각화 결과를 비교했다.
+
+비교 조건:
+
+| 조건 | checkpoint | conf | iou | class_agnostic_nms | 결과 | 판단 |
+|---|---|---:|---:|---|---|---|
+| iou050 | `best_model_YJY.pt` | 0.25 | 0.50 | true | 기준 이미지 5장 모두 동일 | 변경 근거 없음 |
+| iou070 | `best_model_YJY.pt` | 0.25 | 0.70 | true | 기준 이미지 5장 모두 동일 | 현재 기본값 유지 |
+| iou090 | `best_model_YJY.pt` | 0.25 | 0.90 | true | 기준 이미지 5장 모두 동일 | 변경 근거 없음 |
+
+### 판단
+
+- 이번 5장 시각화에서는 `iou_threshold`를 0.50, 0.70, 0.90으로 바꿔도 결과가 완전히 동일했다.
+- 현재 샘플에서는 NMS 이후 남는 bbox가 이미 안정적이라 IoU 기준 변경 효과가 보이지 않았다.
+- 따라서 현재 기준에서는 `iou_threshold`를 바꿀 근거가 부족하고, 기본값 `0.70`을 유지한다.
+- 다음 실험은 `max_detections`를 늘려 숨겨진 중복 bbox가 있는지 확인하는 방향이 적절하다.
+
 ## 참고
 
 bbox clamp와 area filtering은 전처리에서도 유사하게 사용할 수 있지만 목적이 다르다.
