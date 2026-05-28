@@ -88,6 +88,26 @@ python3 -m py_compile predict.py
 - checkpoint 없이 기본 모델로 확인한 결과는 class/score 판단에 사용하지 않음
 - 실제 checkpoint 확보 후 동일 코드로 후처리 효과를 다시 확인
 
+## 2026-05-27 후처리 시각화 비교 상세
+
+| 묶음 | 조건 | 목적 | 결과 | 판단 |
+|---|---|---|---|---|
+| Ultralytics NMS 기본 | `conf=0.25`, `iou=0.7`, `class_agnostic=False` | 기본 NMS 안정성 확인 | 가장 안정적 | 유지 후보 |
+| Class-agnostic NMS | `conf=0.25`, `iou=0.7`, `class_agnostic=True` | 클래스가 다른 중복 bbox 제거 가능성 확인 | 일부 이미지에서 큰 false positive bbox 발생 | 기본값 적용은 신중 |
+| Class-agnostic + clamp + max area | `class_agnostic=True` + bbox clamp + `max_box_area_ratio=0.25` | 큰 이상 bbox 제거 확인 | 특정 큰 bbox 제거에는 효과 있음 | 기본 적용은 보류 |
+| Fallback | 후보를 넉넉히 뽑고 필터 후 부족하면 복구 | 후처리 후 bbox 부족 보완 | false positive까지 복구될 위험 있음 | 보류 |
+| Threshold A | `conf=0.25`, `iou=0.7`, `class_agnostic=False` | threshold / NMS 기준선 | 가장 안정적 | 추천 |
+| Threshold B | `conf=0.25`, `iou=0.7`, `class_agnostic=True` | class-agnostic 영향 확인 | 큰 false positive bbox 발생 | 보류 |
+| Threshold C | `conf=0.10`, `iou=0.7`, `class_agnostic=True` | 낮은 confidence로 recall 증가 여부 확인 | false positive 증가 | 보류 |
+| Threshold D | `conf=0.10`, `iou=0.5`, `class_agnostic=True` | 낮은 confidence + 강한 NMS 조합 확인 | 안정적인 개선으로 보기 어려움 | 보류 |
+
+### 판단
+
+- 현재 시각화 기준으로는 `conf=0.25`, `iou=0.7`, `class_agnostic=False` 조합이 가장 안정적이었다.
+- `bbox clamp`, `max_box_area_ratio`, `fallback`은 특정 케이스에서 효과가 있었지만 정답 bbox 제거 또는 false positive 복구 위험이 있어 기본 적용은 보류한다.
+- 최신 checkpoint 확보 후 동일 train 샘플 기준으로 후처리 결과를 다시 비교한다.
+- 해당 실험은 Kaggle에 제출하지 않았고, train 샘플 5장 시각화 비교만 진행했다.
+
 ## 남은 확인
 
 - 실제 checkpoint 기준 submission 재생성
