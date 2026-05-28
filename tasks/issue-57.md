@@ -142,6 +142,26 @@ python3 -m py_compile predict.py
 - 2026-05-28 YOLOv8m checkpoint에서는 반대로 `class_agnostic_nms=True`가 더 안정적이었다.
 - 따라서 후처리 옵션은 모델/checkpoint가 바뀌면 다시 시각화로 확인해야 한다.
 
+## 2026-05-28 YOLOv8m RAW conf threshold 비교
+
+YOLOv8m RAW checkpoint와 `class_agnostic_nms=True` 조건을 고정한 뒤 `conf_threshold`만 변경해 시각화 결과를 비교했다.
+
+비교 조건:
+
+| 조건 | checkpoint | conf | iou | class_agnostic_nms | 결과 | 판단 |
+|---|---|---:|---:|---|---|---|
+| conf015 | `best_model_YJY.pt` | 0.15 | 0.7 | true | 기준 이미지 5장 모두 동일 | 변경 근거 없음 |
+| conf025 | `best_model_YJY.pt` | 0.25 | 0.7 | true | 기준 이미지 5장 모두 동일 | 현재 기본값 유지 |
+| conf035 | `best_model_YJY.pt` | 0.35 | 0.7 | true | 기준 이미지 5장 모두 동일 | 변경 근거 없음 |
+| conf050 | `best_model_YJY.pt` | 0.50 | 0.7 | true | 기준 이미지 5장 모두 동일 | 변경 근거 없음 |
+
+### 판단
+
+- 이번 5장 시각화에서는 `conf_threshold`를 0.15부터 0.50까지 바꿔도 결과가 완전히 동일했다.
+- 예측 score가 대부분 0.91 이상으로 높아 `conf=0.50`에서도 제거되는 bbox가 없었다.
+- 따라서 현재 기준에서는 `conf_threshold`를 바꿀 근거가 부족하고, 기본값 `0.25`를 유지한다.
+- 다음 후처리 실험은 confidence보다 NMS의 겹침 제거 기준인 `iou_threshold` 비교가 더 의미 있어 보인다.
+
 ## 참고
 
 bbox clamp와 area filtering은 전처리에서도 유사하게 사용할 수 있지만 목적이 다르다.
