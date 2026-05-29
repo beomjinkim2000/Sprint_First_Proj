@@ -11,7 +11,7 @@ target: 2026-05-28
 github: https://github.com/beomjinkim2000/Code_IT_Team_1_FirstProject/issues/55
 ---
 
-# #55 하이퍼파라미터 튜닝
+# 55 하이퍼파라미터 튜닝
 
 ## 2026-05-28 v2.7.3 checkpoint fine-tuning 실험
 
