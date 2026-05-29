@@ -109,3 +109,40 @@ github: https://github.com/beomjinkim2000/Code_IT_Team_1_FirstProject/issues/55
 - `finetune_experiments_v273_next/ft_wd0002_e30/submission.csv`
 - `finetune_experiments_v273_next/ft_wd0001_e30_repeat/best_model.pt`
 - `finetune_experiments_v273_next/ft_wd0001_e30_repeat/submission.csv`
+
+## 2026-05-29 v2.7.3 checkpoint fine-tuning 최종 후보 비교
+
+### 목적
+
+- 후속 실험에서 가장 좋았던 `ft_wd0001_e50`은 마지막 epoch보다 중간 epoch에서 성능이 좋았다.
+- 따라서 best EMA가 나온 36 epoch 근처를 노리기 위해 40 epoch 실험을 진행했다.
+- `weight_decay=0.0001` 조건과, EMA 기준으로 강했던 `weight_decay=0.0002` 조건을 각각 40 epoch로 비교했다.
+
+### 실험 조건
+
+| 실험명 | 모델 | epoch | batch | phase1_lr | phase2_lr | phase3_head_lr | phase3_backbone_lr | weight_decay |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `ft_wd0001_e40` | YOLOv8l | 40 | 8 | 0.0001 | 0.0001 | 0.00001 | 0.000001 | 0.0001 |
+| `ft_wd0002_e40` | YOLOv8l | 40 | 8 | 0.0001 | 0.0001 | 0.00001 | 0.000001 | 0.0002 |
+
+### 결과
+
+|  순위 | 실험명             | best raw epoch | best raw mAP | best raw mAP50 | best EMA epoch | best EMA mAP | best EMA mAP50 | 판단              |
+| --: | --------------- | -------------: | -----------: | -------------: | -------------: | -----------: | -------------: | --------------- |
+|   1 | `ft_wd0001_e40` |             30 |     0.967262 |       0.998497 |             32 |     0.966096 |       0.998497 | 현재 최고 후보        |
+|   2 | `ft_wd0002_e40` |             39 |     0.966522 |       1.000000 |             40 |     0.964620 |       1.000000 | 근접하지만 EMA 기준 2위 |
+
+### 결론
+
+- 현재까지 가장 좋은 validation 결과는 `ft_wd0001_e40`이다.
+- `ft_wd0001_e40`은 이전 최고였던 `ft_wd0001_e50`의 raw mAP `0.961320`, EMA mAP `0.956287`보다 모두 높다.
+- `ft_wd0001_e40`의 best raw epoch는 30, best EMA epoch는 32로 40 epoch 안에서 안정적으로 최고점이 나왔다.
+- `ft_wd0002_e40`도 mAP50은 1.0까지 도달했지만, 전체 mAP와 EMA mAP 기준으로는 `ft_wd0001_e40`이 더 좋다.
+- validation mAP50이 0.998 이상으로 매우 높기 때문에, 최종 판단은 Kaggle 제출 점수 확인이 필요하다.
+
+### 현재 최종 후보
+
+- `finetune_experiments_v273_final/ft_wd0001_e40/best_model.pt`
+- `finetune_experiments_v273_final/ft_wd0001_e40/submission.csv`
+- `finetune_experiments_v273_final/ft_wd0001_e40/metrics.csv`
+- `finetune_experiments_v273_final/summary_all.csv`
