@@ -48,7 +48,21 @@ annotation_id, image_id, category_id, bbox_x, bbox_y, bbox_w, bbox_h, score
 
 각 행의 score = 해당 박스의 confidence score. 캐글 평가 시 이 값으로 예측의 우선순위를 정함.
 
+## F1 곡선으로 최적 threshold 찾기
+
+현재 conf=0.25는 관행적 기본값. 실제 최적값은 모델마다 다르다.
+
+```
+conf를 0.05~0.90으로 바꿔가며 val F1 계산 (IoU=0.5 고정)
+→ F1 최대인 conf = 이 모델의 최적 threshold
+→ postprocess.conf_threshold에 반영 후 제출
+```
+
+best 모델이 나올 때마다 1회 실행. WBF의 `skip_box_thr`도 동일 방식 최적화 가능.  
+자세한 내용: [[concepts/F1 Score]]
+
 ## 관련 개념
 
 - [[concepts/mAP]] — score 기반으로 계산되는 성능 지표
 - [[concepts/NMS]] — score 기준으로 중복 박스 제거
+- [[concepts/F1 Score]] — F1 곡선으로 최적 threshold 탐색
