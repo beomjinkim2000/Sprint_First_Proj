@@ -1,0 +1,42 @@
+{
+	"nodes":[
+		{"id":"1ba086a1142c4edd","type":"group","x":-180,"y":-237,"width":290,"height":317,"label":"웹"},
+		{"id":"8fcb6812c746b47e","type":"text","text":"백엔드","x":-160,"y":-217,"width":250,"height":60},
+		{"id":"7a714630f5fd567f","type":"text","text":"데이터베이스","x":-160,"y":0,"width":250,"height":60},
+		{"id":"82da7753d0ab8a92","type":"text","text":"프론트엔드","x":-160,"y":-120,"width":250,"height":60},
+		{"id":"8c8e98eef7dbea5a","type":"text","text":"허깅페이스","x":200,"y":-217,"width":250,"height":60},
+		{"id":"046771b911ce238e","type":"text","text":"vercel","x":200,"y":-120,"width":250,"height":60},
+		{"id":"3f0afbec06422ce2","type":"text","text":"supabase","x":197,"y":0,"width":250,"height":60},
+		{"id":"fe389f24b6f7a9fa","type":"text","text":"15gb -> 무료","x":540,"y":-217,"width":250,"height":60},
+		{"id":"3375a121be4c3eed","type":"text","text":"모델","x":540,"y":-320,"width":250,"height":60},
+		{"id":"1c67753e38ac0e96","type":"text","text":"supabase mcp","x":540,"y":0,"width":250,"height":60},
+		{"id":"4e5fc0c617bcdf65","type":"text","text":"google ouath","x":540,"y":-120,"width":250,"height":60},
+		{"id":"a0b0d3845877832c","type":"text","text":"1. 이름 2. 이메일","x":197,"y":150,"width":250,"height":60},
+		{"id":"1ded47884dd44d5a","type":"text","text":"디자인","x":-260,"y":380,"width":250,"height":66},
+		{"id":"760cc14bc9264104","type":"text","text":"구글 스튜디오","x":900,"y":-120,"width":250,"height":60},
+		{"id":"0e54b8f9fddd15fd","type":"text","text":"프로젝트","x":1240,"y":-120,"width":250,"height":60},
+		{"id":"f62b6689051c31e2","type":"text","text":"key(사용자에게 무엇을 허용하게 물어본건가?)","x":1577,"y":-121,"width":250,"height":60},
+		{"id":"5cf4e877c6f7632b","type":"text","text":"이사이트에서 이메일을 알려줄겁니까?","x":1600,"y":15,"width":250,"height":90},
+		{"id":"a3ed633922f8a85d","type":"text","text":"mcp","x":899,"y":-205,"width":250,"height":60},
+		{"id":"c1a89d7badab5eb1","type":"text","text":".env","x":1240,"y":-205,"width":250,"height":60},
+		{"id":"162efeb7931ffc27","type":"text","text":"key","x":1592,"y":-335,"width":250,"height":60},
+		{"id":"7367d1620e35aa4b","type":"text","text":"api key, key, url","x":560,"y":150,"width":250,"height":60}
+	],
+	"edges":[
+		{"id":"dc56f4de8d686ac7","fromNode":"8fcb6812c746b47e","fromSide":"right","toNode":"8c8e98eef7dbea5a","toSide":"left"},
+		{"id":"9701dbae1b519b4a","fromNode":"8c8e98eef7dbea5a","fromSide":"right","toNode":"fe389f24b6f7a9fa","toSide":"left"},
+		{"id":"55cd5977cc1139d6","fromNode":"82da7753d0ab8a92","fromSide":"right","toNode":"046771b911ce238e","toSide":"left"},
+		{"id":"6a332dc4c9430bf0","fromNode":"7a714630f5fd567f","fromSide":"right","toNode":"3f0afbec06422ce2","toSide":"left"},
+		{"id":"e3eeead46e96f951","fromNode":"8c8e98eef7dbea5a","fromSide":"right","toNode":"3375a121be4c3eed","toSide":"left"},
+		{"id":"4bc120212deb86a7","fromNode":"3f0afbec06422ce2","fromSide":"right","toNode":"1c67753e38ac0e96","toSide":"left"},
+		{"id":"4cebefae867bddcc","fromNode":"046771b911ce238e","fromSide":"right","toNode":"4e5fc0c617bcdf65","toSide":"left"},
+		{"id":"b171a558baf1c0a4","fromNode":"3f0afbec06422ce2","fromSide":"bottom","toNode":"a0b0d3845877832c","toSide":"top"},
+		{"id":"c8cbb0f10b9f288b","fromNode":"4e5fc0c617bcdf65","fromSide":"right","toNode":"760cc14bc9264104","toSide":"left"},
+		{"id":"d81b50e018382517","fromNode":"760cc14bc9264104","fromSide":"right","toNode":"0e54b8f9fddd15fd","toSide":"left"},
+		{"id":"7aff76ce48b44c5b","fromNode":"0e54b8f9fddd15fd","fromSide":"right","toNode":"f62b6689051c31e2","toSide":"left"},
+		{"id":"a5580eb4f9b9b8a2","fromNode":"4e5fc0c617bcdf65","fromSide":"right","toNode":"a3ed633922f8a85d","toSide":"left"},
+		{"id":"a82453dc1dae0567","fromNode":"a3ed633922f8a85d","fromSide":"right","toNode":"c1a89d7badab5eb1","toSide":"left"},
+		{"id":"b8df7a13ccd82b81","fromNode":"c1a89d7badab5eb1","fromSide":"right","toNode":"162efeb7931ffc27","toSide":"left"},
+		{"id":"033a56d770a43c4a","fromNode":"3f0afbec06422ce2","fromSide":"right","toNode":"7367d1620e35aa4b","toSide":"left"}
+	]
+}
