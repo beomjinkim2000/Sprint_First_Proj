@@ -146,3 +146,48 @@ github: https://github.com/beomjinkim2000/Code_IT_Team_1_FirstProject/issues/55
 - `finetune_experiments_v273_final/ft_wd0001_e40/submission.csv`
 - `finetune_experiments_v273_final/ft_wd0001_e40/metrics.csv`
 - `finetune_experiments_v273_final/summary_all.csv`
+
+## 2026-05-29 YOLOv8x 350 epoch 실험
+
+### 목적
+
+- YOLOv8l fine-tuning 계열보다 더 큰 YOLOv8x 모델에서 validation 성능이 얼마나 올라가는지 확인했다.
+- 기존 실험보다 더 낮은 learning rate를 사용하고, batch size는 8로 유지했다.
+
+### 실험 조건
+
+| 항목 | 값 |
+| --- | ---: |
+| experiment | `yolov8x_e350_b8_lr00007_wd0001` |
+| model | YOLOv8x |
+| epochs | 350 |
+| batch_size | 8 |
+| phase1_lr | 0.00007 |
+| phase1_lr_min | 0.000007 |
+| phase2_lr | 0.00007 |
+| phase2_lr_min | 0.000007 |
+| phase3_head_lr | 0.000007 |
+| phase3_backbone_lr | 0.0000007 |
+| phase3_lr_min | 0.0000007 |
+| weight_decay | 0.0001 |
+
+### 결과
+
+| 기준 | best epoch | mAP | mAP50 |
+| --- | ---: | ---: | ---: |
+| raw | 333 | 0.972152 | 1.000000 |
+| EMA | 343 | 0.967968 | 1.000000 |
+
+### 결론
+
+- YOLOv8x 실험은 validation 기준으로 지금까지 기록한 실험 중 가장 높은 mAP를 보였다.
+- raw 기준 epoch 333에서 mAP 0.972152, EMA 기준 epoch 343에서 mAP 0.967968을 기록했다.
+- mAP50이 1.0까지 올라 과적합 가능성도 함께 고려해야 한다.
+- 최종 모델 판단은 Kaggle 제출 점수와 함께 보는 것이 필요하다.
+
+### 산출 파일
+
+- `HealthEat/shared/yolov8x_e350_b8_lr00007_wd0001/best_model.pt`
+- `HealthEat/shared/yolov8x_e350_b8_lr00007_wd0001/metrics.csv`
+- `HealthEat/shared/yolov8x_e350_b8_lr00007_wd0001/submission.csv`
+- `HealthEat/shared/yolov8x_e350_b8_lr00007_wd0001/summary.csv`
