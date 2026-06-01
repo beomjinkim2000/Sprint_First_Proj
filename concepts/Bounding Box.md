@@ -52,6 +52,8 @@ h_norm  = h / image_height
 이 프로젝트 원본 데이터에 `bbox_x=6567` (이미지 width=976 초과) 오기입 존재.
 → `src/data/dataset.py`의 `load_annotations()`에서 이미지 범위 밖 bbox 필터링.
 
+오기입 외 중복 bbox·누락 annotation 등 전체 정제 파이프라인 → [[concepts/Annotation 정제]]
+
 ## 인터페이스 계약
 
 팀 전체 표준 → [[architecture/인터페이스 계약서]]

@@ -4,7 +4,7 @@ title: "[train] EMA (Exponential Moving Average) 적용"
 assignee:
   - 유재열 (Model)
 label: train
-st: todo
+st: done
 milestone: v0.2
 priority: p1
 target: 2026-05-27

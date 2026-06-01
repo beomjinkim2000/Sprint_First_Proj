@@ -4,7 +4,7 @@ title: "[inference] WBF 앙상블 (유재열님 모델 실험 완료 후)"
 assignee:
   - 박창준 (후처리)
 label: inference
-st: todo
+st: done
 milestone: v0.2
 priority: p3
 target: 2026-06-09

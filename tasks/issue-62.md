@@ -4,7 +4,7 @@ title: "fix: 백본 배치마다 다른 activation 버그 (bias_init 누락)"
 assignee:
   - 김범진 (PM)
 label: bug
-st: todo
+st: done
 milestone: v0.2
 priority: p1
 target: 2026-05-27

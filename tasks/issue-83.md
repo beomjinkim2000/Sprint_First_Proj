@@ -5,7 +5,7 @@ assignee:
   - 유재열 (Model)
   - 황원재 (Data)
 label: data
-st: todo
+st: done
 milestone: v0.2
 priority: p1
 target: 2026-05-27
