@@ -12,9 +12,9 @@
 		{"id":"a514f05e183d4f6f","x":660,"y":-340,"width":250,"height":60,"type":"text","text":"허깅페이스, 버셀, 수파베이스"},
 		{"id":"f4318931dc33812c","x":1440,"y":-122,"width":250,"height":60,"type":"text","text":".env"},
 		{"id":"b87789bdfec91c94","x":1820,"y":-122,"width":250,"height":60,"type":"text","text":"supabase url, key, hugging face key, url, vercel key url"},
-		{"id":"8885774fad9bc41c","x":1820,"y":21,"width":250,"height":51,"type":"text","text":"google ouath, api key"},
-		{"id":"8e78cdebef971360","x":2180,"y":17,"width":250,"height":60,"type":"text","text":"구글 스튜디오"},
-		{"id":"9e3ed1ace5689754","x":1020,"y":0,"width":250,"height":60,"type":"text","text":"google mcp"}
+		{"id":"8885774fad9bc41c","x":1820,"y":21,"width":250,"height":59,"type":"text","text":"google ouath, api key"},
+		{"id":"9e3ed1ace5689754","x":1020,"y":0,"width":250,"height":60,"type":"text","text":"google mcp"},
+		{"id":"8e78cdebef971360","x":2220,"y":21,"width":250,"height":60,"type":"text","text":"구글 스튜디오"}
 	],
 	"edges":[
 		{"id":"dc56f4de8d686ac7","fromNode":"8fcb6812c746b47e","fromSide":"right","toNode":"8c8e98eef7dbea5a","toSide":"left"},
